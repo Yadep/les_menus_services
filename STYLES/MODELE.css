@@ -1,0 +1,514 @@
+/*
+	CSS "organis�" par pages :
+	1- Pour la page base et donc le mod�le globale. (Certains id ou class sont utilis�s sur toutes les pages donc sont css se trouvera dans cette partie).
+	2- Pour les pages "clients".
+	3- Pour les pages "employes".
+	4- Pour les page "interventions".
+*/
+
+
+/***** CSS globale ****/
+
+
+#navigation { /*conteneur du menu*/
+padding: 0;
+clear:both;
+background:#efefef; 
+display: inline-block;
+width: 95%;
+text-align: center;
+border-radius: 5px;
+}
+
+
+ul.nav-main li a { /*positionnement, dimensions, couleurs et textes des items de liste int�grant une redirection url*/
+display: block;
+padding: 16px 16px 0 16px;
+height: 40px;
+color: #000;
+font: 20px Arial, Helvetica, sans-serif;
+text-decoration:none;
+}
+
+
+nav ul
+{
+    list-style-type: none;
+}
+ 
+nav li
+{
+    display: inline-block;
+    margin-right: 15px;
+}
+ 
+nav a
+{
+    font-size: 1.3em;
+    color: #181818;
+    padding-bottom: 3px;
+    text-decoration: none;
+}
+ 
+ ul.nav-main li a:hover { /* couleurs des items de liste au survol*/
+color:#fff;
+background:#66B933; 
+
+}
+
+input[type=radio]{ 
+	width : 50px;
+   height:30px;
+} 
+
+input[type=checkbox] {
+
+    width : 50px;
+   height:30px;
+ 
+}
+
+input[type=submit]{
+	
+	 width: 80px;
+  padding: 8px; 	
+	
+}
+
+
+input{
+	width: 130px;
+    padding: 8px;	
+}
+
+input:focus {
+  background: #eaeaea;
+ 
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px lightgrey inset;
+}
+
+select {
+	 width:32%;
+	 padding: 5px;
+	font-size:15px;
+
+}
+
+table {
+	
+    font-family: 20px Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+th {
+    font-size: 13px;
+    font-weight: normal;
+    padding: 8px;
+    background: #efefef ;
+    border-top: 2px solid ;
+    border-bottom: 1px solid ;
+    
+}
+
+td {
+	color:#000;
+}
+
+/**** Fin du CSS Globale ****/
+
+
+/**** Pages clients ****/
+
+/* TableauClient table */
+
+/* .on numero de la barre de navigation (<a>) */
+.on{
+	color: brown;
+}
+/* .off numero de la barre de navigation (<a>) */
+
+.off{
+	color: 0000FF;
+}
+
+#TableauClient {
+    
+ 	right: 111%;
+    margin-right: -53%;
+  	position: absolute;
+  	padding: 5px;
+  	width: 100%;
+  	text-align:right;
+
+}
+
+/* TableauClient1 table */
+#TableauClient1 {
+    
+ 	right: 104%;
+    margin-right: -53%;
+  	position: absolute;
+  	padding: 5px;
+  	width: 100%;
+  	text-align:right;
+
+}
+/* tab1client table */
+#tab1client {
+	right: 30%;
+  margin-right: -60%;
+  position: relative;
+  padding: 5px;
+  width: 70%;
+  text-align:right;
+  border:1px solid #000;
+  border-collapse: collapse;
+  text-align : center;	
+}
+
+#tab1client tr:nth-child(odd) {
+   background-color: #ccc;
+}
+
+/* Tabcontientrappel table */
+#Tabcontientrappel {
+	border: solid;
+	margin: auto;  	
+  	padding: 5px;
+  	width: 100%;
+  	text-align:center;
+}
+
+/* tabrappel table */
+#tabrappel{
+	width: 100%;
+}
+#tabrappel th {
+	font-size: none;
+    font-weight: bold;
+    background: #8AB180 ;
+    border-top: none ;
+
+}
+
+/* Tabcontientclientspage table */
+#Tabcontientclientspage {
+	border: solid;
+	margin: auto;  	
+  	padding: 5px;
+  	width: 100%;
+  	text-align:center;
+}
+
+/* Tabclientspage table */
+#Tabclientspage {	
+	width: 100%;	
+}
+#Tabclientspage th {
+	font-size: none;
+    font-weight: bold;
+    background: #8AB180 ;
+    border-top: none ;
+
+}
+
+#Tabclientspage tr:nth-child(odd) {
+   background-color: #ccc;
+}
+
+#Tabclientspage td {
+	padding : 1%;
+}
+
+#thcodesage {
+	width: 5%;
+}
+/* thnomc th */
+#thnomc {
+	width: 15%;
+}
+/* thabrege th */
+#thabrege {
+	width: 14%;
+}
+/* thadressec th */
+#thadressec {
+	width: 19%;
+}
+/* thcomplement th */
+#thcomplement {
+	width: 9%;
+}
+/* thcodepostal th */
+#thcodepostal{
+	width: 3%;
+}
+/* thcommune th */
+#thcommune {
+	width: 14%;
+}
+/* thtelephone th */
+#thtelephone {
+	width: 7%
+}
+/* thage th */
+#thage {
+	width: 6%;
+}
+/* thregularite th */
+#thregularite{
+	width: 5%;
+}
+/* thinactif th */
+#thinactif {
+	width: 3%;
+}
+
+/* modifclient form */
+#modifclient input{
+    padding: 8px;
+}
+
+
+/* ExcelClients input submit */
+#ExcelClients {
+	width: 40%;
+}
+
+/* NomClient input text */
+#NomClient {
+	width: 20%;
+	margin-left: 18%;	
+	margin-right: 10%;
+}
+
+/* Abrege input text */
+#Abrege {
+	width: 20%;
+	margin-left: 18%;	
+	margin-right: 10%;
+}
+
+/* Adresse input type text */
+#Adresse {
+	width: 25%;
+	margin-left: 18%;
+	margin-right: 5%;
+}
+
+/* Complement input type text */
+#Complement {
+	width: 25%;
+	margin-left: 18%;
+	margin-right: 5%;	
+}
+
+/* CodePostal input text */
+#CodePostal {
+	width: 5%;
+	margin-left: 18%;	
+	margin-right: 25%;
+}
+
+/* Commune input text */
+#Commune {
+	width: 20%;
+	margin-left: 18%;
+	margin-right: 10%;
+}
+
+/* Telephone input text */
+#Telephone {
+	width: 8%;
+	margin-left: 18%;	
+	margin-right: 22%;
+}
+
+/* RappelDIntervCE input submit */
+#RappelDIntervCE {
+	width: 70%;
+}
+
+/* modifclient input submit */
+#modifclientbtn{
+	width: 15%;
+}
+
+/**** Fin Pages clients ****/
+
+
+
+
+/**** Pages employ�s ****/
+
+/* FormE form */
+#FormE input[type=submit]{
+	
+	 width: 150px;
+  padding: 6px;
+ 	
+	
+}
+
+#FormE input{
+	
+	 width: 140px;
+  padding: 6px;
+ 	
+	
+}
+
+/* FormEC form */
+#FormEC {
+   width : 150px;
+    padding: 8px;
+}
+
+
+/* #TableauNombreHeureEmployes table */
+#TableauNombreHeureEmployes{
+  right: 30%;
+  margin-right: -60%;
+  position: relative;
+  padding: 5px;
+  width: 90%;
+  text-align:right;
+  border:1px solid #000;
+  border-collapse: collapse;
+  text-align : center;
+  
+}
+
+#TableauNombreHeureEmployes tr:nth-child(odd) {
+   background-color: #ccc;
+}
+
+/* inputE input type submit */
+#inputE {width:150px;}
+
+/* exportexcel input type submit */
+#exportexcel{
+	width: 20%;
+	padding: 8px;
+}
+/* MoisemployesH select */
+#MoisemployesH{
+	width: 10%;
+}
+/**** Fin Pages employ�s ****/
+
+
+
+/**** Pages interventions ****/
+
+/* #FormI form */
+#FormI input {
+	float: center;
+	padding: 5px;
+	text-align:center;
+	width:32%;
+}
+
+#FormI label {
+    
+ right: 116%;
+   margin-right: -49%;
+  position: absolute;
+  padding: 7px 6px;
+  text-align:right;
+
+}
+
+#FormI input[type=checkbox] {
+  margin-right: 5%; 
+}
+
+#FormI input[type=submit] {
+
+  padding: 6px;
+  margin-right: 4%;
+ 
+}
+
+#FormI input[type=number] {
+	width:5%;
+}
+
+/*#Heures span */
+#Heures { 
+	right: 100%;
+    margin-right:7%;
+}
+/*#HeuresMinutes  span */
+#HeuresMinutes {
+	right: 100%;
+    margin-left:7%
+}
+/*#EQA span */
+#EQA {
+	right: 50%;
+	 margin-right:-3.25%;
+	  margin-left:-3.25%
+	
+}
+
+/* FormCDI form */
+#FormCDI label {
+    
+ right: 115%;
+    margin-right: -53%;
+  position: absolute;
+  padding: 5px;
+  width: 100%;
+  text-align:right;
+
+}
+
+#FormCDI input[type=Date] {
+    
+ right: 98%;
+    margin-right: -53%;
+  position: absolute;
+  padding: 7px 6px;
+ 
+
+}
+
+#FormCDI select {
+    
+  padding: 4px;
+   width:30%;
+  
+
+}
+
+/* TBZHEBRA table */
+#TBZHEBRA tr:nth-child(odd) {
+   background-color: #ccc;
+}
+
+/* TD2I td */
+#TD2I{
+	  width : 250px;
+
+}
+
+/* TD1I td */
+#TD1I{
+	  width : 50px;
+	text-align:center;
+}
+
+/* inputI input type submit */
+#inputI {width:150px;}
+
+/**** Fin Pages interventions ****/
+
+
+
+
