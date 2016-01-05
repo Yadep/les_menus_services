@@ -81,13 +81,17 @@ class page_base
 	private function affiche_nav()
 	{                                    
 		?>  
-        <fieldset>       	
+        <fieldset>  
+   <?php if (!isset($_SESSION['login'])) {
+        }
+        else
+        {  ?>    	
 			<nav>
 			<ul id="navigation" class="nav-main">
 				<li>
 					<?php if (!isset($_SESSION['login'])) { ?>
 					<a href="javascript:alert('Vous n\'êtes pas connectés, accès interdit !')">
-					<u>C</u>lients</a>
+					
 					<?php } else { ?>
 					<a href="Clients.php">
 					<u>C</u>lients</a>
@@ -98,23 +102,22 @@ class page_base
 				<li>
 					<?php if (!isset($_SESSION['login'])) { ?>
 					<a href="javascript:alert('Vous n\'êtes pas connectés, accès interdit !')">
-					<u>E</u>mployés</a>
+					
 					<?php } else { ?>
 					<a href="Employes.php">
-					<u>E</u>mployé</a>
+					<u>E</u>mployés</a>
 					<?php } ?>
 				</li>
 				
 				<li>
 					<?php if (!isset($_SESSION['login'])) { ?>
 					<a href="javascript:alert('Vous n\'êtes pas connectés, accès interdit !')">
-					<u>I</u>nterventions</a>
+					
 					<?php } else { ?>
 					<a href="Interventions.php">
 					<u>I</u>nterventions</a>
 					<?php } ?>
 				</li>	
-			
 				<li>
 					<?php if (isset($_SESSION['login'])) { ?>					
 					<a href="Deconnexion.php">
@@ -124,15 +127,17 @@ class page_base
 				</ul>		
 			</nav>       
           <?php
-	}
-	
+	}}
+
 	/************** Affichage du pied du header ***************************/
 	private function affiche_header() {
 	?>	
 	<h1>	
-		<span>
-			<a href="Deconnexion.php" >Les Menus Services - Jardinage</a>			
-		</span>
+		<ul id="titre">
+			<span>
+				<a href="Deconnexion.php" >Les Menus Services - Jardinage</a>		
+			</span>	
+		</ul>
 	</h1>
 	<?php 	
 	}

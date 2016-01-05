@@ -41,7 +41,7 @@ class connexion extends page_base {
 						{
 							session_start();
 							$_SESSION['login'] = $_POST['login'];
-							$dataMA = utf8_encode("alert('Connexion réussie')");
+							$dataMA = utf8_encode("alert('Connexion rï¿½ussie')");
 							echo"<script>$dataMA</script>";
 							
 						}
@@ -71,7 +71,7 @@ class connexion extends page_base {
 		$vretour = "
 			<ul id='navigation' class='nav-main'>
 				<br>				
-				Bienvenue ". $_SESSION['login']." , vous pouvez desormais accéder aux autres pages.
+				Vous pouvez desormais accÃ©der aux autres pages.
 				<br><br>
 			</ul>";
 			

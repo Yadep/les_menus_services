@@ -18,7 +18,23 @@ display: inline-block;
 width: 95%;
 text-align: center;
 border-radius: 5px;
+
 }
+
+
+
+#titre { 
+padding: 0;
+clear:both;
+background:#efefef; 
+display: inline-block;
+width: 95%;
+text-align: center;
+border-radius: 5px;
+
+}
+
+
 
 
 ul.nav-main li a { /*positionnement, dimensions, couleurs et textes des items de liste int�grant une redirection url*/
