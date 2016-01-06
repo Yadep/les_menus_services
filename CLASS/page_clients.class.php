@@ -35,12 +35,12 @@ class page_clients extends page_base {
 								<label id='TableauClient'>Code Postal :</label><center> <input type='text' class='validate[optionnal,minSize[5],maxSize[5],custom[integer]] text-input' id='CodePostal' text-input' name='CodePostal' value=''></center><br /<br>
 								<label id='TableauClient'>Commune :</label><center> <input type='text' class='validate[optionnal,custom[onlyNumberLetterSpAccent]] text-input' id='Commune' name='Commune' value=''></center><br />
 								<label id='TableauClient'>Telephone :</label><center> <input type='text' class='validate[optionnal,custom[phone],minSize[10]] text-input' id='Telephone' name='Telephone'  value=''></center><br /><br>
-								<label id='TableauClient'>D�tails :</label><center> <input type='text' class='validate[optionnal] text-input' id='Details' name='Details'  value=''></center><br /><br>
+								<label id='TableauClient'>Détails :</label><center> <input type='text' class='validate[optionnal] text-input' id='Details' name='Details'  value=''></center><br /><br>
 								<ul><li><label id='TableauClient'>Age :</label> <label id='TableauClient1'>-70 ans :</label><center><input type='radio' class='validate[required] radio'  id='Age' name='Age' value='0'  ></li></center>
 								     <li> <label id='TableauClient1'>+70 ans :</label><center><input type='radio' class='validate[required] radio' id='Age2'  name='Age'  value='1'></li></ul></center><br><br>
-		          				<ul><li><label id='TableauClient'> Regularit� :</label> <label id='TableauClient1'> Oui :</label><center><input type='radio' class='validate[required] radio' id='Regularite1' name='Regularite'  value='1'></center></li>
+		          				<ul><li><label id='TableauClient'> Regularité :</label> <label id='TableauClient1'> Oui :</label><center><input type='radio' class='validate[required] radio' id='Regularite1' name='Regularite'  value='1'></center></li>
 										     <li><label id='TableauClient1'>Non :</label> <center><input type='radio' class='validate[required] radio' id='Regularite2'   name='Regularite'  value='2'></center></li>
-										     <li><label id='TableauClient1'>Non d�fini :</label> <center><input type='radio' class='validate[required] radio' id='Regularite'  name='Regularite'  value='0' ></li></ul></center>
+										     <li><label id='TableauClient1'>Non défini :</label> <center><input type='radio' class='validate[required] radio' id='Regularite'  name='Regularite'  value='0' ></li></ul></center>
 													
 		            <br />						
 		            <input type='submit' class='submit' name='formclient' value='Ajouter' /><br><br>		
@@ -71,7 +71,7 @@ class page_clients extends page_base {
 			$Commune = $_POST['Commune'];
 			$Telephone = $_POST['Telephone'];
 			$Details = $_POST['Details'];	
-			if($_POST['Age']==0){ // Si le radio bouton age - 70 est cocher alors Age = 0 . (On a dans la base de donnees un champ bit d'o� le 0 ou 1).
+			if($_POST['Age']==0){ // Si le radio bouton age - 70 est cocher alors Age = 0 . (On a dans la base de donnees un champ bit d'oé le 0 ou 1).
 				$Age=0;
 			}
 			else  // Sinon c'est que le bouton age + 70 est cocher alors Age = 1. 
@@ -80,20 +80,20 @@ class page_clients extends page_base {
 			}
 			echo $Age;	
 			if($_POST['Regularite']==0){
-				$Regularite = 0;		// Dans le cas o� on ne connait pas la regularite du client. (On a dans la base de donnees un champ tynintd'o� le 0 , 1 ou 2).
+				$Regularite = 0;		// Dans le cas oé on ne connait pas la regularite du client. (On a dans la base de donnees un champ tynintd'oé le 0 , 1 ou 2).
 			}
 			else if($_POST['Regularite']==1){
-				$Regularite = 1;  //Dans le cas o� le client est r�gulier.
+				$Regularite = 1;  //Dans le cas oé le client est régulier.
 			}
 			else if($_POST['Regularite']==2){
-				$Regularite = 2; // Dans le cas o� le client n'est pas r�gulier.
+				$Regularite = 2; // Dans le cas oé le client n'est pas régulier.
 			}
 			
-			if (isset($_POST['Inactif'])) // Si la case est coch� on passe bien en inactif
+			if (isset($_POST['Inactif'])) // Si la case est coché on passe bien en inactif
 			{			
 				$inactif=1;
 			}
-			else // Sinon met �a � 0. 
+			else // Sinon met éa é 0. 
 			{
 				 $inactif=0;
 			}
@@ -102,7 +102,7 @@ class page_clients extends page_base {
 			$requete = 'insert into clients values ("'.$CodeSage.'","'.$NomClient.'","'.$Abrege.'","'.$Adresse.'","'.$Complement.'","'.$CodePostal.'","'.$Commune.'","' .$Telephone .'","'.$Details.'",'.$Age.','.$Regularite.','.$inactif.');';
 			$resultat = $this->connexion->query ( $requete );
 			$retour = '<h4>CLIENT INSERER</h4>';	
-			echo utf8_encode("<script> alert(' Insertion du client r�ussie '); </script>");	
+			echo utf8_encode("<script> alert(' Insertion du client réussie '); </script>");	
 		}
 		return $retour;		
 	}
@@ -129,20 +129,20 @@ class page_clients extends page_base {
 				$Age=1;
 			}			
 			if($_POST['RegulariteM']==0){
-				$Regularite = 0;		// Dans le cas o� on ne connait pas la regularite du client.
+				$Regularite = 0;		// Dans le cas oé on ne connait pas la regularite du client.
 			}
 			else if($_POST['RegulariteM']==1){
-				$Regularite = 1;  //Dans le cas o� le client est r�gulier.
+				$Regularite = 1;  //Dans le cas oé le client est régulier.
 			}
 			else if($_POST['RegulariteM']==2){
-				$Regularite = 2; // Dans le cas o� le client n'est pas r�gulier.
+				$Regularite = 2; // Dans le cas oé le client n'est pas régulier.
 			}
 	
-			if (isset($_POST['InactifM'])) // Si la case est coch� on passe bien en inactif
+			if (isset($_POST['InactifM'])) // Si la case est coché on passe bien en inactif
 			{
 				$inactif=1;
 			}
-			else // Sinon met �a � 0.
+			else // Sinon met éa é 0.
 			{
 				$inactif=0;
 			}
@@ -154,8 +154,8 @@ class page_clients extends page_base {
 			*/
 				$requete = 'update clients set CODESAGE="'.$CodeSage.'",NOM="'.$NomClient.'",ABREGE="'.$Abrege.'",ADRESSE="'.$Adresse.'",COMPLEMENT="'.$Complement.'",CODEPOSTAL="'.$CodePostal.'",COMMUNE="'.$Commune.'",TELEPHONE="' .$Telephone .'",DETAILS="'.$Details.'",AGE='.$Age.',REGULARITE='.$Regularite.',INACTIF='.$inactif.' WHERE CODESAGE="'.$CodeSage.'";';
 				$resultat = $this->connexion->query ( $requete );
-				$retour = '<script> alert(\" Modification du client r�ussie \"); </script>';
-				echo utf8_encode("<script> alert('Modification du client r�ussie '); </script>");
+				$retour = '<script> alert(\" Modification du client réussie \"); </script>';
+				echo utf8_encode("<script> alert('Modification du client réussie '); </script>");
 			
 	
 		}		
@@ -166,7 +166,7 @@ class page_clients extends page_base {
 	public function dernier_codesage() //Permet de connaitre le dernier client C000 inscrit dans la BDD. /!\/!\/!\/!\/!\/!\/!\ A REVOIR /!\ /!\/!\/!\/!\/!\
 	{
 		$vretour='';
-		$requete = 'SELECT MAX(substr(CodeSage,2,100)+1) AS nb FROM Clients ;'; //(il existe client qui ne sont pas de la forme C0001111 d'o� le substr ).
+		$requete = 'SELECT MAX(substr(CodeSage,2,100)+1) AS nb FROM Clients ;'; //(il existe client qui ne sont pas de la forme C0001111 d'oé le substr ).
 		$resultat = $this->connexion->query( $requete);
 		$vretour=$resultat->fetch(PDO::FETCH_OBJ)->nb;
 		if(strlen($vretour)==4)
@@ -216,9 +216,9 @@ class page_clients extends page_base {
 				</ul>";
 				
 
-		if((isset($_POST['afficherC']))||(isset($_POST['CodeSageClientCache']))) // S'il y a un client de selectionn� dans la liste et un submit via afficher alors tu execute la fonction afficherclient.
+		if((isset($_POST['afficherC']))||(isset($_POST['CodeSageClientCache']))) // S'il y a un client de selectionné dans la liste et un submit via afficher alors tu execute la fonction afficherclient.
 		{
-			$vretour=$vretour.$this->afficherclient($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons pr�cedent et suivant.
+			$vretour=$vretour.$this->afficherclient($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons précedent et suivant.
 		}
 		
 		//$vretour = $vretour."<a href=\"Clients.php\">Retour</a>"	;
@@ -265,9 +265,9 @@ class page_clients extends page_base {
 		$result = $this->connexion->query($req);		
 		if(isset($result)) //Si il existe un resultat alors je remplis la liste de client.
 		{			
-				//$vretour= $vretour."<center><li><label>Liste par ordre alphab�tique :</label><select name='listeclients1' id='listeclients1'  onchange=\"Submitliste1()\"><option value='VIDE'> </option>";
+				//$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1'  onchange=\"Submitliste1()\"><option value='VIDE'> </option>";
 		
-			$vretour= $vretour."<center><li><label>Liste par ordre alphab�tique :</label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+			$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
 				while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {					
 					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 					//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
@@ -283,14 +283,14 @@ class page_clients extends page_base {
 		
 		//ENSUITE j'affiche le reste de la page. 
 		
-		if((isset($_POST['modifierC']))||(isset($_POST['CodeSageClientM']))) // S'il y a un client de selectionn� dans la liste et un submit via modifier alors tu execute la fonction modifierclient. 
+		if((isset($_POST['modifierC']))||(isset($_POST['CodeSageClientM']))) // S'il y a un client de selectionné dans la liste et un submit via modifier alors tu execute la fonction modifierclient. 
 		{ 
 			
-			$vretour=$vretour.$this->afficherclientamodifier($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons pr�cedent et suivant.
+			$vretour=$vretour.$this->afficherclientamodifier($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons précedent et suivant.
 		}
-		if((isset($_POST['afficherC']))||(isset($_POST['CodeSageClientCache']))) // S'il y a un client de selectionn� dans la liste et un submit via afficher alors tu execute la fonction afficherclient.
+		if((isset($_POST['afficherC']))||(isset($_POST['CodeSageClientCache']))) // S'il y a un client de selectionné dans la liste et un submit via afficher alors tu execute la fonction afficherclient.
 		{ 
-			$vretour=$vretour.$this->afficherclient($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons pr�cedent et suivant.
+			$vretour=$vretour.$this->afficherclient($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons précedent et suivant.
 		}
 		//$vretour = $vretour."<a href=\"Clients.php\">Retour</a>"	;
 		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
@@ -299,7 +299,7 @@ class page_clients extends page_base {
 		
 	
 	
-	public function afficherclient($tousCodeSage){ //Fonction qui permet d'afficher un client pr�alablement choisi dans la liste. 
+	public function afficherclient($tousCodeSage){ //Fonction qui permet d'afficher un client préalablement choisi dans la liste. 
 		$vretour = "<ul id='navigation' class='nav-main'><br><center>
 				<form id='formAfficheclient' method='POST' action='ModifierClients.php#formAfficheclient' > 
 				";
@@ -378,7 +378,7 @@ class page_clients extends page_base {
 						<td> ".$this->Affichetelephone($infoclients->TELEPHONE)." </td>
 						</tr>
 						<tr>
-						<td> D�tails </td>
+						<td> Détails </td>
 						<td> ".$infoclients->DETAILS."</td>
 						</tr>";
 			
@@ -414,11 +414,11 @@ class page_clients extends page_base {
 			}
 			$resultat->closeCursor ();
 			$vretour = $vretour."</table><br>";
-			if($tousCodeSage[0] == $codesageclients)//Dans le cas o� on est au premier client enregistr�.
+			if($tousCodeSage[0] == $codesageclients)//Dans le cas oé on est au premier client enregistré.
 			{
 				$vretour = $vretour."<input type='submit' name='ASuivantC' id='ASuivantC' value='Suivant'> ";
 			}
-			else if($index == $longueur-1){ //Dans le cas o� on arrive au dernier client enregistr�.
+			else if($index == $longueur-1){ //Dans le cas oé on arrive au dernier client enregistré.
 				$vretour = $vretour."<input type='submit' name='APrecedentC' id='APrecedentC' value='Precedent'> ";
 			}
 			else 
@@ -439,7 +439,7 @@ class page_clients extends page_base {
 		return $vretour;
 	}
 	
-	public function afficherclientamodifier($tousCodeSageM){ //Permet d'afficher le client qui sera � modifier qui aura �t� pr�alablement choisi dans la liste des clients.
+	public function afficherclientamodifier($tousCodeSageM){ //Permet d'afficher le client qui sera é modifier qui aura été préalablement choisi dans la liste des clients.
 		$vretour="<ul id='navigation' class='nav-main'><br>
 				  <form method='POST' id='modifclient' action='ModifierClients.php#modifclient' >
 				  <br>";
@@ -495,15 +495,15 @@ class page_clients extends page_base {
 	
 					<label id='TableauClient'> Telephone : </label><center><input type='text'   id='Telephone' name='TelephoneM' class='validate[optionnal,minSize[10]] text-input'  value='".$this->Affichetelephone($infoclients->TELEPHONE)."' /></center><br>
 					
-					<label id='TableauClient'>D�tails :</label><center> <input type='text' class='validate[optionnal] text-input' id='Details' name='DetailsM'  value=\"".$infoclients->DETAILS."\"></center><br /><br>
+					<label id='TableauClient'>Détails :</label><center> <input type='text' class='validate[optionnal] text-input' id='Details' name='DetailsM'  value=\"".$infoclients->DETAILS."\"></center><br /><br>
 					 <ul><li><label id='TableauClient'>Age :</label>
 										<label id='TableauClient1'> -70 ans :</label><input type='radio' class='validate[required] radio'  id='AgeMoins' name='AgeM' value='0'  ></li>
 										<li><label id='TableauClient1'>+70 ans :</label> <input type='radio' class='validate[required] radio' id='AgePlus'  name='AgeM'  value='1'></li></ul><br>
 	
-					 <ul><li><label id='TableauClient'>Regularit� : </label>
+					 <ul><li><label id='TableauClient'>Regularité : </label>
 								<label id='TableauClient1'>Oui :</label> <input type='radio' class='validate[required] radio' id='RegulariteOui' name='RegulariteM'  value='1'>
 								<li><label id='TableauClient1'>Non :</label> <input type='radio' class='validate[required] radio' id='RegulariteNon'   name='RegulariteM'  value='2'></li>
-								<li><label id='TableauClient1'>Non d�fini : </label><input type='radio' class='validate[required] radio' id='RegulariteI'  name='RegulariteM'  value='0' ></li></ul><br>
+								<li><label id='TableauClient1'>Non défini : </label><input type='radio' class='validate[required] radio' id='RegulariteI'  name='RegulariteM'  value='0' ></li></ul><br>
 	
 					 <ul><li><label id='TableauClient1'>Inactif : </label>
 							<center><input type='checkbox' id='Inactif' name='InactifM' value='0'></center></li></ul>
@@ -513,11 +513,11 @@ class page_clients extends page_base {
 				$age = $infoclients->AGE;
 				$regu = $infoclients->REGULARITE;	
 				$ina = $infoclients->inactif;	
-				if($tousCodeSageM[0] == $clients)//Dans le cas o� on est au premier client enregistr�.
+				if($tousCodeSageM[0] == $clients)//Dans le cas oé on est au premier client enregistré.
 				{
 					$vretour = $vretour."<input type='submit' name='MSuivantC' id='MSuivantC' value='Suivant'> ";
 				}
-				else if($indexM == $longueurM-1){ //Dans le cas o� on arrive au dernier client enregistr�.
+				else if($indexM == $longueurM-1){ //Dans le cas oé on arrive au dernier client enregistré.
 					$vretour = $vretour."<input type='submit' name='MPrecedentC' id='MPrecedentC' value='Precedent'> ";
 				}
 				else
@@ -573,7 +573,7 @@ class page_clients extends page_base {
 		$tel = (string)$telrecu;				
 		$vretour = substr($tel,0,2).".".substr($tel,2,2).".".substr($tel,4,2).".".substr($tel,6,2).".".substr($tel,8,2);
 		*/
-		//$tabretour = str_split('');	//Convertit une cha�ne de caract�res en tableau	
+		//$tabretour = str_split('');	//Convertit une chaéne de caractéres en tableau	
 		$tabretour = array();
 		$vretour = '';
 		$i = 0;
@@ -586,7 +586,7 @@ class page_clients extends page_base {
 			}
 			$i = $i + 1;
 		}		
-		if((isset($tabretour[0]))&&(($tabretour[0] == 0)&&($longueur == 11))) //Les numeros de telephone recu auront forcement 11 chiffres � cause du int(11) qui a l'optipn unsigned zero fill sous phpmyadmin. Si on enleve cette option si le premier numero du telephone est un 0 ce z�ro sera alors supprim� par phpmyadmin.
+		if((isset($tabretour[0]))&&(($tabretour[0] == 0)&&($longueur == 11))) //Les numeros de telephone recu auront forcement 11 chiffres é cause du int(11) qui a l'optipn unsigned zero fill sous phpmyadmin. Si on enleve cette option si le premier numero du telephone est un 0 ce zéro sera alors supprimé par phpmyadmin.
 		{
 			$telstring = implode("", $tabretour); //Pour remettre le contenu du tableau tabretour dans un string.
 			$vretour = substr($telstring,1,2).".".substr($telstring,3,2).".".substr($telstring,5,2).".".substr($telstring,7,2).".".substr($telstring,9,2);
@@ -607,7 +607,7 @@ class page_clients extends page_base {
 		$longueur = strlen($telrecu);
 		$tabtel = str_split($telrecu);
 		while($i< $longueur){
-			if($tabtel[$i] != "."){ //Pour remettre le contenu du tableau tabtel dans un string sans espace ni aucun autre caract�re d'o� les "".
+			if($tabtel[$i] != "."){ //Pour remettre le contenu du tableau tabtel dans un string sans espace ni aucun autre caractére d'oé les "".
 				$tel=$tel."".$tabtel[$i];
 			}
 			$i = $i + 1;
@@ -629,7 +629,7 @@ class page_clients extends page_base {
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-			<label> Veuillez choisir un intervalle de date (les clients dont la derni�re intervention se situe dans l'intervalle choisi s'afficheront) :</label>
+			<label> Veuillez choisir un intervalle de date (les clients dont la derniére intervention se situe dans l'intervalle choisi s'afficheront) :</label>
 			<br><input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2'  value='$daterecu2'>
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
@@ -649,15 +649,15 @@ class page_clients extends page_base {
 				$NomR = $this->connexion -> quote($_POST['Nomrappel']);
 				if($_POST['Regulariterappel']==0)
 					{
-					$RegulariteR = 0;		// Dans le cas o� on ne connait pas la regularite du client.
+					$RegulariteR = 0;		// Dans le cas oé on ne connait pas la regularite du client.
 			}
 			else if($_POST['Regulariterappel']==1)
 				{
-					$RegulariteR = 1;  //Dans le cas o� le client est r�gulier.
+					$RegulariteR = 1;  //Dans le cas oé le client est régulier.
 			}
 			else if($_POST['Regulariterappel']==2)
 				{
-					$RegulariteR = 2; // Dans le cas o� le client n'est pas r�gulier.
+					$RegulariteR = 2; // Dans le cas oé le client n'est pas régulier.
 			}
 			if (isset($_POST['Inactifrappel']))
 					{
@@ -673,7 +673,7 @@ class page_clients extends page_base {
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-			<label> Veuillez choisir un intervalle de date (les clients dont la derni�re intervention se situe dans l'intervalle choisi s'afficheront) :</label>
+			<label> Veuillez choisir un intervalle de date (les clients dont la derniére intervention se situe dans l'intervalle choisi s'afficheront) :</label>
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2'  value='$daterecu2'>
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
@@ -694,7 +694,7 @@ class page_clients extends page_base {
 		$vretour="
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-					<label> Veuillez choisir un intervalle de date (les clients dont la derni�re intervention se situe dans l'intervalle choisi s'afficheront) :</label>
+					<label> Veuillez choisir un intervalle de date (les clients dont la derniére intervention se situe dans l'intervalle choisi s'afficheront) :</label>
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2'  value='$daterecu'>
 					<input type='submit' name='ValidFormRappelclient' value='OK'>
@@ -707,13 +707,13 @@ class page_clients extends page_base {
 	
 	public function afficheclientsrappel($dateRa1,$dateRa2){
 		$lien = "RappelClients.php";
-		$limite = 25; // Limit sert � d�finir le nombre de tuples � afficher.
+		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
 		if(isset($_GET['debut'])){
 			$debut = $_GET['debut'];
 		}
 		else if (empty($debut))
 		{
-			$debut=0;					// L'offset sert � d�finir le point de d�part.
+			$debut=0;					// L'offset sert é définir le point de départ.
 		}
 		$datePourMysql1 =  $this->envoiMysqlDate($dateRa1);
 		$datePourMysql2 = $this->envoiMysqlDate($dateRa2);
@@ -764,7 +764,7 @@ class page_clients extends page_base {
 			$resultat = $this->connexion->query($req);
 			if ( !$resultat)
 			{
-				$vretour=$vretour."<p>Aucun clients � rappeler</p>";
+				$vretour=$vretour."<p>Aucun clients é rappeler</p>";
 			}
 			else
 			{
@@ -774,17 +774,17 @@ class page_clients extends page_base {
 	        								<td>
 												<table id='tabrappel'>
 													<caption>
-														<h2>Liste des clients dont la derni�re intervention <br> est situ� entre le :<input type='text' name='DateAffiche1' readonly='true' value='$dateRa1'> et le <input type='text' name='DateAffiche2' readonly='true' value='$dateRa2'></h2>
+														<h2>Liste des clients dont la derniére intervention <br> est situé entre le :<input type='text' name='DateAffiche1' readonly='true' value='$dateRa1'> et le <input type='text' name='DateAffiche2' readonly='true' value='$dateRa2'></h2>
 													</caption>
 													<tr>
-														<th>CodeSage</th><th>Nom</th><th>Date de la derni�re intervention</th><th>R�gulier</th><th>Non R�gulier</th><th>Inconnu</th><th>Inactif</th><th>Lien vers l'intervention</th>
+														<th>CodeSage</th><th>Nom</th><th>Date de la derniére intervention</th><th>Régulier</th><th>Non Régulier</th><th>Inconnu</th><th>Inactif</th><th>Lien vers l'intervention</th>
 													</tr>";
-				//$vretour = $vretour."<ul id='navigation' class='nav-main'><br><center>";//<table><tr><th>CodeSage :</th><th>Nom du client :</th><th>Date de la derni�re intervention :</th><th>R�gulier</th><th>Non R�gulier</th><th>Inconnu</th><th>Inactif :</th></tr>";
+				//$vretour = $vretour."<ul id='navigation' class='nav-main'><br><center>";//<table><tr><th>CodeSage :</th><th>Nom du client :</th><th>Date de la derniére intervention :</th><th>Régulier</th><th>Non Régulier</th><th>Inconnu</th><th>Inactif :</th></tr>";
 				
 				
 				$tabcodesage= array('');
 				while($clients = $resultat->fetch(PDO::FETCH_OBJ)){
-					if((in_array($clients->CODESAGE , $tabcodesage)) == false){			 //SI le codesage est pas d�j� dans la liste tu lui ajoute et modifie vretour.
+					if((in_array($clients->CODESAGE , $tabcodesage)) == false){			 //SI le codesage est pas déjé dans la liste tu lui ajoute et modifie vretour.
 						$tabcodesage[]=$clients->CODESAGE;
 							
 						if($clients->REGULARITE == 1)
@@ -843,14 +843,14 @@ class page_clients extends page_base {
 	
 	public function Atouslesclients()
 	{
-		$lien = "TousClients.php"; //Pour que les chiffres et les fleches ajouter renvoi � la bonne page.
-		$limite = 25; // Limit sert � d�finir le nombre de tuples � afficher.
+		$lien = "TousClients.php"; //Pour que les chiffres et les fleches ajouter renvoi é la bonne page.
+		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
 		if(isset($_GET['debut'])){
 			$debut = $_GET['debut'];
 		}
 		else if (empty($debut))
 		{
-			$debut=0;					// L'offset sert � d�finir le point de d�part.
+			$debut=0;					// L'offset sert é définir le point de départ.
 		}		
 	
 		$vretour="		
@@ -870,7 +870,7 @@ class page_clients extends page_base {
 									<th id='thcodepostal'>Code Postal</th>
 									<th id='thcommune'>Commune</th>
 									<th id='thtelephone'>Telephone</th>
-									<th id='thdetails'>D�tails</th>
+									<th id='thdetails'>Détails</th>
 									<th id='thage'>Age </th>
 									<th id='thregularite'>Regularite</th>
 									<th id='thinactif'>Inactif</th>
@@ -880,8 +880,8 @@ class page_clients extends page_base {
 		//$nblignes = $result->fetch(PDO::FETCH_OBJ )->nb;
 		$nbtotal = $result->fetch(PDO::FETCH_OBJ )->nb;
 		$nbenr = 0;
-		$cfg_nbres_ppage = 25; // Nombre de r�ponses par page
-		$cfg_nb_pages    = 10; // Nombre de N� de pages affich�s dans la barre
+		$cfg_nbres_ppage = 25; // Nombre de réponses par page
+		$cfg_nb_pages    = 10; // Nombre de Né de pages affichés dans la barre
 		if($nbtotal > 0)
 		//if($nblignes > 0)
 		{
@@ -936,7 +936,7 @@ class page_clients extends page_base {
 								
 			        			</tr><tr>".$this->navigateur($nblignes,$debut,$limite,$lien)."</tr></table>";
 			*/
-			// Puis insertion d'un formulaire pour pouvoir r�aliser l'export via un clic bouton.
+			// Puis insertion d'un formulaire pour pouvoir réaliser l'export via un clic bouton.
 			
 			$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul>";
 			if (isset($_POST['ExcelClients'])){
@@ -945,7 +945,7 @@ class page_clients extends page_base {
 		}
 		else
 		{
-			$vretour = $vretour."Aucun client, d�sol� !";
+			$vretour = $vretour."Aucun client, désolé !";
 		}
 		
 		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ModifierClients.php'\"/><br> <br></ul>";
@@ -974,7 +974,7 @@ class page_clients extends page_base {
 									<th>CodePostal</th>
 									<th>Commune</th>
 									<th>Telephone</th>
-									<th>D�tails</th>
+									<th>Détails</th>
 									<th>Age </th>
 									<th>Regularite</th>
 									<th>Inactif</th>
@@ -1049,7 +1049,7 @@ class page_clients extends page_base {
 		if($debut < 0)
 			exit;
 		// --------------------------------------------------------------------
-		//global $cfg_nb_pages; // Nb de n� de pages affich�es dans la barre
+		//global $cfg_nb_pages; // Nb de né de pages affichées dans la barre
 	
 		$lien_on         = ' <A HREF="{cible}">{lien}</A> ';
 		$lien_off        = ' {lien} ';
@@ -1058,7 +1058,7 @@ class page_clients extends page_base {
 		$query  = 'TousClients.php?debut=';
 	
 	
-		// d�but << .
+		// début << .
 		// --------------------------------------------------------------------
 		if ($debut >= $cfg_nbres_ppage)
 		{
@@ -1072,10 +1072,10 @@ class page_clients extends page_base {
 			$image = $this->image_html('STYLES/suitegauche.gif');
 			$lien = str_replace('{lien}', $image.$image, $lien_off);
 		}
-		$barre .= $lien." <B><font color = foe3ae>�</B>";
+		$barre .= $lien." <B><font color = foe3ae>é</B>";
 	
 	
-		// pr�c�dent < .
+		// précédent < .
 		// --------------------------------------------------------------------
 		if ($debut >= $cfg_nbres_ppage)
 		{
@@ -1089,7 +1089,7 @@ class page_clients extends page_base {
 			$image = $this->image_html('STYLES/suitegauche.gif');
 			$lien = str_replace('{lien}', $image, $lien_off);
 		}
-		$barre .= $lien." <B>�</B>";
+		$barre .= $lien." <B>é</B>";
 	
 	
 		// -------------------------------------------------------------------
@@ -1136,7 +1136,7 @@ class page_clients extends page_base {
 	    $image = $this->image_html('STYLES/suitedroite.gif');
 	    	$lien = str_replace('{lien}', $image, $lien_off);
 	    }
-	    $barre .= " <B>�</B>".$lien;
+	    $barre .= " <B>é</B>".$lien;
 	
 	    // fin . >>
 	    // --------------------------------------------------------------------
@@ -1155,7 +1155,7 @@ class page_clients extends page_base {
 	    $image = $this->image_html('STYLES/suitedroite.gif');
 	    $lien = str_replace('{lien}', $image.$image, $lien_off);
 	    }
-	    $barre .= "<B>�</B> ".$lien;
+	    $barre .= "<B>é</B> ".$lien;
 	
 	
 	
@@ -1172,10 +1172,10 @@ class page_clients extends page_base {
 	
 	function navigateur($nblignes,$debut,$limite,$lienpage) { //  Affichage du navigateur en bas de page //REMPLACER FINALEMENT PAR CELLE D'AU DESSUS
 		$vretour = "<center>";
-		// Calcule le nombre devant posseder un lien d'acc�s
-		$pages=intval($nblignes/$limite); // % Donne le reste de la division enti�re entre les 2 nombres
+		// Calcule le nombre devant posseder un lien d'accés
+		$pages=intval($nblignes/$limite); // % Donne le reste de la division entiére entre les 2 nombres
 	
-		// $pages contient la partie enti�re du r�sultat de la division...
+		// $pages contient la partie entiére du résultat de la division...
 		// ...s'il y a un reste on ajoute une page
 		if ($nblignes%$limite)
 		{

@@ -6,13 +6,13 @@ define('EURO_VAL', 6.55957 );
 // Xavier Nicolay 2004
 // Version 1.02
 //
-// Reste ‡ faire :
+// Reste √© faire :
 // + Multipage (gestion automatique sur plusieurs pages)
 // + Ajout de logo
 // 
 
 //////////////////////////////////////
-// fonctions ‡ utiliser (publiques) //
+// fonctions √© utiliser (publiques) //
 //////////////////////////////////////
 //  function sizeOfText( $texte, $larg )
 //  function addSociete( $nom, $adresse )
@@ -39,12 +39,12 @@ define('EURO_VAL', 6.55957 );
 
 class PDF_Invoice extends FPDF
 {
-// variables privÈes
+// variables priv√©es
 var $colonnes;
 var $format;
 var $angle=0;
 
-// fonctions privÈes
+// fonctions priv√©es
 function RoundedRect($x, $y, $w, $h, $r, $style = '')
 {
 	$k = $this->k;
@@ -155,7 +155,7 @@ function addSociete( $nom, $adresse )
 	$this->SetXY( $x1, $y1 + 4 );
 	$this->SetFont('Arial','',10);
 	$length = $this->GetStringWidth( $adresse );
-	//CoordonnÈes de la sociÈtÈ
+	//Coordonn√©es de la soci√©t√©
 	$lignes = $this->sizeOfText( $adresse, $length) ;
 	$this->MultiCell($length, 4, $adresse);
 }
@@ -172,7 +172,7 @@ function fact_dev( $libelle, $num )
     $y2  = $y1 + 2;
     $mid = ($r1 + $r2 ) / 2;
     
-    $texte  = $libelle . " EN " . EURO . " N∞ : " . $num;    
+    $texte  = $libelle . " EN " . EURO . " N√© : " . $num;    
     $szfont = 12;
     $loop   = 0;
     
@@ -275,7 +275,7 @@ function addClientAdresse( $adresse )
 	$this->MultiCell( 60, 4, $adresse);
 }
 
-// Affiche un cadre avec le rËglement (chËque, etc...)
+// Affiche un cadre avec le r√©glement (ch√©que, etc...)
 // (en haut, a gauche)
 function addReglement( $mode )
 {
@@ -337,13 +337,13 @@ function addNumTVA($tva)
 function addReference($ref)
 {
 	$this->SetFont( "Arial", "", 10);
-	$length = $this->GetStringWidth( "RÈfÈrences : " . $ref );
+	$length = $this->GetStringWidth( "R√©f√©rences : " . $ref );
 	$r1  = 10;
 	$r2  = $r1 + $length;
 	$y1  = 92;
 	$y2  = $y1+5;
 	$this->SetXY( $r1 , $y1 );
-	$this->Cell($length,4, "RÈfÈrences : " . $ref);
+	$this->Cell($length,4, "R√©f√©rences : " . $ref);
 }
 
 // trace le cadre des colonnes du devis/facture
@@ -369,7 +369,7 @@ function addCols( $tab )
 	}
 }
 
-// mÈmorise le format (gauche, centre, droite) d'une colonne
+// m√©morise le format (gauche, centre, droite) d'une colonne
 function addLineFormat( $tab )
 {
 	global $format, $colonnes;
@@ -656,7 +656,7 @@ function addTVAs( $params, $tab_tva, $invoice )
 		{
 			$accompteTTC=sprintf ("%.2F", $params["accompte"]);
 			if ( strlen ($params["Remarque"]) == 0 )
-				$this->addRemarque( "Accompte de $accompteTTC Euros exigÈ ‡ la commande.");
+				$this->addRemarque( "Accompte de $accompteTTC Euros exig√© √© la commande.");
 			else
 				$this->addRemarque( $params["Remarque"] );
 		}
@@ -668,12 +668,12 @@ function addTVAs( $params, $tab_tva, $invoice )
 			$accompteTTC=sprintf("%.2F", $totalTTC * $percent);
 			$percent100 = $percent * 100;
 			if ( strlen ($params["Remarque"]) == 0 )
-				$this->addRemarque( "Accompte de $percent100 % (soit $accompteTTC Euros) exigÈ ‡ la commande." );
+				$this->addRemarque( "Accompte de $percent100 % (soit $accompteTTC Euros) exig√© √© la commande." );
 			else
 				$this->addRemarque( $params["Remarque"] );
 		}
 		else
-			$this->addRemarque( "DrÙle d'acompte !!! " . $params["Remarque"]);
+			$this->addRemarque( "Dr√©le d'acompte !!! " . $params["Remarque"]);
 	}
 	else
 	{

@@ -1,6 +1,6 @@
 /*
-	CSS "organis�" par pages :
-	1- Pour la page base et donc le mod�le globale. (Certains id ou class sont utilis�s sur toutes les pages donc sont css se trouvera dans cette partie).
+	CSS "organisé" par pages :
+	1- Pour la page base et donc le modéle globale. (Certains id ou class sont utilisés sur toutes les pages donc sont css se trouvera dans cette partie).
 	2- Pour les pages "clients".
 	3- Pour les pages "employes".
 	4- Pour les page "interventions".
@@ -35,7 +35,7 @@ border-radius: 5px;
 
 
 
-ul.nav-main li a { /*positionnement, dimensions, couleurs et textes des items de liste int�grant une redirection url*/
+ul.nav-main li a { /*positionnement, dimensions, couleurs et textes des items de liste intégrant une redirection url*/
 display: block;
 padding: 16px 16px 0 16px;
 height: 40px;
@@ -363,7 +363,7 @@ td {
 
 
 
-/**** Pages employ�s ****/
+/**** Pages employés ****/
 
 /* FormE form */
 #FormE input[type=submit]{
@@ -419,7 +419,7 @@ td {
 #MoisemployesH{
 	width: 10%;
 }
-/**** Fin Pages employ�s ****/
+/**** Fin Pages employés ****/
 
 
 

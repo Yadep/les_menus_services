@@ -41,7 +41,7 @@ class connexion extends page_base {
 						{
 							session_start();
 							$_SESSION['login'] = $_POST['login'];
-							$dataMA = utf8_encode("alert('Connexion r�ussie')");
+							$dataMA = utf8_encode("alert('Connexion réussie')");
 							echo"<script>$dataMA</script>";
 							
 						}
