@@ -74,7 +74,7 @@ class page_base
 	/************** Affichage du pied du corps ***************************/	
 	private function affiche_corps()
 	{
- 		echo utf8_encode($this->corps);	
+ 		echo $this->corps;	//utf8_encode($this->corps)
 	}		
 	
 	/************** Affichage du pied de la nav ***************************/
