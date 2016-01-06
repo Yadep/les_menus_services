@@ -71,7 +71,7 @@ class connexion extends page_base {
 		$vretour = "
 			<ul id='navigation' class='nav-main'>
 				<br>				
-				Vous pouvez desormais accéder aux autres pages.
+				Bienvenue.
 				<br><br>
 			</ul>";
 			
