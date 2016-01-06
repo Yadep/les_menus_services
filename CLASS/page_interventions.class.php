@@ -31,9 +31,9 @@ class page_interventions extends page_base {
 	
 		$Client = $this->connexion -> quote($_POST['listeclients']) ;
 		$Employe = $this->connexion -> quote($_POST['listeemployes']) ;
-		//$DateR = $this->connexion -> quote($_POST['Date']) ;    SI J'UTILISE Cette méthode le envoiMysqlDate me renverra une mauvaise date derrière.
+		//$DateR = $this->connexion -> quote($_POST['Date']) ;    SI J'UTILISE Cette mï¿½thode le envoiMysqlDate me renverra une mauvaise date derriï¿½re.
 		$DateR = $_POST['Date'];		
-		$Date = $this->envoiMysqlDate($DateR); //Fonction qui va retourné la date au  format yyyy-mm-dd pour Mysql ensuite.		
+		$Date = $this->envoiMysqlDate($DateR); //Fonction qui va retournï¿½ la date au  format yyyy-mm-dd pour Mysql ensuite.		
 		$T1 = $this->connexion -> quote($_POST['T1']) ;
 		$T2 = $this->connexion -> quote($_POST['T2']) ;
 		$DESH = $this->connexion -> quote($_POST['DESH']) ;
@@ -51,7 +51,7 @@ class page_interventions extends page_base {
 				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.")";
 		$nblignes=$this->connexion -> exec($requete);
 		
-		$dataIR = utf8_encode("alert('Insertion réussie')"); // Corrige l'encodage pour le mettre en bon format sur l'alert
+		$dataIR = utf8_encode("alert('Insertion rï¿½ussie')"); // Corrige l'encodage pour le mettre en bon format sur l'alert
 			if ($nblignes !=1)
 			{				
 				echo "<script>alert('Insertion impossible')</script>";				
@@ -80,7 +80,7 @@ class page_interventions extends page_base {
 		
 
 		$Date= $_POST['Date'];
-		$DateR1 = explode("/",$Date); //Divise la variables pour ensuite la répartir en Jour/mois/année
+		$DateR1 = explode("/",$Date); //Divise la variables pour ensuite la rï¿½partir en Jour/mois/annï¿½e
 		$jour = $DateR1[0];
 		$mois = $DateR1[1];
 		$annee = $DateR1[2];
@@ -108,7 +108,7 @@ class page_interventions extends page_base {
 		}
 		if ($nblignes ==1)
 		{	
-			echo "<script>alert('Modification réussie')\n";
+			echo "<script>alert('Modification rï¿½ussie')\n";
 			echo "document.location = ('Interventions.php')";
 			echo "</script>";
 			$result = null;
@@ -118,7 +118,7 @@ class page_interventions extends page_base {
 			
 	}
 	
-	// Suites de rêquetes SQL afin d'obtenir toute les informations selons les interventions de la BDD
+	// Suites de rï¿½quetes SQL afin d'obtenir toute les informations selons les interventions de la BDD
 	public function les_interventions()
 	{
 		$req = "Select * , DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions";
@@ -207,7 +207,7 @@ class page_interventions extends page_base {
 		$res = $this->connexion->query($req);
 		return $res;
 	}
-	//Liste déroulante Client d'enregistrer clients, ou modifier client.
+	//Liste dï¿½roulante Client d'enregistrer clients, ou modifier client.
 public function les_clients($parametre,$id)
 	{
 		$vretour="";
@@ -217,7 +217,7 @@ public function les_clients($parametre,$id)
 
 	if(isset($res)){
 		
-		//En cas d'enregistrements (par défaut, le lien du menu Intervention renvoi sur cette liste la)
+		//En cas d'enregistrements (par dï¿½faut, le lien du menu Intervention renvoi sur cette liste la)
 		 if ((!isset ($_POST['listeclients']) && !isset($_POST['listeclients2'])) && (!isset ($_POST['Codesagerappel'])))	{	
 				$vretour= $vretour."
 						<select name='listeclients' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurClient()\"><option value=''></option>";
@@ -230,7 +230,7 @@ public function les_clients($parametre,$id)
 		          
 		}
 		
-		// SI l'enregistrement à été effectuer, ou qu'on appel le formulaire du rappel client
+		// SI l'enregistrement ï¿½ ï¿½tï¿½ effectuer, ou qu'on appel le formulaire du rappel client
 		else if ((isset ($_POST['CodeC']))||((isset ($_POST['Codesagerappel'])))) {
 				if(isset ($_POST['Codesagerappel']))
 				{
@@ -287,7 +287,7 @@ public function les_clients($parametre,$id)
 		$vretour="";
 		$req = "Select CODESAGE,NOM From clients order by NOM";
 		$res = $this->connexion->query($req);
-		// Si aucune sélection de liste n'a été demander avant, par défaut, au lancement de la page Interventions
+		// Si aucune sï¿½lection de liste n'a ï¿½tï¿½ demander avant, par dï¿½faut, au lancement de la page Interventions
 		if (!empty ($_POST['CodeCI']))
 		   {
 			$CodeCI = $_POST['CodeCI'];
@@ -314,7 +314,7 @@ public function les_clients($parametre,$id)
 				$vretour = $vretour."<input type='hidden' id='CodeCI' name='CodeCI' value=''>";
 	
 			}
-			// Si un enregistrement à été effectuer juste avant. 
+			// Si un enregistrement ï¿½ ï¿½tï¿½ effectuer juste avant. 
 		if (isset ($_POST['CodeC'])) {
 				
 					$CodeC = $_POST['CodeC'];
@@ -333,7 +333,7 @@ public function les_clients($parametre,$id)
 					}
 					$vretour = $vretour."</select><input type='hidden' id='CodeCI' name='CodeCI' value=$CodeC>";
 				}	
-			// Si une selection à été effectuer juste avant
+			// Si une selection ï¿½ ï¿½tï¿½ effectuer juste avant
 		if (isset ($_POST['NomClient']) && !empty ($_POST['NomClient'])){
 				$NomC = $_POST['NomClient'];
 				$req2 = "Select * From clients where Nom = '$NomC'";
@@ -508,16 +508,16 @@ public function les_clients($parametre,$id)
 
 		$DateD = $this->envoiMysqlDate($_POST['DateD']);
 		$DateF = $this->envoiMysqlDate($_POST['DateF']);
-		//Si la deuxieme liste client a été selectionner
+		//Si la deuxieme liste client a ï¿½tï¿½ selectionner
 		if (isset ($_POST['listeclients2'])){
 		$listeclients =  $_POST['listeclients2'];}
 		else $listeclients='';
-		//Si la deuxieme liste employés a été selectionner
+		//Si la deuxieme liste employï¿½s a ï¿½tï¿½ selectionner
 		if (isset ($_POST['listeemployes2'])){
 		$listeemployes =  $_POST['listeemployes2'];}
 		else $listeemployes='';
 		
-		//Conditions des executions des rêquetes SQL 
+		//Conditions des executions des rï¿½quetes SQL 
 		if (!empty ($listeclients) && empty ($listeemployes))
 		{
 			$result = $this->les_interventions_date_clients();
@@ -554,7 +554,7 @@ public function les_clients($parametre,$id)
 		{
 			$result = $this->les_interventions();
 		}
-		// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste employé qui à été renvoyer
+		// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste employï¿½ qui ï¿½ ï¿½tï¿½ renvoyer
 		
 		if (isset ($_POST['CodeE'])){
 			$CodeE = $_POST['CodeE'];
@@ -564,7 +564,7 @@ public function les_clients($parametre,$id)
 			$CodeEI = $_POST['CodeEI'];
 			$a=$a."<input type='hidden' name='CodeEI' value=".$CodeEI.">";}
 			
-		// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui à été renvoyer
+		// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui ï¿½ ï¿½tï¿½ renvoyer
 		if (isset ($_POST['CodeC'])){
 			$CodeC = $_POST['CodeC'];
 			$a=$a."<input type='hidden' name='CodeC' value=".$CodeC.">";}
@@ -575,7 +575,7 @@ public function les_clients($parametre,$id)
 				
 			$a=$a. "<center>
 					<table id='TBZHEBRA' border='1'>
-					<tr><th>Numéro</th><th>Client</th><th>Employé(e)</th>
+					<tr><th>Numï¿½ro</th><th>Client</th><th>Employï¿½(e)</th>
 					<th>Date</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th>
 					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th></tr>";
 			
@@ -704,8 +704,8 @@ public function dernier_NINTERV() //Permet de connaitre le dernier client C000 i
 
 public function SCRIPT()
 /*
- * les function ValeurEmploye,ValeurEmployeI,ValeurClient et ValeurClientI servent à modifier directement
- * les valeurs de leurs liste respectives afin de plus facilement renvoyer les données. 
+ * les function ValeurEmploye,ValeurEmployeI,ValeurClient et ValeurClientI servent ï¿½ modifier directement
+ * les valeurs de leurs liste respectives afin de plus facilement renvoyer les donnï¿½es. 
  */
  {
 	$vretour = "<script>
@@ -940,7 +940,7 @@ public function Afficher_EM_Interventions()  {
 	
 	<li>
 	
-	<label>Numéro :</label>
+	<label>Numï¿½ro :</label>
 		
 	<center>";
 		if ((!isset ($_POST['NINTERV']))&&(!isset ($_POST['RappelDIntervCE'])))
@@ -989,7 +989,7 @@ public function Afficher_EM_Interventions()  {
 			$vretour=$vretour. "
 							</li>
 							<li>
-								<label>Employé(e) :</label>";
+								<label>Employï¿½(e) :</label>";
 								if (!empty ($_POST['CodeE']))
 										{$vretour=$vretour.$this->les_employes('required','listeemployes');}
 								if (!empty ($_POST['CodeEI']))
@@ -1008,7 +1008,7 @@ public function Afficher_EM_Interventions()  {
 									
 									<span id='Heures'><input type='number' step='0.25' min='0' name=\"T1\"  autofocus onfocus=\"calculTOTAL(),calculMinute(),CalculHeure()\" Onchange=\"calculTOTAL(),calculMinute(),CalculHeure()\"  value='$T1' class=\"validate[required,custom[numberP]]\"  />
 									Heure(s)</span>
-									<span id='EQA'>équivaut à :</span> 
+									<span id='EQA'>ï¿½quivaut ï¿½ :</span> 
 									<span id='HeuresMinutes'><input type='number'  min='0' step='1' name=\"H1\"    Onchange=\"calculDecimal(),calculTOTAL(),CalculHeure()\" value=\"0\" class=\"validate[required,custom[numberP]]\" />
 									H
 									<input type='number' min='0' max='59' step='15' name=\"M1\"    Onchange=\"calculDecimal(),calculTOTAL(),CalculHeure()\" value=\"0\" class=\"validate[required,custom[numberP]]\" />
@@ -1029,7 +1029,7 @@ public function Afficher_EM_Interventions()  {
 									</li>
 								
 									<li>
-									<label>Déchetterie :</label>
+									<label>Dï¿½chetterie :</label>
 									<span id='Heures'>
 									<input type='number' step='0.25' min='0' name=\"DECH\" Onchange=\"calculTOTAL(),calculMinute(),CalculHeure()\" value='$DECH' class=\"validate[required,custom[numberP]]\"  />
 									Heure(s)</span>
@@ -1092,7 +1092,7 @@ public function Afficher_EM_Interventions()  {
 									</li>
 									<br>
 									<li>
-									<label>Pulvérisateur :</label>
+									<label>Pulvï¿½risateur :</label>
 									<span id='Heures2'>
 									<input type='number' step='1' min='0' name=\"PULVERISATEUR\"   Onchange=\"calculTOTAL(),calculMinute(),CalculHeure()\" value='$PULVERISATEUR' class=\"validate[required,custom[numberP]]\" />
 									</span>
@@ -1223,15 +1223,15 @@ public function choisir_date()
 				
 					<article>
 						<center>
-							<h2>Sélection d'intervention(s)</h2>
+							<h2>Sï¿½lection d'intervention(s)</h2>
 								<form method='POST' id='FormCDI' name='FormCDI' action='ListeInterventions.php'>
-		<label>Date début :</label>
+		<label>Date dï¿½but :</label>
 		<input  type='text'  name='DateD' id='DateD'  value='$DateD' class='validate[optionnal] text-input datepicker'/> 
 		<br><br>
 		<label>Date fin :</label>
 		<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\" value='$DateF' /> 
 		<br><br><br>
-		<label>Clients :</label>".$this->les_clients2($parametre,'listeclients4')."<br><label>Employé(es) :</label>".$this->les_employes2($parametre,'listeemployes4')."
+		<label>Clients :</label>".$this->les_clients2($parametre,'listeclients4')."<br><label>Employï¿½(es) :</label>".$this->les_employes2($parametre,'listeemployes4')."
 		<br>	
 				
 				<input type='submit' id='input' name='ValidFormCDI' value='Rechercher'>

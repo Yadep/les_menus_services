@@ -46,7 +46,7 @@ class page_employes extends page_base {
 		$nblignes=$this->connexion -> exec($requete);
 		
 		
-		$dataIR = utf8_encode("alert('Insertion réussie')");
+		$dataIR = utf8_encode("alert('Insertion rï¿½ussie')");
 		
 			if ($nblignes !=1)
 			{
@@ -79,7 +79,7 @@ class page_employes extends page_base {
 	
 		$requete="update employes set Nom='$NomEmploye', Prenom='$PrenomEmploye',`ANCIEN_EMPLOYE`=$AncienneteEmploye where EmplSage=$EmplSage";
 		$nblignes=$this->connexion -> exec($requete);
-		$dataMR = utf8_encode("alert('Modification réussie')");
+		$dataMR = utf8_encode("alert('Modification rï¿½ussie')");
 		
 		if ($nblignes !=1)
 		{
@@ -103,8 +103,8 @@ class page_employes extends page_base {
 	
 		$requete="delete employes FROM employes where EmplSage=$EmplSage";
 		$nblignes=$this->connexion -> exec($requete);
-		$dataSI = utf8_encode("alert('Supression impossible, cette employé(e) est lié(e) une intervention')");
-		$dataSR = utf8_encode("alert('Supression réussie')");
+		$dataSI = utf8_encode("alert('Supression impossible, cette employï¿½(e) est liï¿½(e) une intervention')");
+		$dataSR = utf8_encode("alert('Supression rï¿½ussie')");
 		if ($nblignes !=1)
 		{
 			echo "<script>$dataSI</script>";
@@ -136,17 +136,24 @@ class page_employes extends page_base {
 	else {	
 		$CCA = '0';
      	}
-		$a="<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
-		
+
+     	if ($CCA=='0')
+     	{
+		$a="<ul id='navigation' class='nav-main'><h2>EmpoyÃ©s en activitÃ©  : </h2>";
+     	}
+     	else {
+     		$a="<ul id='navigation' class='nav-main'><h2>Anciens salariÃ© : </h2>";
+     	}
+     	
 		$result = $this->les_employes();
 	
 		
 		if ( !$result)
-		{   $a=$a."<p>Aucun employés enregistrer</p>";  }
+		{   $a=$a."<p>Aucun employï¿½s enregistrer</p>";  }
 		else
 		{
 			
-			$a=$a. "<center><table border='1'><tr><th>Numéro</th><th>Nom</th><th>Prénom</th><th>Ancien</th></tr>";
+			$a=$a. "<center><table border='1'><tr><th>Numï¿½ro</th><th>Nom</th><th>Prï¿½nom</th><th>Ancien</th></tr>";
 
 		
 			
@@ -212,7 +219,7 @@ class page_employes extends page_base {
 				$a=$a."
 				<form method='POST' id='FormAE' name='FormAE'  action='Employes.php#Liste'>
 				<input type='hidden' name='HiddenAE' value='1'>
-				<input type='submit' name='ValidFormAE' value='Ancien'><br>
+				<input type='submit' name='ValidFormAE' value='Anciens'><br>
 				</form><br>";
 					
 			}
@@ -243,7 +250,7 @@ public function enregistrer_employes() {
 				<section>
 					<article>				
 					
-		<h2>Enregistrements des employés</h2>
+		<h2>Enregistrements des employï¿½s</h2>
 			<form method='POST' id='FormE'  action='Employes.php'>
 	
 	
@@ -252,7 +259,7 @@ public function enregistrer_employes() {
 	<input type=\"text\" class=\"validate[required,custom[onlyLetterSpE],length[0,100]] text-input \" name=\"NomEmploye\" id=\"NomEmploye\" value=\"\" /> <br />
 		</center>
 		<br>
-	<label>Prénom :</label>
+	<label>Prï¿½nom :</label>
 		<center>
 	<input type=\"text\" class=\"validate[required,custom[onlyLetterSpE],length[0,100]] text-input \" name=\"PrenomEmploye\" id=\"PrenomEmploye\" value=\"\"/><br />
 		</center>
@@ -282,11 +289,11 @@ public function choisir_employe (){
 						<br><form id='formchoisiremployes' method='POST' action='EmployesHeures.php' > ";
 	$result = $this->les_employes();
 	if(isset($result)){
-		$vretour= $vretour."<center><h2>Heures des employés :</h2> 									
+		$vretour= $vretour."<center><h2>Heures des employï¿½s :</h2> 									
 									<br><label>Mois : </label><select name='MoisemployesH' id='MoisemployesH'>
 										<option value='VIDE'></option>
 										<option value='01'>Janvier</option>
-										<option value='02'>Février</option>
+										<option value='02'>Fï¿½vrier</option>
 										<option value='03'>Mars</option>
 										<option value='04'>Avril</option>
 										<option value='05'>Mai</option>
@@ -296,13 +303,13 @@ public function choisir_employe (){
 										<option value='09'>Septembre</option>
 										<option value='10'>Octobre</option>
 										<option value='11'>Novembre</option>
-										<option value='12'>Décembre</option>
+										<option value='12'>Dï¿½cembre</option>
 									</select>
 									
-									<label>Année : </label><input type='number' name='AnneeemployesH' id='AnneeemployesH' value='2015' class='validate[required,custom[integer],minSize[4],maxSize[4]] text-input' >
+									<label>Annï¿½e : </label><input type='number' name='AnneeemployesH' id='AnneeemployesH' value='2015' class='validate[required,custom[integer],minSize[4],maxSize[4]] text-input' >
 									<br><br>
 									<li>
-									<label>Liste des employés : </label><select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+									<label>Liste des employï¿½s : </label><select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
 			{
@@ -324,7 +331,7 @@ public function EmployesHeures(){
 	
 	/*
 	$annee = (date('Y', $date))-1;		
-	$mois = date('m', $date);	//Récupération du mois
+	$mois = date('m', $date);	//Rï¿½cupï¿½ration du mois
 	$semaine = week('w',$date);	
 	
 	$requeteA = "SELECT * FROM INTERVENTIONS WHERE NUMEMPLSAGE = ".$_POST['listeemployes']." AND YEAR(DATE)='".$annee."';";
@@ -357,8 +364,8 @@ public function EmployesHeures(){
 	$VITRE = 0;
 	$COURSES = 0;
 	$PULVE = 0;
-	if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
-			//echo "<script>alert('Aucun employé selectionner'); document.location = ('Employes.php')</script>";
+	if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employï¿½
+			//echo "<script>alert('Aucun employï¿½ selectionner'); document.location = ('Employes.php')</script>";
 		$nom = "Liste";
 		$prenom = "Complete";		
 		$reqsansemployes = '';
@@ -381,9 +388,9 @@ public function EmployesHeures(){
 				$employe[] = $donnees->Nom;					
 				$semaine[] = $donnees->semaine;					
 				$moisT[] = $donnees->mois;
-				if($e != 0){ $employeN = "".$employe[$e-1]."";} //Employé de l'enregistrement précedent.
-				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
-				if($m != 0){ $numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
+				if($e != 0){ $employeN = "".$employe[$e-1]."";} //Employï¿½ de l'enregistrement prï¿½cedent.
+				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement prï¿½cedent.
+				if($m != 0){ $numeromois = $moisT[$m-1];} //Mois de l'enregistrement prï¿½cedent.
 				
 				
 				$annee = $donnees->annee;				
@@ -416,7 +423,7 @@ public function EmployesHeures(){
 					}
 					else if($numeromois == 2)
 					{
-						$mois = "<td> FÉVRIER ".$annee." </td>";
+						$mois = "<td> Fï¿½VRIER ".$annee." </td>";
 					}
 					else if($numeromois == 3)
 					{
@@ -440,7 +447,7 @@ public function EmployesHeures(){
 					}
 					else if($numeromois == 8)
 					{
-						$mois = "<td> AOÛT ". $annee." </td>";
+						$mois = "<td> AOï¿½T ". $annee." </td>";
 					}
 					else if($numeromois == 9)
 					{
@@ -456,7 +463,7 @@ public function EmployesHeures(){
 					}
 					else if($numeromois == 12)
 					{
-						$mois = "<td> DÉCEMBRE ".$annee." </td>";
+						$mois = "<td> Dï¿½CEMBRE ".$annee." </td>";
 					}
 					$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 					$total1 = floatval($total);
@@ -498,7 +505,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 2)
 			{
-				$mois = "<td> FÉVRIER ".$annee." </td>";
+				$mois = "<td> Fï¿½VRIER ".$annee." </td>";
 			}
 			else if($numeromois == 3)
 			{
@@ -522,7 +529,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 8)
 			{
-				$mois = "<td> AOÛT ". $annee." </td>";
+				$mois = "<td> AOï¿½T ". $annee." </td>";
 			}
 			else if($numeromois == 9)
 			{
@@ -538,7 +545,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 12)
 			{
-				$mois = "<td> DÉCEMBRE ".$annee." </td>";
+				$mois = "<td> Dï¿½CEMBRE ".$annee." </td>";
 			}
 			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 			$total1 = floatval($total);
@@ -557,7 +564,7 @@ public function EmployesHeures(){
 												<td> ".$total2."</td>
 											</tr>";
 			$resultsansemployes->closeCursor();
-			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.
+			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour crï¿½er le fichier excel.
 			$vretour = '<ul id="navigation" class="nav-main">
 							<br>
 			
@@ -567,7 +574,7 @@ public function EmployesHeures(){
 								<table id ="TableauNombreHeureEmployes">
 								<caption><h2>'.$nom.' '.$prenom.'</h2></caption>
 								<tr>
-									<th>Employé</th><th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
+									<th>Employï¿½</th><th> Pï¿½riode </th><th> Semaine </th><th> Nombre d\'heures (dï¿½cimal) </th>
 								</tr>'.$vretour;
 			
 			$vretour = $vretour."</table></center></div>";
@@ -585,13 +592,13 @@ public function EmployesHeures(){
 			$vretour = $vretour."";
 		
 	} //Fin du if
-	else { //Sinon le choix est effectué selon un employé  
+	else { //Sinon le choix est effectuï¿½ selon un employï¿½  
 		$req = '';
 		if($_POST['MoisemployesH'] == 'VIDE'){ //Si le mois reste vide
 			$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY semaine ASC";	
 			$_SESSION['MoisemployesH']='';
 		}
-		else //Sinon c'est que le mois et l'annee on été sélectionné.
+		else //Sinon c'est que le mois et l'annee on ï¿½tï¿½ sï¿½lectionnï¿½.
 		{
 			$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC";	
 			$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
@@ -604,12 +611,12 @@ public function EmployesHeures(){
 				while($donnees = $result->fetch(PDO::FETCH_OBJ)){
 					$nom = utf8_decode($donnees->Nom);
 					$prenom = utf8_decode($donnees->Prenom);				
-					$semaine[]=$donnees->semaine; // Declaration d'un tableau dans lequel on stock les numeros de semaine pour ensuite pouvoir afficher le bon (d'où le sem[i-1] ensuite).
-					$moisT[]=$donnees->mois; //Même principe que pour la semaine.
-					if($m > 0){	$numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
-					if($s > 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
+					$semaine[]=$donnees->semaine; // Declaration d'un tableau dans lequel on stock les numeros de semaine pour ensuite pouvoir afficher le bon (d'oï¿½ le sem[i-1] ensuite).
+					$moisT[]=$donnees->mois; //Mï¿½me principe que pour la semaine.
+					if($m > 0){	$numeromois = $moisT[$m-1];} //Mois de l'enregistrement prï¿½cedent.
+					if($s > 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement prï¿½cedent.
 					
-					$annee = $donnees->annee; //L'année en cours.
+					$annee = $donnees->annee; //L'annï¿½e en cours.
 					if($s == 0)
 					{									
 						//Pour le 1er tour de la boucle while.
@@ -623,7 +630,7 @@ public function EmployesHeures(){
 						$COURSES = $donnees->COURSES ;
 						$PULVE = $donnees->PULVERISATEUR;
 					}
-					else if(($donnees->semaine == $semaineN)&&($donnees->mois == $numeromois)) // Dans le cas où la semaine et le mois reste identique
+					else if(($donnees->semaine == $semaineN)&&($donnees->mois == $numeromois)) // Dans le cas oï¿½ la semaine et le mois reste identique
 					{
 						$T1 = $T1 + $donnees->T1 ;
 						$T2 = $T2 + $donnees->T2 ;
@@ -644,7 +651,7 @@ public function EmployesHeures(){
 						}
 						else if($numeromois == 2)
 						{
-							$mois = "<td> FÉVRIER ".$annee." </td>";
+							$mois = "<td> Fï¿½VRIER ".$annee." </td>";
 						}
 						else if($numeromois == 3)
 						{
@@ -668,7 +675,7 @@ public function EmployesHeures(){
 						}
 						else if($numeromois == 8)
 						{
-							$mois = "<td> AOÛT ". $annee." </td>";
+							$mois = "<td> AOï¿½T ". $annee." </td>";
 						}
 						else if($numeromois == 9)
 						{
@@ -684,7 +691,7 @@ public function EmployesHeures(){
 						}
 						else if($numeromois == 12)
 						{
-							$mois = "<td> DÉCEMBRE ".$annee." </td>";
+							$mois = "<td> Dï¿½CEMBRE ".$annee." </td>";
 						}
 						$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 						$total1 = floatval($total);
@@ -725,7 +732,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 2)
 			{
-				$mois = "<td> FÉVRIER ".$annee." </td>";
+				$mois = "<td> Fï¿½VRIER ".$annee." </td>";
 			}
 			else if($numeromois == 3)
 			{
@@ -749,7 +756,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 8)
 			{
-				$mois = "<td> AOÛT ". $annee." </td>";
+				$mois = "<td> AOï¿½T ". $annee." </td>";
 			}
 			else if($numeromois == 9)
 			{
@@ -765,7 +772,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 12)
 			{
-				$mois = "<td> DÉCEMBRE ".$annee." </td>";
+				$mois = "<td> Dï¿½CEMBRE ".$annee." </td>";
 			}
 			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 			$total1 = floatval($total);
@@ -783,17 +790,17 @@ public function EmployesHeures(){
 												<td> ".$total2."</td>
 											</tr>";
 			$result->closeCursor();	
-			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.
+			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour crï¿½er le fichier excel.
 			$vretour = '<ul id="navigation" class="nav-main">
 							<br>
 							
-					
+					<h2> Total des heures </h2>
 							<div >
 								<center>							
 								<table id ="TableauNombreHeureEmployes">
 								<caption><h2>'.$nom.' '.$prenom.'</h2></caption>
 								<tr>
-									<th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
+									<th> Pï¿½riode </th><th> Semaine </th><th> Nombre d\'heures (dï¿½cimal) </th>
 								</tr>'.$vretour;
 			
 			$vretour = $vretour."</table></center></div>";

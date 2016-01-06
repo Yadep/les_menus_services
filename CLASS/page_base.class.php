@@ -96,9 +96,7 @@ class page_base
 					<a href="Clients.php">
 					<u>C</u>lients</a>
 					<?php } ?>
-				</li>
-			
-			
+				</li>			
 				<li>
 					<?php if (!isset($_SESSION['login'])) { ?>
 					<a href="javascript:alert('Vous n\'êtes pas connectés, accès interdit !')">
@@ -107,8 +105,7 @@ class page_base
 					<a href="Employes.php">
 					<u>E</u>mployés</a>
 					<?php } ?>
-				</li>
-				
+				</li>				
 				<li>
 					<?php if (!isset($_SESSION['login'])) { ?>
 					<a href="javascript:alert('Vous n\'êtes pas connectés, accès interdit !')">
@@ -117,14 +114,14 @@ class page_base
 					<a href="Interventions.php">
 					<u>I</u>nterventions</a>
 					<?php } ?>
-				</li>	
+				</li>					
 				<li>
 					<?php if (isset($_SESSION['login'])) { ?>					
 					<a href="Deconnexion.php">
 					<u>D</u>éconnexion</a>
 					<?php } ?>
-				</li>
-				</ul>		
+				</li>			
+				</ul>	
 			</nav>       
           <?php
 	}}
@@ -176,7 +173,8 @@ class page_base
 			 
 			<html lang='fr'>
 				<head>	
-				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">		
+				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
+				<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/> 	
 					<title>
 						Les Menus Services
 					</title>

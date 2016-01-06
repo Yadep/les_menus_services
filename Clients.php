@@ -6,12 +6,17 @@
 			<ul id="navigation" class="nav-main">
 				<li>
 					<a href="ModifierClients.php">
-					Liste de Clients</a>
+					Liste des Clients</a>
 				</li>
 			<br>
 				<li>
+					<a href="ListeClient.php">
+					accès aux fiches Clients </a>
+				</li>
+			<br>		
+				<li>
 					<a href="AjoutClients.php">
-					Ajouter un nouveau Client</a>
+					Créer un nouveau Client</a>
 				</li>
 			<br>				
 				<li>
