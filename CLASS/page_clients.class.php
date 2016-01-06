@@ -889,15 +889,15 @@ class page_clients extends page_base {
 			$resultat = $this->connexion->query($requete);
 			while($clients = $resultat->fetch(PDO::FETCH_OBJ))
 			{
-				$vretour = $vretour."<tr>
-									<td>".$clients->CODESAGE."</td>
-									<td>".$clients->NOM."</td>									
-									<td>".$clients->ADRESSE."</td>
-									<td>".$clients->COMPLEMENT."</td>
-									<td>".$clients->CODEPOSTAL."</td>
-									<td>".$clients->COMMUNE."</td>
-									<td>".$this->Affichetelephone($clients->TELEPHONE)."</td>
-									<td>".$clients->DETAILS."</td>";
+				$vretour = $vretour."<tr> 
+									<td>".utf8_encode ($clients->CODESAGE)."</td>
+									<td>".utf8_encode ($clients->NOM)."</td>									
+									<td>".utf8_encode ($clients->ADRESSE)."</td>
+									<td>".utf8_encode ($clients->COMPLEMENT)."</td>
+									<td>".utf8_encode ($clients->CODEPOSTAL)."</td>
+									<td>".utf8_encode ($clients->COMMUNE)."</td>
+									<td>".utf8_encode ($this->Affichetelephone($clients->TELEPHONE))."</td>
+									<td>".utf8_encode ($clients->DETAILS)."</td>";
 				if($clients->AGE==0)
 				{
 					$vretour=$vretour."<td> - 70 ans </td>";
@@ -949,8 +949,6 @@ class page_clients extends page_base {
 		}
 		
 		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ModifierClients.php'\"/><br> <br></ul>";
-
-		
 		return $vretour;
 	}
 	
@@ -958,7 +956,7 @@ class page_clients extends page_base {
 		$vretourExcel = "";
 		$NOM = "Clients";
 		$Date = date('Y-m-d');		
-		header("Content-type: application/msexcel; charset=Windows-1252");
+		header("Content-type: application/msexcel; charset=UTF-8");
 		header ("Content-Disposition: attachment; filename=$NOM-$Date.xls");
 		//$vretour= $_SESSION['htmlClients'];
 		// Pour pouvoir exporter tous les clients dans un fichier excel. (xls) on met tous le contenu dans une variable de session.

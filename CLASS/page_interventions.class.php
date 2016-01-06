@@ -1008,7 +1008,7 @@ public function Afficher_EM_Interventions()  {
 									
 									<span id='Heures'><input type='number' step='0.25' min='0' name=\"T1\"  autofocus onfocus=\"calculTOTAL(),calculMinute(),CalculHeure()\" Onchange=\"calculTOTAL(),calculMinute(),CalculHeure()\"  value='$T1' class=\"validate[required,custom[numberP]]\"  />
 									Heure(s)</span>
-									<span id='EQA'>équivaut é :</span> 
+									<span id='EQA'>équivaut à :</span> 
 									<span id='HeuresMinutes'><input type='number'  min='0' step='1' name=\"H1\"    Onchange=\"calculDecimal(),calculTOTAL(),CalculHeure()\" value=\"0\" class=\"validate[required,custom[numberP]]\" />
 									H
 									<input type='number' min='0' max='59' step='15' name=\"M1\"    Onchange=\"calculDecimal(),calculTOTAL(),CalculHeure()\" value=\"0\" class=\"validate[required,custom[numberP]]\" />

@@ -185,8 +185,8 @@ class page_employes extends page_base {
 					$InputCB1=$ScriptCB1."<input type='checkbox'   name='ANCIEN_EMPLOYE' onClick='cbChange(this)' value='0'>";
 				}
 				
-				$dataP = utf8_decode($donnees->Prenom);
-				$dataN = utf8_decode($donnees->Nom);
+				$dataP = $donnees->Prenom;
+				$dataN = $donnees->Nom;
 				
 				
 				$a=$a. "
