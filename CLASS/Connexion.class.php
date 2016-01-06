@@ -26,7 +26,7 @@ class connexion extends page_base {
 				$req1 = "SELECT * FROM admin WHERE login = '".$login."' AND pass_md5 = '".$pass."'";
 				$res1 = $this->connexion->query($req1);
 				
-				$dataMA = utf8_encode("alert('Authentification non valide')");
+				$dataMA = "alert('Authentification non valide')"; // utf8_encode("alert('Authentification non valide')")
 				if ($donnees = $res->fetch(PDO::FETCH_OBJ)->NB != 1)
 				{	
 					echo "<script>$dataMA</script>";
@@ -41,7 +41,7 @@ class connexion extends page_base {
 						{
 							session_start();
 							$_SESSION['login'] = $_POST['login'];
-							$dataMA = utf8_encode("alert('Connexion réussie')");
+							$dataMA = "alert('Connexion réussie')"; //utf8_encode("alert('Connexion réussie')");
 							echo"<script>$dataMA</script>";
 							
 						}
