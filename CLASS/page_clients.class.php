@@ -956,7 +956,7 @@ class page_clients extends page_base {
 		$vretourExcel = "";
 		$NOM = "Clients";
 		$Date = date('Y-m-d');		
-		header("Content-type: application/msexcel; charset=UTF-8");
+		header("Content-type: application/msexcel; charset=Windows-1252"); //++++++++++++++++++++++++++++++++++++++++++++++++++++++ CHARSET A CHANGER ISO
 		header ("Content-Disposition: attachment; filename=$NOM-$Date.xls");
 		//$vretour= $_SESSION['htmlClients'];
 		// Pour pouvoir exporter tous les clients dans un fichier excel. (xls) on met tous le contenu dans une variable de session.
@@ -980,15 +980,15 @@ class page_clients extends page_base {
 		while($clientsExcel = $resultatExcel->fetch(PDO::FETCH_OBJ))
 		{
 			$vretourExcel = $vretourExcel."<tr>
-											<td>".$clientsExcel->CODESAGE."</td>
-											<td>".$clientsExcel->NOM."</td>
-											<td>".$clientsExcel->ABREGE."</td>
-											<td>".$clientsExcel->ADRESSE."</td>
-											<td>".$clientsExcel->COMPLEMENT."</td>
-											<td>".$clientsExcel->CODEPOSTAL."</td>
-											<td>".$clientsExcel->COMMUNE."</td>
-											<td>".$this->Affichetelephone($clientsExcel->TELEPHONE)."</td>
-											<td>".$clientsExcel->DETAILS."</td>";
+											<td>".utf8_encode ($clientsExcel->CODESAGE)."</td>
+											<td>".utf8_encode ($clientsExcel->NOM)."</td>
+											<td>".utf8_encode ($clientsExcel->ABREGE)."</td>
+											<td>".utf8_encode ($clientsExcel->ADRESSE)."</td>
+											<td>".utf8_encode ($clientsExcel->COMPLEMENT)."</td>
+											<td>".utf8_encode ($clientsExcel->CODEPOSTAL)."</td>
+											<td>".utf8_encode ($clientsExcel->COMMUNE)."</td>
+											<td>".utf8_encode ($this->Affichetelephone($clientsExcel->TELEPHONE))."</td>
+											<td>".utf8_encode ($clientsExcel->DETAILS)."</td>";
 			if($clientsExcel->AGE==0)
 			{
 				$vretourExcel=$vretourExcel."<td> - 70 ans </td>";

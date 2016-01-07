@@ -649,22 +649,22 @@ public function les_clients($parametre,$id)
 			    // Affichage du tableau de la liste des interventions
 				$a=$a."
 				<tr>
-			    <td id='TD1I'> $donnees->NINTERV</td>
-			    <td id='TD2I'> $donnees->CLIENTSAGE <br> $donnees->NOM</td>
-			    <td>$donnees->Nom</td>
-			    <td id='TD1I' > $jour/$mois/$donnees->annee</td>
-			    <td id='TD1I'> $donnees->T1</td>
-			    <td id='TD1I'> $donnees->T2</td>
+			    <td id='TD1I'>" .utf8_encode ($donnees->NINTERV)."</td>
+			    <td id='TD2I'>" .utf8_encode ($donnees->CLIENTSAGE). "<br>" .utf8_encode ($donnees->NOM)."</td>
+			    <td>".utf8_encode ($donnees->Nom)."</td>
+			    <td id='TD1I' >" .utf8_encode ($jour/$mois/$donnees->annee)."</td>
+			    <td id='TD1I'>" .utf8_encode ($donnees->T1)."</td>
+			    <td id='TD1I'>" .utf8_encode ($donnees->T2)."</td>
 			   
-			    <td id='TD1I'> $donnees->DECH</td>
-			    <td id='TD1I'> $donnees->BRIC</td>
-				<td id='TD1I'> $donnees->VITR</td>
-				<td id='TD1I'> $donnees->COURSES</td>
+			    <td id='TD1I'>" .utf8_encode ($donnees->DECH)."</td>
+			    <td id='TD1I'>" .utf8_encode ($donnees->BRIC)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->VITR)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->COURSES)."</td>
 				 
-				<td id='TD1I'> $donnees->TOTAL</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->TOTAL)."</td>
 				
-				<td id='TD1I'> $donnees->PULVERISATEUR</td>
-				<td id='TD1I'> $donnees->DESH</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->PULVERISATEUR)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->DESH)."</td>
 				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
 					
 				</tr>
@@ -1436,6 +1436,7 @@ public function affiche_Excel()
 		}
 	
 		$a=$a."</table></center>";
+		utf8_encode ($a);
 		return $a;
 }
 
