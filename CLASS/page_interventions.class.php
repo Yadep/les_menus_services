@@ -118,6 +118,72 @@ class page_interventions extends page_base {
 			
 	}
 	
+	
+	
+	public function supp_Interventions()
+	{
+	
+		if (isset($_POST['facture']))
+		{
+			$facture='1';
+		}
+		Else $facture='0';
+	
+		$NINTERV  = $_POST["NumI"] ;
+		$Client = $_POST["CodeC"];
+		$Employe = $_POST["CodeE"];
+	
+	
+		$Date= $_POST['Date'];
+		$DateR1 = explode("/",$Date); //Divise la variables pour ensuite la répartir en Jour/mois/année
+		$jour = $DateR1[0];
+		$mois = $DateR1[1];
+		$annee = $DateR1[2];
+		$DateR = $annee.'-'.$mois.'-'.$jour;
+	
+		$T1 = $_POST["T1"];
+		$T2 = $_POST["T2"];
+		$DESH = $_POST["DESH"];
+		$DECH = $_POST["DECH"];
+		$BRIC = $_POST["BRIC"];
+		$VITR = $_POST["VITR"];
+		$COURSES = $_POST["COURSES"];
+		$PULVERISATEUR = $_POST["PULVERISATEUR"];
+		$TOTAL = $_POST["TOTAL"];
+	
+		$requete="delete interventions set CLIENTSAGE='$Client', NUMEMPLSAGE='$Employe', DATE='$DateR', T1='$T1', T2='$T2', DESH='$DESH', DECH='$DECH', BRIC='$BRIC', VITR='$VITR', COURSES='$COURSES', PULVERISATEUR='$PULVERISATEUR', TOTAL='$TOTAL', facture='$facture' where NINTERV='$NINTERV'";
+		$nblignes=$this->connexion -> exec($requete);
+	
+	
+		if ($nblignes !=1)
+		{
+			echo "<script>alert('Modification impossible')\n";
+			echo "document.location = ('Interventions.php')";
+			echo "</script>";
+		}
+		if ($nblignes ==1)
+		{
+			echo "<script>alert('Modification réussie')\n";
+			echo "document.location = ('Interventions.php')";
+			echo "</script>";
+			$result = null;
+		}
+	
+	
+			
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// Suites de réquetes SQL afin d'obtenir toute les informations selons les interventions de la BDD
 	public function les_interventions()
 	{
@@ -687,9 +753,14 @@ public function les_clients($parametre,$id)
 			   
 					<br>
 				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
-			</form ></centre><br><nav ><ul id='navigation' class='nav-main'></ul></nav>";
+			</form ></centre><br><nav ><ul id='navigation' class='nav-main'></ul></ul></nav>";
+			
+			
+			$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br> <br></ul>";
 			
 		$result=null;
+		
+		
 	return $a;
 }
 
@@ -1159,6 +1230,7 @@ public function Afficher_derniere_intervention()
 	$vretour = $vretour. "
 	         		<center>
 	         					<input type='submit' name='ValidFormMI' value='Modifier'>
+							
 	         		</center>
 	         				<span><br><br>
 	   					</form>
@@ -1235,6 +1307,7 @@ public function choisir_date()
 		<br>	
 				
 				<input type='submit' id='input' name='ValidFormCDI' value='Rechercher'>
+			 	
 								</form>
 						    	<span><br>
 							</center>
@@ -1242,6 +1315,7 @@ public function choisir_date()
 		            </section>
 			</ul>
 			";
+	$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
 	return $a;
 }
 
