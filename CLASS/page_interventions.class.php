@@ -1462,26 +1462,26 @@ public function affiche_Excel()
 			Else { $TOTAL1 = $TOTALa[0];}
 			
 			$a=$a. "<tr>	
-			<td > $donnees->CLIENTSAGE</td>
-			<td > $donnees->NOM</td>
-			<td > $donnees->ADRESSE</td>
-			<td > $donnees->COMPLEMENT</td>
-			<td > $donnees->CODEPOSTAL</td>
-			<td > $donnees->COMMUNE</td>
-			<td>  $donnees->jour / $donnees->mois / $donnees->annee</td>
-			<td > $donnees->NUMEMPLSAGE</td>
-			<td>  $donnees->Nom</td>
-			<td > $T11</td>
-			<td > $T21</td>
+			<td >" .utf8_encode ($donnees->CLIENTSAGE)."</td>
+			<td >" .utf8_encode ($donnees->NOM)."</td>
+			<td >" .utf8_encode ($donnees->ADRESSE)."</td>
+			<td >" .utf8_encode ($donnees->COMPLEMENT)."</td>
+			<td >" .utf8_encode ($donnees->CODEPOSTAL)."</td>
+			<td >" .utf8_encode ($donnees->COMMUNE)."</td>
+			<td> " .utf8_encode ($donnees->jour / $donnees->mois / $donnees->annee)."</td>
+			<td >".utf8_encode ($donnees->NUMEMPLSAGE)."</td>
+			<td> ".utf8_encode ($donnees->Nom)."</td>
+			<td > ".utf8_encode ($T11)."</td>
+			<td >" .utf8_encode ($T21)."</td>
 			
-			<td > $DECH1</td>
-			<td > $BRIC1</td>
-			<td > $VITR1</td>
-			<td > $COURSES1</td>
+			<td > ".utf8_encode ($DECH1)."</td>
+			<td > ".utf8_encode ($BRIC1)."</td>
+			<td > ".utf8_encode ($VITR1)."</td>
+			<td > ".utf8_encode ($COURSES1)."</td>
 			
-			<td > $TOTAL1</td>
-			<td > $PULVERISATEUR1</td>
-			<td > $DESH1</td>
+			<td > ".utf8_encode ($TOTAL1)."</td>
+			<td > ".utf8_encode ($PULVERISATEUR1)."</td>
+			<td > ".utf8_encode ($DESH1)."</td>
 			</tr>";
 			
 			$nb1 = 0;
