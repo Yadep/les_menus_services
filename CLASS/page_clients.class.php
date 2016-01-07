@@ -807,8 +807,8 @@ class page_clients extends page_base {
 						}
 						$vretour = $vretour."<form method='post' id='rappelclients' name='Clientsrappel' action='RappelDInterv.php'>
 								<tr>
-								<td>	<input type='text' name='Codesagerappel' readonly='true' value='".$clients->CODESAGE."'></td>
-															<td>	<input type='text' name='Nomrappel' readonly='true' value='".$clients->NOM."'>	</td>
+								<td>	<input type='text' name='Codesagerappel' readonly='true' value='".utf8_encode($clients->CODESAGE)."'></td>
+															<td>	<input type='text' name='Nomrappel' readonly='true' value='".utf8_encode($clients->NOM)."'>	</td>
 										<td>	<input type='date' name='Daterappel' readonly='true' value='".$this->AfficheDate($clients->DATE)."'>	</td>
 												$RadioRegulier
 												<td>	<input type=checkbox name='Inactifrappel' value='0'>	</td>
