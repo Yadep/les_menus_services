@@ -1062,11 +1062,11 @@ public function Afficher_EM_Interventions()  {
 							<li>
 								<label>Employé(e) :</label>";
 								if (!empty ($_POST['CodeE']))
-										{$vretour=$vretour.$this->les_employes('required','listeemployes');}
+										{$vretour=$vretour.utf8_encode($this->les_employes('required','listeemployes'));}
 								if (!empty ($_POST['CodeEI']))
-										{$vretour=$vretour.$this->les_employes2('required','listeemployes');}
+										{$vretour=$vretour.utf8_encode($this->les_employes2('required','listeemployes'));}
 								if (empty ($_POST['CodeEI']) && empty ($_POST['CodeE'])){
-									$vretour=$vretour.$this->les_employes('required','listeemployes');}
+									$vretour=$vretour.utf8_encode($this->les_employes('required','listeemployes'));}
 								$vretour=$vretour. "	
 								</li>
 	
@@ -1303,7 +1303,7 @@ public function choisir_date()
 		<label>Date fin :</label>
 		<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\" value='$DateF' /> 
 		<br><br><br>
-		<label>Clients :</label>".$this->les_clients2($parametre,'listeclients4')."<br><label>Employé(es) :</label>".$this->les_employes2($parametre,'listeemployes4')."
+		<label>Clients :</label>".utf8_encode($this->les_clients2($parametre,'listeclients4'))."<br><label>Employé(es) :</label>".utf8_encode($this->les_employes2($parametre,'listeemployes4'))."
 		<br>	
 				
 				<input type='submit' id='input' name='ValidFormCDI' value='Rechercher'>
