@@ -155,7 +155,7 @@ class page_clients extends page_base {
 				$requete = 'update clients set CODESAGE="'.$CodeSage.'",NOM="'.$NomClient.'",ABREGE="'.$Abrege.'",ADRESSE="'.$Adresse.'",COMPLEMENT="'.$Complement.'",CODEPOSTAL="'.$CodePostal.'",COMMUNE="'.$Commune.'",TELEPHONE="' .$Telephone .'",DETAILS="'.$Details.'",AGE='.$Age.',REGULARITE='.$Regularite.',INACTIF='.$inactif.' WHERE CODESAGE="'.$CodeSage.'";';
 				$resultat = $this->connexion->query ( $requete );
 				$retour = '<script> alert(\" Modification du client réussie \"); </script>';
-				echo utf8_encode("<script> alert('Modification du client réussie '); </script>");
+				echo "<script> alert('Modification du client réussie '); </script>";
 			
 	
 		}		

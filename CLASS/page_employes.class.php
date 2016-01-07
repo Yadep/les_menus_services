@@ -79,7 +79,7 @@ class page_employes extends page_base {
 	
 		$requete="update employes set Nom='$NomEmploye', Prenom='$PrenomEmploye',`ANCIEN_EMPLOYE`=$AncienneteEmploye where EmplSage=$EmplSage";
 		$nblignes=$this->connexion -> exec($requete);
-		$dataMR = utf8_encode("alert('Modification réussie')");
+		$dataMR = "alert('Modification réussie')"; //$dataMR = utf8_encode("alert('Modification réussie')");
 		
 		if ($nblignes !=1)
 		{
@@ -313,7 +313,7 @@ public function choisir_employe (){
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
 			{
-				$vretour= $vretour.'<option value=' . $donnees->EmplSage. '>'. utf8_decode($donnees->Nom) .' - ' . utf8_decode($donnees->Prenom). '</option>';
+				$vretour= $vretour.'<option value=' . $donnees->EmplSage. '>'. $donnees->Nom .' - ' . $donnees->Prenom. '</option>';
 			}
 		}
 		$result->closeCursor ();
@@ -473,10 +473,10 @@ public function EmployesHeures(){
 						Else { $total2 = $totala[0];}				
 					$vretour= $vretour."
 											<tr>
-												<td>".$employeN."</td>
-												".$mois."
-												<td>".$semaineN."</td>
-												<td> ".$total2."</td>
+												<td>".utf8_encode($employeN)."</td>
+												".utf8_encode($mois)."
+												<td>".utf8_encode($semaineN)."</td>
+												<td> ".utf8_encode($total2)."</td>
 											</tr>";
 					
 					// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
@@ -798,7 +798,7 @@ public function EmployesHeures(){
 							<div >
 								<center>							
 								<table id ="TableauNombreHeureEmployes">
-								<caption><h2>'.$nom.' '.$prenom.'</h2></caption>
+								<caption><h2>'.utf8_encode($nom).' '.utf8_encode($prenom).'</h2></caption>
 								<tr>
 									<th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
 								</tr>'.$vretour;
