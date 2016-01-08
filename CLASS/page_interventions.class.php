@@ -1250,7 +1250,7 @@ public function Afficher_modifier_Interventions() {
 	         		
 	         				
 	   					</form>
-			<form method='POST' id='FormIS'  name='FormIS' action='Ex_suprim_intervention.php'>
+			<form method='POST' id='FormIS'  name='FormIS' action='Ex_supp_intervention.php'>
 			<input type='submit' name='ValidFormS' value='Supprimer'>
 			</form>
 			</center>
@@ -1283,7 +1283,7 @@ public function Afficher_supprimer_Interventions() {
 
 
 	   					</form>
-			<form method='POST' id='FormIS'  name='FormIS' action='Ex_suprim_intervention.php'>
+			<form method='POST' id='FormIS'  name='FormIS' action='Ex_supp_intervention.php'>
 			<input type='submit' name='ValidFormS' value='Supprimer'>
 			</form>
 			</center>
