@@ -102,13 +102,13 @@ class page_interventions extends page_base {
 
 		if ($nblignes !=1)
 		{
-			echo "<script>alert('Modification impossible')\n";
+			echo utf8_decode("<script>alert('Modification impossible')\n");
 			echo "document.location = ('Interventions.php')";
 			echo "</script>";
 		}
 		if ($nblignes ==1)
 		{	
-			echo "<script>alert('Modification réussie')\n";
+			echo utf8_decode("<script>alert('Modification réussie')\n");
 			echo "document.location = ('Interventions.php')";
 			echo "</script>";
 			$result = null;
