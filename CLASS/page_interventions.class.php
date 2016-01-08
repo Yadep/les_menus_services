@@ -731,7 +731,6 @@ public function les_clients($parametre,$id)
 				
 				<td id='TD1I'>" .utf8_encode ($donnees->PULVERISATEUR)."</td>
 				<td id='TD1I'>" .utf8_encode ($donnees->DESH)."</td>
-				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
 						
 				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/>
 					<input type=\"submit\"  name='Supprimer'  value=\" Supprimer \"/></td>
