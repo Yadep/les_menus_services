@@ -46,7 +46,7 @@ class page_employes extends page_base {
 		$nblignes=$this->connexion -> exec($requete);
 		
 		
-		$dataIR = utf8_encode("alert('Insertion réussie')");
+		$dataIR ="alert('Insertion réussie')";
 		
 			if ($nblignes !=1)
 			{

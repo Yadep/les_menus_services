@@ -51,7 +51,7 @@ class page_interventions extends page_base {
 				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.")";
 		$nblignes=$this->connexion -> exec($requete);
 		
-		$dataIR = utf8_encode("alert('Insertion réussie')"); // Corrige l'encodage pour le mettre en bon format sur l'alert
+		$dataIR = "alert('Insertion réussie')"; 
 			if ($nblignes !=1)
 			{				
 				echo "<script>alert('Insertion impossible')</script>";				
@@ -151,7 +151,7 @@ class page_interventions extends page_base {
 		$PULVERISATEUR = $_POST["PULVERISATEUR"];
 		$TOTAL = $_POST["TOTAL"];
 	
-		$requete="delete interventions set CLIENTSAGE='$Client', NUMEMPLSAGE='$Employe', DATE='$DateR', T1='$T1', T2='$T2', DESH='$DESH', DECH='$DECH', BRIC='$BRIC', VITR='$VITR', COURSES='$COURSES', PULVERISATEUR='$PULVERISATEUR', TOTAL='$TOTAL', facture='$facture' where NINTERV='$NINTERV'";
+		$requete="delete interventions FROM intervention where ninterv=$NINTERV";
 		$nblignes=$this->connexion -> exec($requete);
 	
 	
@@ -1201,10 +1201,14 @@ public function Afficher_modifier_Interventions() {
 	$b = $b. "			
 	         		<center><br>
 	         					<input type='submit' name='ValidFormMI' value='Modifier'>
-	         		</center>
-	         				<span><br><br>
+								
+	         		
+	         				
 	   					</form>
-			
+			<form method='POST' id='FormIS'  name='FormIS' action='Ex_suprim_intervention.php'>
+			<input type='submit' name='ValidFormS' value='Suprimer'>
+			</form>
+			</center>
 					</center>
 	    	    </article>
 	    	</section>
