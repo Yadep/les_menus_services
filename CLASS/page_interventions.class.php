@@ -123,47 +123,20 @@ class page_interventions extends page_base {
 	public function supp_Interventions()
 	{
 	
-		if (isset($_POST['facture']))
-		{
-			$facture='1';
-		}
-		Else $facture='0';
-	
-		$NINTERV  = $_POST["NumI"] ;
-		$Client = $_POST["CodeC"];
-		$Employe = $_POST["CodeE"];
-	
-	
-		$Date= $_POST['Date'];
-		$DateR1 = explode("/",$Date); //Divise la variables pour ensuite la répartir en Jour/mois/année
-		$jour = $DateR1[0];
-		$mois = $DateR1[1];
-		$annee = $DateR1[2];
-		$DateR = $annee.'-'.$mois.'-'.$jour;
-	
-		$T1 = $_POST["T1"];
-		$T2 = $_POST["T2"];
-		$DESH = $_POST["DESH"];
-		$DECH = $_POST["DECH"];
-		$BRIC = $_POST["BRIC"];
-		$VITR = $_POST["VITR"];
-		$COURSES = $_POST["COURSES"];
-		$PULVERISATEUR = $_POST["PULVERISATEUR"];
-		$TOTAL = $_POST["TOTAL"];
-	
-		$requete="delete interventions FROM intervention where ninterv=$NINTERV";
+		
+		$requete="DELETE FROM interventions WHERE ninterv=$NINTERV";
 		$nblignes=$this->connexion -> exec($requete);
 	
 	
 		if ($nblignes !=1)
 		{
-			echo "<script>alert('Modification impossible')\n";
+			echo "<script>alert('Suppression impossible')\n";
 			echo "document.location = ('Interventions.php')";
 			echo "</script>";
 		}
 		if ($nblignes ==1)
 		{
-			echo "<script>alert('Modification réussie')\n";
+			echo "<script>alert('Suppression réussie')\n";
 			echo "document.location = ('Interventions.php')";
 			echo "</script>";
 			$result = null;
@@ -730,13 +703,83 @@ public function les_clients($parametre,$id)
 				<td id='TD1I'>" .utf8_encode ($donnees->TOTAL)."</td>
 				
 				<td id='TD1I'>" .utf8_encode ($donnees->PULVERISATEUR)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->DESH)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->DESH)."</td>						
+				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
+			
+				</form>
 						
-				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/>
-					<input type=\"submit\"  name='Supprimer'  value=\" Supprimer \"/></td>
-					
-				</tr>
+						
+						
+						
+				<form name='Supprimer' action=\"Ex_supp_intervention.php\" id='PDF' method=\"post\">";
+				
+				if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+					$DateD = $_POST['DateD'];
+					$DateF = $_POST['DateF'];
+					$a=$a. "
+					<input type='hidden' name='DateD' value=$DateD>
+					<input type='hidden' name='DateF' value=$DateF> ";
+				}
+				
+				$a=$a."
+				<input type='hidden' name='listeemployes' value=".$listeemployes.">
+				<input type='hidden' name='listeclients' value=".$listeclients.">
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+				
+				";
+				
+				
+				if ($donnees->facture==1)
+				{ $donnees->facture='Oui'; }
+				Else
+				{ $donnees->facture='Non';}
+				
+				if ($donnees->TOTAL=='0')
+				{
+					$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+				}
+				if ($donnees->TOTAL=='')
+				{
+					$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+				}
+				
+				if ($donnees->mois<10)
+				{$mois = '0'.$donnees->mois;}
+				else { $mois =$donnees->mois;}
+				
+				if ($donnees->jour<10)
+				{$jour = '0'.$donnees->jour;}
+				else { $jour =$donnees->jour;}
+				
+				// Affichage du tableau de la liste des interventions
+				$a=$a."
+			
+				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \"/></td>
+		
 				</form>	";  
+			
 			}
 				
 				
@@ -1208,7 +1251,7 @@ public function Afficher_modifier_Interventions() {
 	         				
 	   					</form>
 			<form method='POST' id='FormIS'  name='FormIS' action='Ex_suprim_intervention.php'>
-			<input type='submit' name='ValidFormS' value='Suprimer'>
+			<input type='submit' name='ValidFormS' value='Supprimer'>
 			</form>
 			</center>
 					</center>
@@ -1217,6 +1260,44 @@ public function Afficher_modifier_Interventions() {
 		</ul>";
 	return $b;
 }
+
+
+public function Afficher_supprimer_Interventions() {
+
+	$b = $this->SCRIPT();
+	$b = $b."
+		<ul id='navigation'  class='nav-main'>
+			<section>
+				<article>
+					<center>
+						<h2> supprimer des interventions</h2>
+					</center><br>
+					<center>
+						<form method='POST' id='FormI'  name='FormI' action='Ex_supp_intervention.php'>
+					";
+	$b=$b. $this->Afficher_EM_Interventions();
+	$b = $b. "
+	         		<center><br>
+	         					<input type='submit' name='ValidFormMI' value='Modifier'>
+
+
+
+	   					</form>
+			<form method='POST' id='FormIS'  name='FormIS' action='Ex_suprim_intervention.php'>
+			<input type='submit' name='ValidFormS' value='Supprimer'>
+			</form>
+			</center>
+					</center>
+	    	    </article>
+	    	</section>
+		</ul>";
+	return $b;
+}
+
+
+
+
+
 
 public function Afficher_derniere_intervention()
 {
