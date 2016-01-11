@@ -139,10 +139,10 @@ class page_employes extends page_base {
 
      	if ($CCA=='0')
      	{
-		$a="<ul id='navigation' class='nav-main'><h2>Empoyés en activité  : </h2>";
+		$a="<ul id='navigation' class='nav-main'><h2>Employés en activité  : </h2>";
      	}
      	else {
-     		$a="<ul id='navigation' class='nav-main'><h2>Anciens salarié : </h2>";
+     		$a="<ul id='navigation' class='nav-main'><h2>Anciens salariés : </h2>";
      	}
      	
 		$result = $this->les_employes();

@@ -6,12 +6,12 @@
 			<ul id="navigation" class="nav-main">
 				<li>
 					<a href="ModifierClients.php">
-					Liste des Clients</a>
+					Accès aux fiches Clients</a>
 				</li>
 			<br>
 				<li>
 					<a href="ListeClient.php">
-					Accès aux fiches Clients </a>
+					Liste des Clients</a>
 				</li>
 			<br>		
 				<li>

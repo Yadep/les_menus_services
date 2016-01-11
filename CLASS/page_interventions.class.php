@@ -44,11 +44,15 @@ class page_interventions extends page_base {
 		$PULVERISATEUR = $this->connexion -> quote($_POST['PULVERISATEUR']) ;
 		$TOTAL = $this->connexion -> quote($_POST['TOTAL']) ;
 		
+		$REFDEV = $this->connexion -> quote($_POST['RefDev']) ;
+		$TRAVPREV = $this->connexion -> quote($_POST['TravPrev']) ;
+		$PROINTERV = $this->connexion -> quote($_POST['ProInterv']) ;
+		$INFOFACTU = $this->connexion -> quote($_POST['InfoFactu']) ;
 		
 	
 			
-		$requete="insert into interventions (CLIENTSAGE,NUMEMPLSAGE,DATE,T1,T2,DESH,DECH,BRIC,VITR,COURSES,PULVERISATEUR,TOTAL,facture)
-				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.")";
+		$requete="insert into interventions (CLIENTSAGE,NUMEMPLSAGE,DATE,T1,T2,DESH,DECH,BRIC,VITR,COURSES,PULVERISATEUR,TOTAL,facture,RefDevis,DateProInterv,TravauxPrev,InfoFacture)
+				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.",".$REFDEV.",".$TRAVPREV.",".$PROINTERV.",".$INFOFACTU.")";
 		$nblignes=$this->connexion -> exec($requete);
 		
 		$dataIR = "alert('Insertion réussie')"; 
@@ -1033,7 +1037,11 @@ public function Afficher_EM_Interventions()  {
 	if (isset ($_POST['CodeE'])){$CodeE = $_POST['CodeE'];} Else {$CodeE = '';}
 	if (isset ($_POST['CodeEI'])){$CodeEI = $_POST['CodeEI'];} Else {$CodeEI = '';}
 	
-
+	if (isset ($_POST['RefDev'])){$REFDEV = $_POST["RefDev"];} Else {$REFDEV= "";}
+	if (isset ($_POST['TravPrev'])){$TRAVPREV = $_POST["TravPrev"];} Else {$TRAVPREV= "";}
+	if (isset ($_POST['ProInterv'])){$PROINTERV = $_POST["ProInterv"];} Else {$PROINTERV= "";}
+	if (isset ($_POST['InfoFactu'])){$INFOFACTU = $_POST["InfoFactu"];} Else {$INFOFACTU= "";}
+	
 	
 	if (isset ($_POST['Date'])){
 		$jour='';
@@ -1237,6 +1245,24 @@ public function Afficher_EM_Interventions()  {
 									</span>
 									
 									</li>
+									<li>
+									<label>Référence du devis :</label> 
+									<input type='texte' name=\"RefDev\" value='$REFDEV'/>
+									</li>
+									<li>
+									<label>Prochaine date d’intervention :</label>
+									<input type='date' name=\"ProInterv\" value='$PROINTERV'/>
+									</li>
+									<li>
+									<label>Travaux à prévoir :</label>
+									<TEXTAREA name=\"TravPrev\" value='$TRAVPREV' rows='5' cols='34'>
+									</TEXTAREA>
+									</li>
+									<li>
+									<label>Informations facturation :</label>
+									<input type='texte' name=\"InfoFactu\" value='$INFOFACTU' />
+									</li>
+									
 									<li>
 									
 									"
