@@ -558,10 +558,10 @@ public function EmployesHeures(){
 			}
 			$vretour= $vretour."
 											<tr>
-												<td>".$employeN."</td>
-												".$mois."
-												<td>".$semaineN."</td>
-												<td> ".$total2."</td>
+												<td>".utf8_encode($employeN)."</td>
+												".utf8_encode($mois)."
+												<td>".utf8_encode($semaineN)."</td>
+												<td> ".utf8_encode($total2)."</td>
 											</tr>";
 			$resultsansemployes->closeCursor();
 			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.
@@ -705,9 +705,9 @@ public function EmployesHeures(){
 						}	
 						$vretour= $vretour."
 											<tr>
-												".$mois."												 
-												<td>".$semaineN."</td>
-												<td> ".$total2."</td>
+												".utf8_encode($mois)."												 
+												<td>".utf8_encode($semaineN)."</td>
+												<td> ".utf8_encode($total2)."</td>
 											</tr>";
 						
 						// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
@@ -785,9 +785,9 @@ public function EmployesHeures(){
 			}
 			$vretour= $vretour."
 											<tr>
-												".$mois."
-												<td>".$semaineN."</td>
-												<td> ".$total2."</td>
+												".utf8_encode($mois)."
+												<td>".utf8_encode($semaineN)."</td>
+												<td> ".utf8_encode($total2)."</td>
 											</tr>";
 			$result->closeCursor();	
 			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.

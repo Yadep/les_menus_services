@@ -94,7 +94,7 @@ class page_base
 					
 					<?php } else { ?>
 					<a href="Clients.php">
-				<B><span style="border:3px solid black;;padding:15px 20px 15px 20px">	<u>C</u>lients</a></span></a></b>
+				<B><span style="border:3px solid black;;padding:15px 20px 15px 20px"><u>C</u>lients</a></span></a></B>
 					<?php } ?>
 				</li>			
 				<li>
