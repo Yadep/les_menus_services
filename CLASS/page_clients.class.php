@@ -276,10 +276,19 @@ class page_clients extends page_base {
 				$result->closeCursor ();
 				$vretour = $vretour."</select></li></center>
 						<input type='submit' name='afficherC' id='afficherC' value='Afficher' >
-						<input type='submit' name='modifierC' id='modifierC' value='Modifier'> " ;			
+						<input type='submit' name='modifierC' id='modifierC' value='Modifier'> 
+						" ;			
 		}
 		
-		$vretour= $vretour."</form><br><br></ul>";
+		$vretour= $vretour."</form><br>
+				
+				<form id='formlist1' method='POST' action='ModifierClients.php'>
+				<input type='submit' name='' id='' value='Recherche d/'intervention'>
+				</form>
+				
+				
+				
+				<br></ul>";
 		
 		//ENSUITE j'affiche le reste de la page. 
 		
