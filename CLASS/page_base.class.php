@@ -94,7 +94,7 @@ class page_base
 					
 					<?php } else { ?>
 					<a href="Clients.php">
-					<u>C</u>lients</a>
+				<B><span style="border:3px solid black;;padding:15px 20px 15px 20px">	<u>C</u>lients</a></span></a></b>
 					<?php } ?>
 				</li>			
 				<li>
@@ -103,7 +103,7 @@ class page_base
 					
 					<?php } else { ?>
 					<a href="Employes.php">
-					<u>E</u>mployés</a>
+					<B><span style="border:3px solid black;;padding:15px 20px 15px 20px"><u>E</u>mployés</a></span></B>
 					<?php } ?>
 				</li>				
 				<li>
@@ -112,13 +112,13 @@ class page_base
 					
 					<?php } else { ?>
 					<a href="Interventions.php">
-					<u>I</u>nterventions</a>
+				<B>	<span style="border:3px solid black;;padding:15px 20px 15px 20px"><u>I</u>nterventions</a></span></B>
 					<?php } ?>
 				</li>					
 				<li>
 					<?php if (isset($_SESSION['login'])) { ?>					
 					<a href="Deconnexion.php">
-					<u>D</u>éconnexion</a>
+				<B>	<span style="border:3px solid black;;padding:15px 20px 15px 20px"><u>D</u>éconnexion</a></span></B>
 					<?php } ?>
 				</li>			
 				</ul>	
