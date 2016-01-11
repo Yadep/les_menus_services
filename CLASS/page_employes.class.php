@@ -423,7 +423,7 @@ public function EmployesHeures(){
 					}
 					else if($numeromois == 2)
 					{
-						$mois = "<td> FéVRIER ".$annee." </td>";
+						$mois = "<td> FÉVRIER ".$annee." </td>";
 					}
 					else if($numeromois == 3)
 					{
@@ -447,7 +447,7 @@ public function EmployesHeures(){
 					}
 					else if($numeromois == 8)
 					{
-						$mois = "<td> AOéT ". $annee." </td>";
+						$mois = "<td> AOÛT ". $annee." </td>";
 					}
 					else if($numeromois == 9)
 					{
@@ -463,7 +463,7 @@ public function EmployesHeures(){
 					}
 					else if($numeromois == 12)
 					{
-						$mois = "<td> DéCEMBRE ".$annee." </td>";
+						$mois = "<td> DÉCEMBRE ".$annee." </td>";
 					}
 					$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 					$total1 = floatval($total);
@@ -505,7 +505,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 2)
 			{
-				$mois = "<td> FéVRIER ".$annee." </td>";
+				$mois = "<td> FÉVRIER ".$annee." </td>";
 			}
 			else if($numeromois == 3)
 			{
@@ -529,7 +529,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 8)
 			{
-				$mois = "<td> AOéT ". $annee." </td>";
+				$mois = "<td> AOÛT ". $annee." </td>";
 			}
 			else if($numeromois == 9)
 			{
@@ -545,7 +545,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 12)
 			{
-				$mois = "<td> DéCEMBRE ".$annee." </td>";
+				$mois = "<td> DÉCEMBRE ".$annee." </td>";
 			}
 			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 			$total1 = floatval($total);
@@ -651,7 +651,7 @@ public function EmployesHeures(){
 						}
 						else if($numeromois == 2)
 						{
-							$mois = "<td> FéVRIER ".$annee." </td>";
+							$mois = "<td> FÉVRIER ".$annee." </td>";
 						}
 						else if($numeromois == 3)
 						{
@@ -675,7 +675,7 @@ public function EmployesHeures(){
 						}
 						else if($numeromois == 8)
 						{
-							$mois = "<td> AOéT ". $annee." </td>";
+							$mois = "<td> AOÛT ". $annee." </td>";
 						}
 						else if($numeromois == 9)
 						{
@@ -691,7 +691,7 @@ public function EmployesHeures(){
 						}
 						else if($numeromois == 12)
 						{
-							$mois = "<td> DéCEMBRE ".$annee." </td>";
+							$mois = "<td> DÉCEMBRE ".$annee." </td>";
 						}
 						$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 						$total1 = floatval($total);
@@ -732,7 +732,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 2)
 			{
-				$mois = "<td> FéVRIER ".$annee." </td>";
+				$mois = "<td> FÉVRIER ".$annee." </td>";
 			}
 			else if($numeromois == 3)
 			{
@@ -756,7 +756,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 8)
 			{
-				$mois = "<td> AOéT ". $annee." </td>";
+				$mois = "<td> AOÛT ". $annee." </td>";
 			}
 			else if($numeromois == 9)
 			{
@@ -772,7 +772,7 @@ public function EmployesHeures(){
 			}
 			else if($numeromois == 12)
 			{
-				$mois = "<td> DéCEMBRE ".$annee." </td>";
+				$mois = "<td> DÉCEMBRE ".$annee." </td>";
 			}
 			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 			$total1 = floatval($total);

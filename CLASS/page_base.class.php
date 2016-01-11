@@ -118,7 +118,7 @@ class page_base
 				<li>
 					<?php if (isset($_SESSION['login'])) { ?>					
 					<a href="Deconnexion.php">
-				<B>	<span style="border:3px solid black;;padding:15px 20px 15px 20px"><u>D</u>éconnexion</a></span></B>
+				<B>	<span style="border:3px solid black;padding:15px 20px 15px 20px"><u>D</u>éconnexion</a></span></B>
 					<?php } ?>
 				</li>			
 				</ul>	
