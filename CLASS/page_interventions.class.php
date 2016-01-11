@@ -122,9 +122,16 @@ class page_interventions extends page_base {
 	
 	public function supp_Interventions()
 	{
-	
+		if (isset($_POST['facture']))
+		{
+			$facture='1';
+		}
+		Else $facture='0';
 		
-		$requete="DELETE FROM interventions WHERE ninterv=$NINTERV";
+		$NINTERV  = $_POST["NumI"];
+		$Client = $_POST["CodeC"];
+		
+		$requete="DELETE FROM interventions WHERE CLIENTSAGE='$Client'";
 		$nblignes=$this->connexion -> exec($requete);
 	
 	
@@ -775,6 +782,8 @@ public function les_clients($parametre,$id)
 				
 				// Affichage du tableau de la liste des interventions
 				$a=$a."
+						
+					 
 			
 				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \"/></td>
 		
@@ -798,7 +807,13 @@ public function les_clients($parametre,$id)
 			   
 					<br>
 				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
-			</form ></centre><br><nav ><ul id='navigation' class='nav-main'></ul></ul></nav>";
+			</form ></centre><br><nav >
+			
+			<form name='' action= \"ModifierClients.php\"  method=\"post\">
+			<input name='retour' type=\"submit\"style=\" width: 130px\"    value=\" retour vers client \" />
+			</form ></centre><br><nav ><ul id='navigation' class='nav-main'></ul></ul>
+			</ul></ul></nav>";
+			    		
 			
 			
 			$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br> <br></ul>";
@@ -1253,6 +1268,9 @@ public function Afficher_modifier_Interventions() {
 			<form method='POST' id='FormIS'  name='FormIS' action='Ex_supp_intervention.php'>
 			<input type='submit' name='ValidFormS' value='Supprimer'>
 			</form>
+			<form method='POST' name='' id=''  action='interventions.php'>
+			<input type='submit' name='' value='Nouvelle intervention'>
+			</form>
 			</center>
 					</center>
 	    	    </article>
@@ -1358,7 +1376,10 @@ public function enregistrer_interventions() {
 	         		</center>
 	         				<span><br><br>		
 	   					</form>
-					
+						
+			
+			
+			
 					</center>
 	    	    </article>
 	    	</section>
