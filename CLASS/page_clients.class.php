@@ -283,7 +283,7 @@ class page_clients extends page_base {
 		$vretour= $vretour."</form><br>
 				
 				<form id='formlist1' method='POST' action='ModifierClients.php'>
-				<input type='submit' name='' id='' value='Recherche d/'intervention'>
+				<input type='submit' name='' id='' value='Recherche d'intervention'>
 				</form>
 				
 				
@@ -302,7 +302,7 @@ class page_clients extends page_base {
 			$vretour=$vretour.$this->afficherclient($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons précedent et suivant.
 		}
 		//$vretour = $vretour."<a href=\"Clients.php\">Retour</a>"	;
-		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ModifierClients.php'\"/><br> <br></ul>";
 		return $vretour;	
 	}
 		
@@ -957,7 +957,7 @@ class page_clients extends page_base {
 			$vretour = $vretour."Aucun client, désolé !";
 		}
 		
-		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ModifierClients.php'\"/><br> <br></ul>";
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ListeClient.php'\"/><br> <br></ul>";
 		return $vretour;
 	}
 	

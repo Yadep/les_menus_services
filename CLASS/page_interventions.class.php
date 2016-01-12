@@ -1303,9 +1303,10 @@ public function Afficher_modifier_Interventions() {
 	$b=$b. $this->Afficher_EM_Interventions();
 	$b = $b. "			
 	         		<center><br>
-	         					<input type='submit' name='ValidFormMI' value='Modifier'>		
+	         					<input type='submit' name='ValidFormMI' value='Modifier'><br><br>		
 	         				
 	   					</form>
+			
 			<form method='POST' name='' id=''  action='interventions.php'>
 			<input type='submit' name='' value='Nouvelle intervention'>
 			</form>
