@@ -1170,11 +1170,11 @@ public function Afficher_EM_Interventions()  {
 							<li>
 								<label>Employé(e) :</label>";
 								if (!empty ($_POST['CodeE']))
-										{$vretour=$vretour.utf8_encode($this->les_employes('required','listeemployes'));}
+										{$vretour=$vretour.$this->les_employes('required','listeemployes');}
 								if (!empty ($_POST['CodeEI']))
-										{$vretour=$vretour.utf8_encode($this->les_employes2('required','listeemployes'));}
+										{$vretour=$vretour.$this->les_employes2('required','listeemployes');}
 								if (empty ($_POST['CodeEI']) && empty ($_POST['CodeE'])){
-									$vretour=$vretour.utf8_encode($this->les_employes('required','listeemployes'));}
+									$vretour=$vretour.$this->les_employes('required','listeemployes');}
 								$vretour=$vretour. "	
 								</li>
 	

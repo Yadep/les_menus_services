@@ -102,7 +102,7 @@ class page_clients extends page_base {
 			$requete = 'insert into clients values ("'.$CodeSage.'","'.$NomClient.'","'.$Abrege.'","'.$Adresse.'","'.$Complement.'","'.$CodePostal.'","'.$Commune.'","' .$Telephone .'","'.$Details.'",'.$Age.','.$Regularite.','.$inactif.');';
 			$resultat = $this->connexion->query ( $requete );
 			$retour = '<h4>CLIENT INSERER</h4>';	
-			echo utf8_encode("<script> alert(' Insertion du client réussie '); </script>");	
+			echo "<script> alert(' Insertion du client réussie '); </script>";	
 		}
 		return $retour;		
 	}
