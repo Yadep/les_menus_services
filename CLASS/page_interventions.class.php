@@ -49,7 +49,7 @@ class page_interventions extends page_base {
 		$PROINTERV = $this->connexion -> quote($_POST['ProInterv']) ;
 		$INFOFACTU = $this->connexion -> quote($_POST['InfoFactu']) ;
 		
-	
+		
 			
 		$requete="insert into interventions (CLIENTSAGE,NUMEMPLSAGE,DATE,T1,T2,DESH,DECH,BRIC,VITR,COURSES,PULVERISATEUR,TOTAL,facture,RefDevis,DateProInterv,TravauxPrev,InfoFacture)
 				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.",".$REFDEV.",".$TRAVPREV.",".$PROINTERV.",".$INFOFACTU.")";
@@ -99,8 +99,14 @@ class page_interventions extends page_base {
 		$COURSES = $_POST["COURSES"];
 		$PULVERISATEUR = $_POST["PULVERISATEUR"];
 		$TOTAL = $_POST["TOTAL"];
-	
-		$requete="update interventions set CLIENTSAGE='$Client', NUMEMPLSAGE='$Employe', DATE='$DateR', T1='$T1', T2='$T2', DESH='$DESH', DECH='$DECH', BRIC='$BRIC', VITR='$VITR', COURSES='$COURSES', PULVERISATEUR='$PULVERISATEUR', TOTAL='$TOTAL', facture='$facture' where NINTERV='$NINTERV'";
+		
+		$REFDEV = $_POST['RefDev'] ;
+		$TRAVPREV = $_POST['TravPrev'];
+		$PROINTERV = $_POST['ProInterv'] ;
+		$INFOFACTU = $_POST['InfoFactu'] ;
+		
+		
+		$requete="update interventions set CLIENTSAGE='$Client', NUMEMPLSAGE='$Employe', DATE='$DateR', T1='$T1', T2='$T2', DESH='$DESH', DECH='$DECH', BRIC='$BRIC', VITR='$VITR', COURSES='$COURSES', PULVERISATEUR='$PULVERISATEUR', TOTAL='$TOTAL', facture='$facture', RefDevis='$REFDEV', TravauxPrev='$TRAVPREV', DateProInterv='$PROINTERV', InfoFacture='$INFOFACTU' where NINTERV='$NINTERV'";
 		$nblignes=$this->connexion -> exec($requete);
 	
 
@@ -689,9 +695,24 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='mois' value='".$donnees->mois."'>
 			    <input type='hidden' name='annee' value='".$donnees->annee."'>
 			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    
 			 
 				";
-
+				
+			
+				/*
+				<input type='hidden' name='RefDev' value='".$donnees->RefDev."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravPrev."'>
+				<input type='hidden' name='ProIinterv' value='".$donnees->ProInterv."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFactu."'>
+				
+				
+				<td id='TD1I'>" .utf8_encode ($donnees->RefDev)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->TravPrev)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->ProInterv)."</td>
+				<td id='TD1I'>" .utf8_encode ($donnees->InfoFactu)."</td>
+				*/
+				
 				
 				if ($donnees->facture==1)
 				{ $donnees->facture='Oui'; }
@@ -718,27 +739,33 @@ public function les_clients($parametre,$id)
 			    // Affichage du tableau de la liste des interventions
 				$a=$a."
 				<tr>
-			    <td id='TD1I'>" .utf8_encode ($donnees->NINTERV)."</td>
-			    <td id='TD2I'>" .utf8_encode ($donnees->CLIENTSAGE). "<br>" .utf8_encode ($donnees->NOM)."</td>
-			    <td>".utf8_encode ($donnees->Nom)."</td>
-			    <td id='TD1I' >" .utf8_encode ($jour/$mois/$donnees->annee)."</td>
-			    <td id='TD1I'>" .utf8_encode ($donnees->T1)."</td>
-			    <td id='TD1I'>" .utf8_encode ($donnees->T2)."</td>
+			     <td id='TD1I'> $donnees->NINTERV</td>
+			    <td id='TD2I'>" .utf8_encode($donnees->CLIENTSAGE)." <br>" .utf8_encode($donnees->NOM)."</td>
+			    <td>".utf8_encode($donnees->Nom)."</td>
+			    <td id='TD1I' > $jour/$mois/$donnees->annee</td>
+			    <td id='TD1I'> $donnees->T1</td>
+			    <td id='TD1I'> $donnees->T2</td>
 			   
-			    <td id='TD1I'>" .utf8_encode ($donnees->DECH)."</td>
-			    <td id='TD1I'>" .utf8_encode ($donnees->BRIC)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->VITR)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->COURSES)."</td>
+			    <td id='TD1I'> $donnees->DECH</td>
+			    <td id='TD1I'> $donnees->BRIC</td>
+				<td id='TD1I'> $donnees->VITR</td>
+				<td id='TD1I'> $donnees->COURSES</td>
 				 
-				<td id='TD1I'>" .utf8_encode ($donnees->TOTAL)."</td>
+				<td id='TD1I'> $donnees->TOTAL</td>
 				
-				<td id='TD1I'>" .utf8_encode ($donnees->PULVERISATEUR)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->DESH)."</td>						
+				<td id='TD1I'> $donnees->PULVERISATEUR</td>
+				<td id='TD1I'> $donnees->DESH</td>
+
+				
 				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
 			
 				</form>
-												
-				<form name='Supprimer' action=\"Supp_interventions.php\" id='PDF' method=\"post\">";
+
+						
+						
+						
+						
+						<form name='Supprimer' action=\"Supp_interventions.php\" id='PDF' method=\"post\">";
 
 					if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
 						$DateD = $_POST['DateD'];
@@ -775,6 +802,7 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='annee' value='".$donnees->annee."'>
 			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
 			 
+			    
 				";
 
 				
@@ -792,20 +820,15 @@ public function les_clients($parametre,$id)
 					$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
 				}
 				
-				if ($donnees->mois<10)
-				{$mois = '0'.$donnees->mois;}
-				else { $mois =$donnees->mois;}
-				
-				if ($donnees->jour<10)
-				{$jour = '0'.$donnees->jour;}
-				else { $jour =$donnees->jour;}
+			
 				
 			    // Affichage du tableau de la liste des interventions
 				$a=$a."
 										
 				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \" /></td>
 			
-				</form>		";
+				</form>
+						";
 						
 						
  
