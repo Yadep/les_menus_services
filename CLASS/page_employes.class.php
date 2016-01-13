@@ -364,6 +364,7 @@ public function EmployesHeures(){
 	$VITRE = 0;
 	$COURSES = 0;
 	$PULVE = 0;
+	$heuremois = 0;
 	if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
 			//echo "<script>alert('Aucun employé selectionner'); document.location = ('Employes.php')</script>";
 		$nom = "Liste";
@@ -468,17 +469,35 @@ public function EmployesHeures(){
 					$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 					$total1 = floatval($total);
 					$totala = explode('.',$total1);
+					number_format($heuremois, 4);
 					if (isset ($totala[1]) ){
 						$total2 = $totala[0].','.$totala[1];}
-						Else { $total2 = $totala[0];}				
-					$vretour= $vretour."
+						Else { $total2 = $totala[0];}
+						$vretour= $vretour."
 											<tr>
 												<td>".utf8_encode($employeN)."</td>
 												".utf8_encode($mois)."
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
-					
+						$heuremois = $heuremois + $total;
+					if(($employeN == $donnees->Nom)&&($numeromois != $donnees->mois)) //Si l'employe reste identique et le mois change et que la semaine change.
+					{
+							
+							$vretour= $vretour."
+										<tr>
+												<td>".utf8_encode($employeN)."</td>
+												".utf8_encode($mois)."
+												<td>MOIS ENTIER</td>
+												<td> ".utf8_encode($heuremois)."</td>
+											</tr>";
+							
+					}
+					if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) // Lorsque l'employer ou le mois change on réinisialise le nombre d'heure par mois
+					{
+					 $heuremois = 0;
+					}
+
 					// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
 					$T1 = $donnees->T1 ;
 					$T2 = $donnees->T2 ;
