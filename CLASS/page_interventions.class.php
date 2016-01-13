@@ -803,7 +803,7 @@ public function les_clients($parametre,$id)
 			    // Affichage du tableau de la liste des interventions
 				$a=$a."
 										
-				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \"/></td>
+				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \" /></td>
 			
 				</form>		";
 						
@@ -1335,7 +1335,7 @@ public function Afficher_supprimer_Interventions() {
 	$b=$b. $this->Afficher_EM_Interventions();
 	$b = $b. "
 	         		<center><br>
-	         					<input type='submit' name='ValidFormMI' value='Supprimer'>
+	         					<input type='submit' name='ValidFormMI' value='Supprimer' onclick=\"return confirm('Êtes vous sur de vouloir supprimer ?');\">
 
 	   					</form>
 			
