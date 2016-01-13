@@ -652,7 +652,7 @@ public function les_clients($parametre,$id)
 					<table id='TBZHEBRA' border='1'>
 					<tr><th>Numéro</th><th>Client</th><th>Employé(e)</th>
 					<th>Date</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th>
-					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th></tr>";
+					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
 			
 			
 				
@@ -695,22 +695,20 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='mois' value='".$donnees->mois."'>
 			    <input type='hidden' name='annee' value='".$donnees->annee."'>
 			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
-			    
+			    		
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>				
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
 			 
 				";
 				
 			
 				/*
-				<input type='hidden' name='RefDev' value='".$donnees->RefDev."'>
-				<input type='hidden' name='TravPrev' value='".$donnees->TravPrev."'>
-				<input type='hidden' name='ProIinterv' value='".$donnees->ProInterv."'>
-				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFactu."'>
 				
 				
-				<td id='TD1I'>" .utf8_encode ($donnees->RefDev)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->TravPrev)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->ProInterv)."</td>
-				<td id='TD1I'>" .utf8_encode ($donnees->InfoFactu)."</td>
+				
+			
 				*/
 				
 				
@@ -739,7 +737,7 @@ public function les_clients($parametre,$id)
 			    // Affichage du tableau de la liste des interventions
 				$a=$a."
 				<tr>
-			     <td id='TD1I'> $donnees->NINTERV</td>
+			    <td id='TD1I'> $donnees->NINTERV</td>
 			    <td id='TD2I'>" .utf8_encode($donnees->CLIENTSAGE)." <br>" .utf8_encode($donnees->NOM)."</td>
 			    <td>".utf8_encode($donnees->Nom)."</td>
 			    <td id='TD1I' > $jour/$mois/$donnees->annee</td>
@@ -756,6 +754,10 @@ public function les_clients($parametre,$id)
 				<td id='TD1I'> $donnees->PULVERISATEUR</td>
 				<td id='TD1I'> $donnees->DESH</td>
 
+				<td id='TD1I'>$donnees->RefDevis</td>
+				<td id='TD1I'>$donnees->DateProInterv</td>
+				<td id='TD1I'>$donnees->TravauxPrev</td>
+				<td id='TD1I'>$donnees->InfoFacture</td>
 				
 				<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
 			
@@ -801,6 +803,11 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='mois' value='".$donnees->mois."'>
 			    <input type='hidden' name='annee' value='".$donnees->annee."'>
 			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    		
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>				
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
 			 
 			    
 				";
