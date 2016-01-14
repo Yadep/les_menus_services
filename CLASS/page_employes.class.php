@@ -365,6 +365,7 @@ public function EmployesHeures(){
 	$COURSES = 0;
 	$PULVE = 0;
 	$heuremois = 0;
+	$compteligne = 0;
 	if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
 			//echo "<script>alert('Aucun employé selectionner'); document.location = ('Employes.php')</script>";
 		$nom = "Liste";
@@ -379,6 +380,7 @@ public function EmployesHeures(){
 		{
 			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC,mois DESC,EmplSage ASC; ";
 			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			
 			$_SESSION['MoisemployesH']='';
 		}
 		$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];
@@ -386,6 +388,7 @@ public function EmployesHeures(){
 			
 						
 			while($donnees = $resultsansemployes->fetch(PDO::FETCH_OBJ)){
+				
 				$employe[] = $donnees->Nom;					
 				$semaine[] = $donnees->semaine;					
 				$moisT[] = $donnees->mois;
@@ -582,6 +585,7 @@ public function EmployesHeures(){
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
+			
 			$resultsansemployes->closeCursor();
 			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.
 			$vretour = '<ul id="navigation" class="nav-main">
@@ -728,6 +732,22 @@ public function EmployesHeures(){
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
+						$heuremois = $heuremois + $total;
+						if($numeromois != $donnees->mois) //Si l'employe reste identique et le mois change et que la semaine change.
+						{
+								
+							$vretour= $vretour."
+										<tr>
+												".utf8_encode($mois)."
+												<td>MOIS ENTIER</td>
+												<td> ".utf8_encode($heuremois)."</td>
+											</tr>";
+								
+						}
+						if($numeromois != $donnees->mois) // Lorsque l'employer ou le mois change on réinisialise le nombre d'heure par mois
+						{
+							$heuremois = 0;
+						}
 						
 						// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
 						$T1 = $donnees->T1 ;
