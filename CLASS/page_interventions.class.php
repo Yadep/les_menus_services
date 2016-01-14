@@ -703,13 +703,7 @@ public function les_clients($parametre,$id)
 			 
 				";
 				
-			
-				/*
-				
-				
-				
-			
-				*/
+		
 				
 				
 				if ($donnees->facture==1)
@@ -1338,7 +1332,10 @@ public function Afficher_modifier_Interventions() {
 	   					</form>
 			
 			<form method='POST' name='' id=''  action='interventions.php'>
-			<input type='submit' name='' value='Nouvelle intervention'>
+			<input type='submit' name='' value='Nouvelle intervention'><br><br>
+			</form>
+			<form method='POST' name='' id=''  action='Interventions.php'>
+			<input type='submit' name='' value='retour'>
 			</form>
 			</center>
 					</center>
@@ -1366,8 +1363,11 @@ public function Afficher_supprimer_Interventions() {
 	$b = $b. "
 	         		<center><br>
 	         					<input type='submit' name='ValidFormMI' value='Supprimer' onclick=\"return confirm('Êtes vous sur de vouloir supprimer ?');\">
-
+<br><br>
 	   					</form>
+			<form method='POST' name='' id=''  action='Interventions.php'>
+			<input type='submit' name='' value='retour'>
+			</form>
 			
 			</center>
 					</center>
@@ -1561,7 +1561,7 @@ public function affiche_Excel()
 		$TotalVITR = '0';
 		$TotalCOURSES = '0';
 		$TotalPULVERISATEUR = '0';
-		$a=$a. "<center><table border='1'><tr><th>CLIENTSAGE</th><th>CLIENTS.Nom</th><th>Adresse</th><th>COMPLEMENT</th><th>CODE POSTAL</th><th>COMMUNE</th><th>Date</th><th>NUMEMPLSAGE</th><th>EMPLOYES.Nom</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th><th>VITR</th><th>COUR</th><th>TOTAL</th><th>PULVE</th><th>DESH</th></tr>";
+		$a=$a. "<center><table border='1'><tr><th>CLIENTSAGE</th><th>CLIENTS.Nom</th><th>Adresse</th><th>COMPLEMENT</th><th>CODE POSTAL</th><th>COMMUNE</th><th>Date</th><th>NUMEMPLSAGE</th><th>EMPLOYES.Nom</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th><th>VITR</th><th>COUR</th><th>TOTAL</th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
 		$nb = $result->rowCount();
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ))
 		{
@@ -1641,7 +1641,7 @@ public function affiche_Excel()
 			<td >" .utf8_encode ($donnees->COMPLEMENT)."</td>
 			<td >" .utf8_encode ($donnees->CODEPOSTAL)."</td>
 			<td >" .utf8_encode ($donnees->COMMUNE)."</td>
-			<td> " .utf8_encode ($donnees->jour / $donnees->mois / $donnees->annee)."</td>
+			<td>  $donnees->jour / $donnees->mois / $donnees->annee</td>
 			<td >".utf8_encode ($donnees->NUMEMPLSAGE)."</td>
 			<td> ".utf8_encode ($donnees->Nom)."</td>
 			<td > ".utf8_encode ($T11)."</td>
@@ -1655,6 +1655,11 @@ public function affiche_Excel()
 			<td > ".utf8_encode ($TOTAL1)."</td>
 			<td > ".utf8_encode ($PULVERISATEUR1)."</td>
 			<td > ".utf8_encode ($DESH1)."</td>
+					
+			<td id='TD1I'>$donnees->RefDevis</td>
+			<td id='TD1I'>$donnees->DateProInterv</td>
+			<td id='TD1I'>$donnees->TravauxPrev</td>
+			<td id='TD1I'>$donnees->InfoFacture</td>
 			</tr>";
 			
 			$nb1 = 0;
