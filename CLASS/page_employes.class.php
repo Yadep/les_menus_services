@@ -485,7 +485,7 @@ public function EmployesHeures(){
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
 						$heuremois = $heuremois + $total;
-					if(($employeN == $donnees->Nom)&&($numeromois != $donnees->mois)) //Si l'employe reste identique et le mois change et que la semaine change.
+					if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) //Si l'employe reste identique et le mois change et que la semaine change.
 					{
 							
 							$vretour= $vretour."
