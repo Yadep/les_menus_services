@@ -373,13 +373,13 @@ public function EmployesHeures(){
 		$reqsansemployes = '';
 		if($_POST['MoisemployesH'] == 'VIDE'){
 			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY mois ASC, semaine ASC,EmplSage ASC; ";
-			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine, DAY(DATE) as jour FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
 			$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
 		}
 		else 
 		{
 			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC,mois DESC,EmplSage ASC; ";
-			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine, DAY(DATE) as jour FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
 			
 			$_SESSION['MoisemployesH']='';
 		}
@@ -408,7 +408,7 @@ public function EmployesHeures(){
 					$COURSES = $donnees->COURSES ;
 					$PULVE = $donnees->PULVERISATEUR;
 				}
-				else if((($employeN == $donnees->Nom)&&($semaineN == $donnees->semaine))&&($numeromois == $donnees->mois)){ //Si l'employe et la semaine reste identique.
+				else if((($employeN == $donnees->Nom)&&($semaineN == $donnees->semaine))&&($numeromois == $donnees->mois)){ //Si l'employe, la semaine et le mois reste identique.
 					
 					$T1 = $T1 + $donnees->T1 ;
 					$T2 = $T2 + $donnees->T2 ;
@@ -601,7 +601,15 @@ public function EmployesHeures(){
 								<tr>
 									<th>Employé</th><th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
 								</tr>'.$vretour;
-			
+			$heuremois = $heuremois + $total;
+				$vretour= $vretour."
+										<tr>
+												<td>".utf8_encode($employeN)."</td>
+												".utf8_encode($mois)."
+												<td>MOIS ENTIER</td>
+												<td> ".utf8_encode($heuremois)."</td>
+											</tr>";
+
 			$vretour = $vretour."</table></center></div>";
 			
 			$_SESSION['html'] = $vretour."</ul>"; //Pour generer l'excel PAS Besoin des boutons dans le document generer.
@@ -630,7 +638,6 @@ public function EmployesHeures(){
 		}
 			//$_SESSION['listeemployes']=$_POST['listeemployes'];
 			$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];			
-			
 			$result = $this->connexion->query($req);	
 				
 				while($donnees = $result->fetch(PDO::FETCH_OBJ)){
@@ -846,6 +853,13 @@ public function EmployesHeures(){
 									<th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
 								</tr>'.$vretour;
 			
+			$heuremois = $heuremois + $total;
+			$vretour= $vretour."			<tr>".$mois."
+												<td>MOIS ENTIER</td>
+												<td> ".utf8_encode($heuremois)."</td>
+											</tr>";
+				
+			
 			$vretour = $vretour."</table></center></div>";
 			
 			$_SESSION['html'] = $vretour."</ul>"; //Pour generer l'excel PAS Besoin des boutons dans le document generer.
@@ -862,7 +876,6 @@ public function EmployesHeures(){
 
 		}  //Fin du else   
 		$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Employes.php'\"/><br> <br></ul>";
-		
 		return $vretour;
 	}
 	
