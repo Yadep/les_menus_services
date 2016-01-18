@@ -1334,7 +1334,7 @@ public function Afficher_modifier_Interventions() {
 			<form method='POST' name='' id=''  action='interventions.php'>
 			<input type='submit' name='' value='Nouvelle intervention'><br><br>
 			</form>
-			<form method='POST' name='' id=''  action='Interventions.php'>
+			<form method='POST' name='FormI' id='FormI'  action='Modif_interventions.php'>
 			<input type='submit' name='' value='retour'>
 			</form>
 			</center>
@@ -1488,7 +1488,7 @@ public function choisir_date()
 		            </section>
 			</ul>
 			";
-	$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+	$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br> <br></ul>";
 	return $a;
 }
 
