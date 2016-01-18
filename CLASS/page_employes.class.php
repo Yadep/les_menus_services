@@ -852,14 +852,16 @@ public function EmployesHeures(){
 								<tr>
 									<th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
 								</tr>'.$vretour;
-			
 			$heuremois = $heuremois + $total;
+			if($heuremois != null)
+			{
+
 			$vretour= $vretour."			<tr>".$mois."
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";
 				
-			
+			}
 			$vretour = $vretour."</table></center></div>";
 			
 			$_SESSION['html'] = $vretour."</ul>"; //Pour generer l'excel PAS Besoin des boutons dans le document generer.
