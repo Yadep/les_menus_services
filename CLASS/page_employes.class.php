@@ -469,7 +469,8 @@ public function EmployesHeures(){
 					{
 						$mois = "<td> DÉCEMBRE ".$annee." </td>";
 					}
-					$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+				//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+					$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES;
 					$total1 = floatval($total);
 					$totala = explode('.',$total1);
 					number_format($heuremois, 4);
@@ -569,7 +570,8 @@ public function EmployesHeures(){
 			{
 				$mois = "<td> DÉCEMBRE ".$annee." </td>";
 			}
-			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+		//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+			$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES ;
 			$total1 = floatval($total);
 			$totala = explode('.',$total1);
 			if (isset ($totala[1]) ){
@@ -716,7 +718,8 @@ public function EmployesHeures(){
 						{
 							$mois = "<td> DÉCEMBRE ".$annee." </td>";
 						}
-						$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+					//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+						$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES;
 						$total1 = floatval($total);
 						$totala = explode('.',$total1);
 						if (isset ($totala[1]) ){
@@ -814,6 +817,7 @@ public function EmployesHeures(){
 				$mois = "<td> DÉCEMBRE ".$annee." </td>";
 			}
 			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+			$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES ;
 			$total1 = floatval($total);
 			$totala = explode('.',$total1);
 			if (isset ($totala[1]) ){
