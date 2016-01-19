@@ -489,7 +489,7 @@ public function EmployesHeures(){
 					{
 							
 							$vretour= $vretour."
-										<tr>
+										<tr bgcolor='##ffd700'>
 												<td>".utf8_encode($employeN)."</td>
 												".utf8_encode($mois)."
 												<td>MOIS ENTIER</td>
@@ -603,7 +603,7 @@ public function EmployesHeures(){
 								</tr>'.$vretour;
 			$heuremois = $heuremois + $total;
 				$vretour= $vretour."
-										<tr>
+										<tr bgcolor='##ffd700'>
 												<td>".utf8_encode($employeN)."</td>
 												".utf8_encode($mois)."
 												<td>MOIS ENTIER</td>
@@ -746,8 +746,7 @@ public function EmployesHeures(){
 						{
 								
 							$vretour= $vretour."
-										<tr>
-												".utf8_encode($mois)."
+										<tr bgcolor='##ffd700'>".utf8_encode($mois)."
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";
@@ -855,7 +854,7 @@ public function EmployesHeures(){
 			if($heuremois != null)
 			{
 
-			$vretour= $vretour."			<tr>".$mois."
+			$vretour= $vretour."			<tr bgcolor='##ffd700'>".$mois."
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";

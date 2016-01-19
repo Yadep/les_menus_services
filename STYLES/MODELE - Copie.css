@@ -189,7 +189,9 @@ td {
   text-align : center;	
 }
 
-
+#tab1client tr:nth-child(odd) {
+   background-color: #ccc;
+}
 
 /* Tabcontientrappel table */
 #Tabcontientrappel {
@@ -233,6 +235,9 @@ td {
 
 }
 
+#Tabclientspage tr:nth-child(odd) {
+   background-color: #ccc;
+}
 
 #Tabclientspage td {
 	padding : 1%;
@@ -397,7 +402,9 @@ td {
   
 }
 
-
+#TableauNombreHeureEmployes tr:nth-child(odd) {
+   background-color: #ccc;
+}
 
 /* inputE input type submit */
 #inputE {width:150px;}
@@ -498,7 +505,10 @@ td {
 
 }
 
-
+/* TBZHEBRA table */
+#TBZHEBRA tr:nth-child(odd) {
+   background-color: #ccc;
+}
 
 /* TD2I td */
 #TD2I{
