@@ -396,10 +396,6 @@ public function EmployesHeures(){
 				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
 				if($m != 0){ $numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
 				
-				echo $numeromois;
-				echo '<b><font color="red">';
-				echo $m;
-				echo '<p></b></font>';
 				$annee = $donnees->annee;				
 				if($e == 0){
 					$T1 = $donnees->T1 ;
