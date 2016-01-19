@@ -396,6 +396,7 @@ public function EmployesHeures(){
 				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
 				if($m != 0){ $numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
 				
+
 				$annee = $donnees->annee;				
 				if($e == 0){
 					$T1 = $donnees->T1 ;
@@ -821,7 +822,7 @@ public function EmployesHeures(){
 			{
 				$mois = "<td> DÉCEMBRE ".$annee." </td>";
 			}
-			$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+			//$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 			$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES ;
 			$total1 = floatval($total);
 			$totala = explode('.',$total1);
