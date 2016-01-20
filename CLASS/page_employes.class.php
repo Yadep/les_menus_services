@@ -289,7 +289,11 @@ public function choisir_employe (){
 						<br><form id='formchoisiremployes' method='POST' action='EmployesHeures.php' > ";
 	$result = $this->les_employes();
 	if(isset($result)){
-		$vretour= $vretour."<center><h2>Heures des employés :</h2> 									
+		$vretour= $vretour."<center><h2>Heures des employés :</h2> 	
+							<br>    <input type='radio' name='datedet' value='datedet'> Jour <br>
+			Du	<input type=\"text\" name=\"DateD\" id=\"DateD\"   class=\"validate[optionnal] text-input datepicker\"  />  au 
+				<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\"  /><br>
+							   		<input type='radio' name='datedet' value='moisch'> Mois Complet	<br>
 									<br><label>Mois : </label><select name='MoisemployesH' id='MoisemployesH'>
 										<option value='VIDE'></option>
 										<option value='01'>Janvier</option>
@@ -646,8 +650,8 @@ public function EmployesHeures(){
 					$prenom = utf8_decode($donnees->Prenom);				
 					$semaine[]=$donnees->semaine; // Declaration d'un tableau dans lequel on stock les numeros de semaine pour ensuite pouvoir afficher le bon (d'oé le sem[i-1] ensuite).
 					$moisT[]=$donnees->mois; //Méme principe que pour la semaine.
-					if($m > 0){	$numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
-					if($s > 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
+					if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
+					if($m != 0){ $numeromois = $moisT[$m-1];} //Semaine de l'enregistrement précedent.
 					
 					$annee = $donnees->annee; //L'année en cours.
 					if($s == 0)
