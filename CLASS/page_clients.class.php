@@ -915,7 +915,7 @@ class page_clients extends page_base {
 				
 		
 		
-		echo $_POST['triC'];
+		//echo $_POST['triC'];
 		if($nbtotal > 0)
 		//if($nblignes > 0)
 		{
