@@ -212,6 +212,8 @@ class page_clients extends page_base {
 				<li>
 					<a href='TousClients.php'>
 					Liste de tous les clients</a>
+				
+				
 				</li>
 				</ul>";
 				
@@ -282,7 +284,7 @@ class page_clients extends page_base {
 		
 		$vretour= $vretour."</form><br>
 				
-				<form id='formlist1' method='POST' action='ModifierClients.php'>
+				<form id='formlist1' method='POST' action='Interventions.php'>
 				<input type='submit' name='' id='' value='Recherche d'intervention'>
 				</form>
 				
@@ -310,7 +312,8 @@ class page_clients extends page_base {
 	
 	public function afficherclient($tousCodeSage){ //Fonction qui permet d'afficher un client préalablement choisi dans la liste. 
 		$vretour = "<ul id='navigation' class='nav-main'><br><center>
-				<form id='formAfficheclient' method='POST' action='ModifierClients.php#formAfficheclient' > 
+				<form id='formAfficheclient' method='POST' action='ModifierClients.php#formAfficheclient' >
+				 
 				";
 		
 			
@@ -349,6 +352,8 @@ class page_clients extends page_base {
 			
 			$req= 'SELECT * FROM Clients WHERE CODESAGE =\''.$codesageclients.'\';';
 			$resultat = $this->connexion->query($req);
+			
+			
 			//CodeSage : <input type='text' name='CodeSageClient' value='".$clients."' /><br /><br> ($infoclients->TELEPHONE)
 			while ($infoclients = $resultat->fetch(PDO::FETCH_OBJ)) {
 				$vretour = $vretour."						
@@ -439,7 +444,11 @@ class page_clients extends page_base {
 			$vretour=$vretour."		</form></center></ul>
 											<script> var code = $('#CodeSageClientCache').val();
 												$('#listeclients1 option[value='+code+']').attr('selected', 'selected');
-											</script>";
+											</script>
+			
+			
+					
+					";
 		}
 		else
 		{
@@ -849,7 +858,6 @@ class page_clients extends page_base {
 	
 	
 	
-	
 	public function Atouslesclients()
 	{
 		$lien = "TousClients.php"; //Pour que les chiffres et les fleches ajouter renvoi é la bonne page.
@@ -860,7 +868,10 @@ class page_clients extends page_base {
 		else if (empty($debut))
 		{
 			$debut=0;					// L'offset sert é définir le point de départ.
+			
 		}		
+		
+		
 	
 		$vretour="		
 				<ul id='navigation' class='nav-main'><br>
@@ -891,11 +902,44 @@ class page_clients extends page_base {
 		$nbenr = 0;
 		$cfg_nbres_ppage = 25; // Nombre de réponses par page
 		$cfg_nb_pages    = 10; // Nombre de Né de pages affichés dans la barre
+		
+		$vretour = $vretour."
+				
+
+						
+		<form method='post' action='#'>
+				<input type='radio' id='triC' name='triC' value='Tri' checked> Tri par commune <br>
+				<input type='radio' id='triN' name='triN' value='Tri'> Tri par nom <BR>
+				<input type='submit' id='go' name='go' value='Valider'>
+		</form>";
+				
+		
+		
+		echo $_POST['triC'];
 		if($nbtotal > 0)
 		//if($nblignes > 0)
 		{
+			if(isset($_POST['triC']))
+			{
+				$requete = 'SELECT * FROM clients ORDER BY `COMMUNE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';	
+				$resultat = $this->connexion->query($requete);
+			}
+			elseif(isset($_POST['triN']))
+			{
+				$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+			}
+			else {
+					
 			$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
 			$resultat = $this->connexion->query($requete);
+			}
+			
+			if(isset($_POST['commune']))
+			{
+				$reqcpt = 'SELECT COUNT(*) AS nb FROM clients group by commune;';
+				$result = $this->connexion->query($reqcpt);
+			}
 			while($clients = $resultat->fetch(PDO::FETCH_OBJ))
 			{
 				$vretour = $vretour."<tr> 
@@ -960,6 +1004,8 @@ class page_clients extends page_base {
 		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ListeClient.php'\"/><br> <br></ul>";
 		return $vretour;
 	}
+	
+	
 	
 	public function AfficheExcelClients(){
 		$vretourExcel = "";
@@ -1226,5 +1272,5 @@ class page_clients extends page_base {
 	    }
 		return $vretour;
 	}
-	
 }
+?>

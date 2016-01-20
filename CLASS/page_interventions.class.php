@@ -575,9 +575,10 @@ public function les_clients($parametre,$id)
 	public function affiche_interventions() {
 		
 		
+		
+		
 		$a="
-					
-			
+	
 					
 		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
 
@@ -1325,7 +1326,7 @@ public function Afficher_modifier_Interventions() {
 						<form method='POST' id='FormI'  name='FormI' action='Ex_modif_intervention.php'>
 					";
 	$b=$b. $this->Afficher_EM_Interventions();
-	$b = $b. "			
+	$b = $b. "
 	         		<center><br>
 	         					<input type='submit' name='ValidFormMI' value='Modifier'><br><br>		
 	         				
@@ -1334,9 +1335,10 @@ public function Afficher_modifier_Interventions() {
 			<form method='POST' name='' id=''  action='interventions.php'>
 			<input type='submit' name='' value='Nouvelle intervention'><br><br>
 			</form>
-			<form method='POST' name='FormI' id='FormI'  action='Modif_interventions.php'>
-			<input type='submit' name='' value='retour'>
+			<form method='POST' name='' id=''  action='Modif_interventions.php'>
+			<input type=\"button\" value=\"Retour\" onClick=\"javascript:history.back()\">
 			</form>
+				
 			</center>
 					</center>
 	    	    </article>

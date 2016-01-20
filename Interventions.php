@@ -1,6 +1,8 @@
 <?php
 include_once('CLASS/autoload.php');   // pour inclure nos classes
 
+
+
 $site = new page_interventions('Listeinterventions');
 $site->corps = $site->enregistrer_interventions().$site->choisir_date();	
 $site->affiche();
