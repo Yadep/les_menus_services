@@ -350,8 +350,8 @@ public function EmployesHeures(){
 	$nom = '';
 	$prenom = '';
 	$employeN ='';
-	$semaineN = '1';
-	$numeromois = 1;
+	$semaineN = 0;
+	$numeromois = 0;
 	$mois='';
 	$e = 0;
 	$s = 0;
@@ -373,13 +373,13 @@ public function EmployesHeures(){
 		$reqsansemployes = '';
 		if($_POST['MoisemployesH'] == 'VIDE'){
 			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY mois ASC, semaine ASC,EmplSage ASC; ";
-			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine, DAY(DATE) as jour FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
 			$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
 		}
 		else 
 		{
 			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC,mois DESC,EmplSage ASC; ";
-			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine, DAY(DATE) as jour FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
 			
 			$_SESSION['MoisemployesH']='';
 		}
@@ -484,6 +484,7 @@ public function EmployesHeures(){
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
+
 						$heuremois = $heuremois + $total;
 					if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) //Si l'employe reste identique et le mois change et que la semaine change.
 					{
@@ -580,7 +581,8 @@ public function EmployesHeures(){
 			else{
 				$total2 = $totala[0];
 			}
-			$vretour= $vretour."
+			$semaineN = $semaineN +1;
+		$vretour= $vretour."
 											<tr>
 												<td>".utf8_encode($employeN)."</td>
 												".utf8_encode($mois)."
