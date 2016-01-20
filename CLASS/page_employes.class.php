@@ -347,6 +347,7 @@ public function EmployesHeures(){
 	$requeteS = "SELECT * FROM INTERVENTIONS WHERE NUMEMPLSAGE = ".$_POST['listeemployes']." AND YEAR(DATE)='".$annee."' AND MONTH(DATE)='".$mois."' AND WEEK(DATE,3)='".$semaine."';";
 	$resultatS = $this->connexion->query($requeteS);
 	*/
+	
 	$vretour = '';
 	$employe = array();
 	$semaine = array();
