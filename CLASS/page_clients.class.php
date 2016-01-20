@@ -910,6 +910,7 @@ class page_clients extends page_base {
 		<form method='post' action='#'>
 				<input type='radio' id='triC' name='triC' value='Tri'> Tri par commune <br>
 				<input type='radio' id='triN' name='triN' value='Tri'> Tri par nom <br><br>
+				<input type='radio' id='triCl' name='triCl' value='Tri'> Tri par code client<br><br>
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
 		</form>";
 				
@@ -931,11 +932,16 @@ class page_clients extends page_base {
 				$resultat = $this->connexion->query($requete);
 				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
 			}
+			elseif(isset($_POST['triCl'])){
+				$requete = 'SELECT * FROM clients ORDER BY `CODESAGE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+			}
 			else {
 					
 			$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
 			$resultat = $this->connexion->query($requete);
-			$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+			$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCL.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
 			}
 			
 			/*if(isset($_POST['commune']))
@@ -1081,6 +1087,79 @@ class page_clients extends page_base {
 		$resultatExcel->closeCursor ();
 		$vretourExcel = $vretourExcel."</table></center></ul>";
 		
+		return $vretourExcel;
+	}
+	
+	public function AfficheExcelClientsCL(){
+		$vretourExcel = "";
+		$NOM = "Clients";
+		$Date = date('Y-m-d');
+		header("Content-type: application/msexcel; charset=Windows-1252"); //++++++++++++++++++++++++++++++++++++++++++++++++++++++ CHARSET A CHANGER ISO
+		header ("Content-Disposition: attachment; filename=$NOM-$Date.xls");
+		//$vretour= $_SESSION['htmlClients'];
+		// Pour pouvoir exporter tous les clients dans un fichier excel. (xls) on met tous le contenu dans une variable de session.
+		$requeteExcel = 'SELECT * FROM clients ORDER BY `CODESAGE` ASC ;';
+		$resultatExcel = $this->connexion->query($requeteExcel);
+		$vretourExcel = "<ul id='navigation' class='nav-main'><br><center><table>
+								<tr>
+									<th>CodeSage</th>
+									<th>Nom</th>
+									<th>Abrege</th>
+									<th>Adresse</th>
+									<th>Complement</th>
+									<th>CodePostal</th>
+									<th>Commune</th>
+									<th>Telephone</th>
+									<th>Détails</th>
+									<th>Age </th>
+									<th>Regularite</th>
+									<th>Inactif</th>
+								</tr>";
+		while($clientsExcel = $resultatExcel->fetch(PDO::FETCH_OBJ))
+		{
+			$vretourExcel = $vretourExcel."<tr>
+											<td>".utf8_encode ($clientsExcel->CODESAGE)."</td>
+											<td>".utf8_encode ($clientsExcel->NOM)."</td>
+											<td>".utf8_encode ($clientsExcel->ABREGE)."</td>
+											<td>".utf8_encode ($clientsExcel->ADRESSE)."</td>
+											<td>".utf8_encode ($clientsExcel->COMPLEMENT)."</td>
+											<td>".utf8_encode ($clientsExcel->CODEPOSTAL)."</td>
+											<td>".utf8_encode ($clientsExcel->COMMUNE)."</td>
+											<td>".utf8_encode ($this->Affichetelephone($clientsExcel->TELEPHONE))."</td>
+											<td>".utf8_encode ($clientsExcel->DETAILS)."</td>";
+			if($clientsExcel->AGE==0)
+			{
+				$vretourExcel=$vretourExcel."<td> - 70 ans </td>";
+			}
+			else if($clientsExcel->AGE==1)
+			{
+				$vretourExcel=$vretourExcel."<td> + 70 ans </td>";
+			}
+			if($clientsExcel->REGULARITE==2)
+			{ // Pour non value =2
+				$vretourExcel=$vretourExcel."<td> Non </td>";
+			}
+			else if($clientsExcel->REGULARITE==1)
+			{  //Pour oui value = 1
+				$vretourExcel=$vretourExcel."<td> Oui </td>";
+			}
+			else if($clientsExcel->REGULARITE==0)
+			{ //Pour inconnu value = 0
+				$vretourExcel=$vretourExcel."<td> Inconnu </td>";
+			}
+			if($clientsExcel->inactif==1)
+			{
+				$vretourExcel=$vretourExcel."<td> Oui </td>";
+			}
+			else
+			{
+				$vretourExcel=$vretourExcel."<td> Non </td>";
+			}
+			$vretourExcel = $vretourExcel."</tr>";
+		}
+		$resultatExcel->closeCursor ();
+		$vretourExcel = $vretourExcel."</table></center></ul>";
+	
 		return $vretourExcel;
 	}
 	
