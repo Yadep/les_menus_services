@@ -858,7 +858,7 @@ class page_clients extends page_base {
 	
 	
 	
-	public function Atouslesclients()
+/*	public function Atouslesclients()
 	{
 		$lien = "TousClients.php"; //Pour que les chiffres et les fleches ajouter renvoi é la bonne page.
 		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
@@ -905,33 +905,34 @@ class page_clients extends page_base {
 		
 		$vretour = $vretour."
 				
+		<form method='post' action='#'>
+				<fieldset align='left'>
+				<input type='radio' id='triC' name='triC' value='TriC'> Tri par commune <br><br>
+				<input type='radio' id='triN' name='triN' value='TriN'> Tri par nom <br><br>
+				<input type='radio' id='triCl' name='triCl' value='TriCl'> Tri par code client
+				<input type='submit' id='go' name='go' value='Valider'><br><br>
+				</fieldset>
+		</form>";
+					
+		
 
-				<form method='post' action='#'>	
+		$vretour = $vretour."
+		<form method='post' action='#'>	
 				<fieldset align='right'>
 				<label> Rechercher : </label>
 				<input type='textbox' id'rechercher' name='rechercher' value=''><br><br>
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
 				</fieldset>
-		</form>";		
+		</form>";	
 		
-
-		$vretour = $vretour."
-		
-		<form method='post' action='#'>
-				<fieldset align='left'>
-				<input type='radio' id='triC' name='triC' value='Tri'> Tri par commune <br><br>
-				<input type='radio' id='triN' name='triN' value='Tri'> Tri par nom <br><br>
-				<input type='radio' id='triCl' name='triCl' value='Tri'> Tri par code client
-				<input type='submit' id='go' name='go' value='Valider'><br><br>
-				</fieldset>
-		</form>";
-		
+		$resultat = "";
 		
 		
 		if($nbtotal > 0)
 		{
 			if(isset($_POST['triC']))
 			{
+				echo $_POST['triC'];
 				$requete = 'SELECT * FROM clients ORDER BY `COMMUNE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';	
 				$resultat = $this->connexion->query($requete);
 				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCom.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
@@ -939,6 +940,7 @@ class page_clients extends page_base {
 			}
 			elseif(isset($_POST['triN']))
 			{
+				echo $_POST['triN'];
 				$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
 				$resultat = $this->connexion->query($requete);
 				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
@@ -946,26 +948,22 @@ class page_clients extends page_base {
 			elseif(isset($_POST['triCl'])){
 				$requete = 'SELECT * FROM clients ORDER BY `CODESAGE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
 				$resultat = $this->connexion->query($requete);
-				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
-			}
-			else {
-					
-			$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
-			$resultat = $this->connexion->query($requete);
-			$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCL.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCL.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
 			}
 			
 			/*if(isset($_POST['commune']))
 			{
 				$reqcpt = 'SELECT COUNT(*) AS nb FROM clients group by commune;';
 				$result = $this->connexion->query($reqcpt);
-			}*/
+			}
 			
 			if(isset($_POST['rechercher']))
-		
+			{
 			$recherche = $_POST['rechercher'];
-			$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
-			$resultat = $this->connexion->query($requete);
+			echo $recherche;
+			$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" Or NOM LIKE "%'.$recherche.'%" Or COMPLEMENT LIKE "%'.$recherche.'%" Or ADRESSE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
+			$resultat = $this->connexion->query($requete);			
+			}
 			
 			while($clients = $resultat->fetch(PDO::FETCH_OBJ))
 			{
@@ -1009,20 +1007,24 @@ class page_clients extends page_base {
 				$vretour=$vretour."</tr>";
 				$nbenr = $nbenr + 1;
 			}
+			
 			$resultat->closeCursor ();
+			
 			$vretour = $vretour."</table></td></tr><tr><td>".$this->barre_navigation($nbtotal, $nbenr, $cfg_nbres_ppage, $debut, $cfg_nb_pages)."</td></tr></table>";
 			/*$vretour = $vretour."</table>
 			         			</td>
 								
 			        			</tr><tr>".$this->navigateur($nblignes,$debut,$limite,$lien)."</tr></table>";
-			*/
+			
 			// Puis insertion d'un formulaire pour pouvoir réaliser l'export via un clic bouton.
 			
 			
 			if (isset($_POST['ExcelClients'])){
 				$this->AfficheExcelClients();
 			}
+			
 		}
+		
 		else
 		{
 			$vretour = $vretour."Aucun client, désolé !";
@@ -1030,11 +1032,11 @@ class page_clients extends page_base {
 		
 		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ListeClient.php'\"/><br> <br></ul>";
 		return $vretour;
-	}
+	}*/
 	
 	
-	/*public function Rechercher(){
-		
+	public function Atouslesclients()
+	{
 		$lien = "TousClients.php"; //Pour que les chiffres et les fleches ajouter renvoi é la bonne page.
 		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
 		if(isset($_GET['debut'])){
@@ -1045,9 +1047,9 @@ class page_clients extends page_base {
 			$debut=0;					// L'offset sert é définir le point de départ.
 				
 		}
-		
-		
-		
+	
+	
+	
 		$vretour="
 				<ul id='navigation' class='nav-main'><br>
 				<h3> Liste de tous les clients : </h3>
@@ -1070,15 +1072,40 @@ class page_clients extends page_base {
 									<th id='thregularite'>Regularite</th>
 									<th id='thinactif'>Inactif</th>
 								</tr>";
+		$reqcpt = 'SELECT COUNT(*) AS nb FROM clients;';
+		$result = $this->connexion->query($reqcpt);
+		//$nblignes = $result->fetch(PDO::FETCH_OBJ )->nb;
+		$nbtotal = $result->fetch(PDO::FETCH_OBJ )->nb;
+		$nbenr = 0;
+		$cfg_nbres_ppage = 25; // Nombre de réponses par page
+		$cfg_nb_pages    = 10; // Nombre de Né de pages affichés dans la barre
+	
+	
 		
-		//echo $_POST['rechercher'];
-		$recherche = $_POST['rechercher'];
-		echo $recherche;
-		$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
-		$resultat = $this->connexion->query($requete);
+		$vretour = $vretour."
+		<form method='post' action='#'>
+				<fieldset align='right'>
+				<label> Rechercher : </label>
+				<input type='textbox' id'rechercher' name='rechercher' value=''><br><br>
+				<input type='submit' id='go' name='go' value='Valider'><br><br>
+				</fieldset>
+		</form>";
+	
+		$vretour = $vretour."
 		
 		
 		
+		<form method='post' action='#'>
+				<fieldset align='left'>
+				<input type='radio' id='triC' name='triC' value='TriC'> Tri par commune <br>
+				<input type='radio' id='triN' name='triN' value='TriN'> Tri par nom <br><br>
+				<input type='radio' id='triCl' name='triCl' value='TriCl'> Tri par code client
+				<input type='submit' id='go' name='go' value='Valider'><br><br>
+				<fieldset>
+		</form>";
+	
+	
+	
 		if($nbtotal > 0)
 		{
 			if(isset($_POST['triC']))
@@ -1086,7 +1113,7 @@ class page_clients extends page_base {
 				$requete = 'SELECT * FROM clients ORDER BY `COMMUNE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
 				$resultat = $this->connexion->query($requete);
 				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCom.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
-		
+	
 			}
 			elseif(isset($_POST['triN']))
 			{
@@ -1094,23 +1121,27 @@ class page_clients extends page_base {
 				$resultat = $this->connexion->query($requete);
 				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
 			}
-			elseif(isset($_POST['triCl'])){
-				$requete = 'SELECT * FROM clients ORDER BY `CODESAGE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
-				$resultat = $this->connexion->query($requete);
-				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
-			}
 			else {
 					
-				$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$requete = 'SELECT * FROM clients ORDER BY `CODESAGE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
 				$resultat = $this->connexion->query($requete);
 				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCL.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
 			}
 				
+			
+			if(isset($_POST['rechercher']))
+			{
+				$recherche = $_POST['rechercher'];
+				echo $recherche;
+				$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" Or NOM LIKE "%'.$recherche.'%" Or COMPLEMENT LIKE "%'.$recherche.'%" Or ADRESSE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+			}
+			
 			/*if(isset($_POST['commune']))
-			 {
+				{
 			$reqcpt = 'SELECT COUNT(*) AS nb FROM clients group by commune;';
 			$result = $this->connexion->query($reqcpt);
-			}
+			}*/
 				
 			while($clients = $resultat->fetch(PDO::FETCH_OBJ))
 			{
@@ -1158,9 +1189,9 @@ class page_clients extends page_base {
 			$vretour = $vretour."</table></td></tr><tr><td>".$this->barre_navigation($nbtotal, $nbenr, $cfg_nbres_ppage, $debut, $cfg_nb_pages)."</td></tr></table>";
 			/*$vretour = $vretour."</table>
 			 </td>
-		
+	
 			</tr><tr>".$this->navigateur($nblignes,$debut,$limite,$lien)."</tr></table>";
-			
+			*/
 			// Puis insertion d'un formulaire pour pouvoir réaliser l'export via un clic bouton.
 				
 				
@@ -1172,11 +1203,11 @@ class page_clients extends page_base {
 		{
 			$vretour = $vretour."Aucun client, désolé !";
 		}
-		
-		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='TousClients.php'\"/><br> <br></ul>";
+	
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ListeClient.php'\"/><br> <br></ul>";
 		return $vretour;
-		
-		}*/
+	}
+	
 		
 	public function AfficheExcelClients(){
 		$vretourExcel = "";
@@ -1186,7 +1217,7 @@ class page_clients extends page_base {
 		header ("Content-Disposition: attachment; filename=$NOM-$Date.xls");
 		//$vretour= $_SESSION['htmlClients'];
 		// Pour pouvoir exporter tous les clients dans un fichier excel. (xls) on met tous le contenu dans une variable de session.
-		$requeteExcel = 'SELECT * FROM clients ;';
+		$requeteExcel = 'SELECT * FROM clients ORDER BY `NOM` ASC;';
 		$resultatExcel = $this->connexion->query($requeteExcel);
 		$vretourExcel = "<ul id='navigation' class='nav-main'><br><center><table>
 								<tr>
