@@ -906,14 +906,25 @@ class page_clients extends page_base {
 		$vretour = $vretour."
 				
 
-						
-		<form method='post' action='#'>
-				<input type='radio' id='triC' name='triC' value='Tri'> Tri par commune <br>
-				<input type='radio' id='triN' name='triN' value='Tri'> Tri par nom <br><br>
-				<input type='radio' id='triCl' name='triCl' value='Tri'> Tri par code client<br><br>
+				<form method='post' action='#'>	
+				<fieldset align='right'>
+				<label> Rechercher : </label>
+				<input type='textbox' id'rechercher' name='rechercher' value=''><br><br>
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
+				</fieldset>
+		</form>";		
+		
+
+		$vretour = $vretour."
+		
+		<form method='post' action='#'>
+				<fieldset align='left'>
+				<input type='radio' id='triC' name='triC' value='Tri'> Tri par commune <br><br>
+				<input type='radio' id='triN' name='triN' value='Tri'> Tri par nom <br><br>
+				<input type='radio' id='triCl' name='triCl' value='Tri'> Tri par code client
+				<input type='submit' id='go' name='go' value='Valider'><br><br>
+				</fieldset>
 		</form>";
-				
 		
 		
 		
@@ -949,6 +960,12 @@ class page_clients extends page_base {
 				$reqcpt = 'SELECT COUNT(*) AS nb FROM clients group by commune;';
 				$result = $this->connexion->query($reqcpt);
 			}*/
+			
+			if(isset($_POST['rechercher']))
+		
+			$recherche = $_POST['rechercher'];
+			$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
+			$resultat = $this->connexion->query($requete);
 			
 			while($clients = $resultat->fetch(PDO::FETCH_OBJ))
 			{
@@ -1016,7 +1033,151 @@ class page_clients extends page_base {
 	}
 	
 	
-	
+	/*public function Rechercher(){
+		
+		$lien = "TousClients.php"; //Pour que les chiffres et les fleches ajouter renvoi é la bonne page.
+		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
+		if(isset($_GET['debut'])){
+			$debut = $_GET['debut'];
+		}
+		else if (empty($debut))
+		{
+			$debut=0;					// L'offset sert é définir le point de départ.
+				
+		}
+		
+		
+		
+		$vretour="
+				<ul id='navigation' class='nav-main'><br>
+				<h3> Liste de tous les clients : </h3>
+				<center>
+				<nav>
+				<table id='Tabcontientclientspage' >
+					<tr>
+						<td>
+      					<table id='Tabclientspage' >
+								<tr>
+									<th id='thcodesage'>CodeSage</th>
+									<th id='thnomc'>Nom</th>
+									<th id='thadressec'>Adresse</th>
+									<th id='thcomplement'>Complement</th>
+									<th id='thcodepostal'>Code Postal</th>
+									<th id='thcommune'>Commune</th>
+									<th id='thtelephone'>Telephone</th>
+									<th id='thdetails'>Détails</th>
+									<th id='thage'>Age </th>
+									<th id='thregularite'>Regularite</th>
+									<th id='thinactif'>Inactif</th>
+								</tr>";
+		
+		//echo $_POST['rechercher'];
+		$recherche = $_POST['rechercher'];
+		echo $recherche;
+		$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
+		$resultat = $this->connexion->query($requete);
+		
+		
+		
+		if($nbtotal > 0)
+		{
+			if(isset($_POST['triC']))
+			{
+				$requete = 'SELECT * FROM clients ORDER BY `COMMUNE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCom.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+		
+			}
+			elseif(isset($_POST['triN']))
+			{
+				$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+			}
+			elseif(isset($_POST['triCl'])){
+				$requete = 'SELECT * FROM clients ORDER BY `CODESAGE` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClients.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+			}
+			else {
+					
+				$requete = 'SELECT * FROM clients ORDER BY `NOM` ASC LIMIT '.$limite.' OFFSET '.$debut.' ;';
+				$resultat = $this->connexion->query($requete);
+				$vretour = $vretour."<br><form name='ExcelClients' id='ExcelClients' method='POST' action='ExcelClientsCL.php'><input type='submit' id='ExcelClients' name='ExcelClients' value ='Generer Excel'></form><br></nav></ul><br><br>";
+			}
+				
+			/*if(isset($_POST['commune']))
+			 {
+			$reqcpt = 'SELECT COUNT(*) AS nb FROM clients group by commune;';
+			$result = $this->connexion->query($reqcpt);
+			}
+				
+			while($clients = $resultat->fetch(PDO::FETCH_OBJ))
+			{
+				$vretour = $vretour."<tr>
+									<td>".utf8_encode ($clients->CODESAGE)."</td>
+									<td>".utf8_encode ($clients->NOM)."</td>
+									<td>".utf8_encode ($clients->ADRESSE)."</td>
+									<td>".utf8_encode ($clients->COMPLEMENT)."</td>
+									<td>".utf8_encode ($clients->CODEPOSTAL)."</td>
+									<td>".utf8_encode ($clients->COMMUNE)."</td>
+									<td>".utf8_encode ($this->Affichetelephone($clients->TELEPHONE))."</td>
+									<td>".utf8_encode ($clients->DETAILS)."</td>";
+				if($clients->AGE==0)
+				{
+					$vretour=$vretour."<td> - 70 ans </td>";
+				}
+				else if($clients->AGE==1)
+				{
+					$vretour=$vretour."<td> + 70 ans </td>";
+				}
+				if($clients->REGULARITE==2)
+				{ // Pour non value =2
+					$vretour=$vretour."<td> Non </td>";
+				}
+				else if($clients->REGULARITE==1)
+				{  //Pour oui value = 1
+					$vretour=$vretour."<td> Oui </td>";
+				}
+				else if($clients->REGULARITE==0)
+				{ //Pour inconnu value = 0
+					$vretour=$vretour."<td> Inconnu </td>";
+				}
+				if($clients->inactif==1)
+				{
+					$vretour=$vretour."<td> Oui </td>";
+				}
+				else
+				{
+					$vretour=$vretour."<td> Non </td>";
+				}
+				$vretour=$vretour."</tr>";
+				$nbenr = $nbenr + 1;
+			}
+			$resultat->closeCursor ();
+			$vretour = $vretour."</table></td></tr><tr><td>".$this->barre_navigation($nbtotal, $nbenr, $cfg_nbres_ppage, $debut, $cfg_nb_pages)."</td></tr></table>";
+			/*$vretour = $vretour."</table>
+			 </td>
+		
+			</tr><tr>".$this->navigateur($nblignes,$debut,$limite,$lien)."</tr></table>";
+			
+			// Puis insertion d'un formulaire pour pouvoir réaliser l'export via un clic bouton.
+				
+				
+			if (isset($_POST['ExcelClients'])){
+				$this->AfficheExcelClients();
+			}
+		}
+		else
+		{
+			$vretour = $vretour."Aucun client, désolé !";
+		}
+		
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='TousClients.php'\"/><br> <br></ul>";
+		return $vretour;
+		
+		}*/
+		
 	public function AfficheExcelClients(){
 		$vretourExcel = "";
 		$NOM = "Clients";
@@ -1429,5 +1590,7 @@ class page_clients extends page_base {
 	    }
 		return $vretour;
 	}
+	
+	
 }
 ?>
