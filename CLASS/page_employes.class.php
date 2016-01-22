@@ -290,7 +290,7 @@ public function choisir_employe (){
 	$result = $this->les_employes();
 	if(isset($result)){
 		$vretour= $vretour."<center><h2>Heures des employés :</h2> 	
-							<br>    <input type='radio' name='datedet' value='datedet'> Jour <br>
+							<br>    <input type='radio' name='datedet' id='datedet' value='datedet'> Jour <br>
 			Du	<input type=\"text\" name=\"DateD\" id=\"DateD\"   class=\"validate[optionnal] text-input datepicker\"  />  au 
 				<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\"  /><br>
 							   		<input type='radio' name='datedet' value='moisch'> Mois Complet	<br>
@@ -332,7 +332,14 @@ public function choisir_employe (){
 }
 
 public function EmployesHeures(){	
-	
+	$rbDate = $_POST['datedet'];
+	if ($rbDate == "datedet") {
+		echo $rbDate;
+	}
+	elseif ($rbDate == "moisch")
+	{
+		echo $rbDate;
+	}
 	/*
 	$annee = (date('Y', $date))-1;		
 	$mois = date('m', $date);	//Récupération du mois
@@ -371,6 +378,7 @@ public function EmployesHeures(){
 	$PULVE = 0;
 	$heuremois = 0;
 	$compteligne = 0;
+
 	if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
 			//echo "<script>alert('Aucun employé selectionner'); document.location = ('Employes.php')</script>";
 		$nom = "Liste";
@@ -884,6 +892,7 @@ public function EmployesHeures(){
 		}  //Fin du else   
 		$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Employes.php'\"/><br> <br></ul>";
 		return $vretour;
+	
 	}
 	
 	public function AfficheExcelEmploye(){
