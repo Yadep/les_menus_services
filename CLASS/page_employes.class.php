@@ -290,7 +290,7 @@ public function choisir_employe (){
 	$result = $this->les_employes();
 	if(isset($result)){
 		$vretour= $vretour."<center><h2>Heures des employés :</h2> 	
-							<br>    <input type='radio' name='datedet' id='datedet' value='datedet'> Jour <br>
+							<br>    <input type='radio' name='datedet' id='datedet' value='datedet' required> Jour <br>
 			Du	<input type=\"text\" name=\"DateD\" id=\"DateD\"   class=\"validate[optionnal] text-input datepicker\"  />  au 
 				<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\"  /><br>
 							   		<input type='radio' name='datedet' value='moisch'> Mois Complet	<br>
@@ -332,14 +332,6 @@ public function choisir_employe (){
 }
 
 public function EmployesHeures(){	
-	$rbDate = $_POST['datedet'];
-	if ($rbDate == "datedet") {
-		echo $rbDate;
-	}
-	elseif ($rbDate == "moisch")
-	{
-		echo $rbDate;
-	}
 	/*
 	$annee = (date('Y', $date))-1;		
 	$mois = date('m', $date);	//Récupération du mois
@@ -378,39 +370,46 @@ public function EmployesHeures(){
 	$PULVE = 0;
 	$heuremois = 0;
 	$compteligne = 0;
-
-	if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
+	
+	$rbDate = $_POST['datedet'];
+	if ($rbDate == "datedet") 
+	{
+		
+	}
+	elseif ($rbDate == "moisch")
+	{
+		if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
 			//echo "<script>alert('Aucun employé selectionner'); document.location = ('Employes.php')</script>";
-		$nom = "Liste";
-		$prenom = "Complete";		
-		$reqsansemployes = '';
-		if($_POST['MoisemployesH'] == 'VIDE'){
-			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY mois ASC, semaine ASC,EmplSage ASC; ";
-			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
-			$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
-		}
-		else 
-		{
-			//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC,mois DESC,EmplSage ASC; ";
-			$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
-			
-			$_SESSION['MoisemployesH']='';
-		}
-		$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];
-		$resultsansemployes = $this->connexion->query($reqsansemployes);
-			
-						
-			while($donnees = $resultsansemployes->fetch(PDO::FETCH_OBJ)){
+			$nom = "Liste";
+			$prenom = "Complete";
+			$reqsansemployes = '';
+			if($_POST['MoisemployesH'] == 'VIDE'){
+				//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY mois ASC, semaine ASC,EmplSage ASC; ";
+				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+				$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
+			}
+			else
+			{
+				//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC,mois DESC,EmplSage ASC; ";
+				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+					
+				$_SESSION['MoisemployesH']='';
+			}
+			$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];
+			$resultsansemployes = $this->connexion->query($reqsansemployes);
 				
-				$employe[] = $donnees->Nom;					
-				$semaine[] = $donnees->semaine;					
+		
+			while($donnees = $resultsansemployes->fetch(PDO::FETCH_OBJ)){
+		
+				$employe[] = $donnees->Nom;
+				$semaine[] = $donnees->semaine;
 				$moisT[] = $donnees->mois;
 				if($e != 0){ $employeN = "".$employe[$e-1]."";} //Employé de l'enregistrement précedent.
 				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
 				if($m != 0){ $numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
-				
-
-				$annee = $donnees->annee;				
+		
+		
+				$annee = $donnees->annee;
 				if($e == 0){
 					$T1 = $donnees->T1 ;
 					$T2 = $donnees->T2 ;
@@ -422,7 +421,7 @@ public function EmployesHeures(){
 					$PULVE = $donnees->PULVERISATEUR;
 				}
 				else if((($employeN == $donnees->Nom)&&($semaineN == $donnees->semaine))&&($numeromois == $donnees->mois)){ //Si l'employe, la semaine et le mois reste identique.
-					
+						
 					$T1 = $T1 + $donnees->T1 ;
 					$T2 = $T2 + $donnees->T2 ;
 					$DESH = $DESH + $donnees->DESH ;
@@ -432,7 +431,7 @@ public function EmployesHeures(){
 					$COURSES = $COURSES + $donnees->COURSES ;
 					$PULVE = $PULVE + $donnees->PULVERISATEUR;
 				}
-				else { //Sinon c'est que l'employe change ou la semaine ou le mois. Dans tous les cas il faudra donc afficher. 
+				else { //Sinon c'est que l'employe change ou la semaine ou le mois. Dans tous les cas il faudra donc afficher.
 					if($numeromois == 1)
 					{
 						$mois = "<td> JANVIER ".$annee." </td>";
@@ -482,7 +481,7 @@ public function EmployesHeures(){
 					{
 						$mois = "<td> DÉCEMBRE ".$annee." </td>";
 					}
-				//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+					//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 					$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES;
 					$total1 = floatval($total);
 					$totala = explode('.',$total1);
@@ -497,11 +496,11 @@ public function EmployesHeures(){
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
-
+		
 						$heuremois = $heuremois + $total;
-					if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) //Si l'employe reste identique et le mois change et que la semaine change.
-					{
-							
+						if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) //Si l'employe reste identique et le mois change et que la semaine change.
+						{
+								
 							$vretour= $vretour."
 										<tr bgcolor='##ffd700'>
 												<td>".utf8_encode($employeN)."</td>
@@ -509,30 +508,30 @@ public function EmployesHeures(){
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";
-							
-					}
-					if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) // Lorsque l'employer ou le mois change on réinisialise le nombre d'heure par mois
-					{
-					 $heuremois = 0;
-					}
-
-					// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
-					$T1 = $donnees->T1 ;
-					$T2 = $donnees->T2 ;
-					$DESH = $donnees->DESH ;
-					$DECH = $donnees->DECH ;
-					$BRIC = $donnees->BRIC;
-					$VITRE = $donnees->VITR ;
-					$COURSES = $donnees->COURSES ;
-					$PULVE = $donnees->PULVERISATEUR;
+								
+						}
+						if(($employeN != $donnees->Nom)||($numeromois != $donnees->mois)) // Lorsque l'employer ou le mois change on réinisialise le nombre d'heure par mois
+						{
+							$heuremois = 0;
+						}
+		
+						// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
+						$T1 = $donnees->T1 ;
+						$T2 = $donnees->T2 ;
+						$DESH = $donnees->DESH ;
+						$DECH = $donnees->DECH ;
+						$BRIC = $donnees->BRIC;
+						$VITRE = $donnees->VITR ;
+						$COURSES = $donnees->COURSES ;
+						$PULVE = $donnees->PULVERISATEUR;
 				}
 				$e = $e+1;
 				$s = $s+1;
 				$m= $m+1;
-				
-				
-				
-						
+		
+		
+		
+		
 			} //Fin du while
 			// POUR AFFICHER LE DERNIER CALCUL =)
 			if($numeromois == 1)
@@ -584,7 +583,7 @@ public function EmployesHeures(){
 			{
 				$mois = "<td> DÉCEMBRE ".$annee." </td>";
 			}
-		//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
+			//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
 			$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES ;
 			$total1 = floatval($total);
 			$totala = explode('.',$total1);
@@ -595,20 +594,20 @@ public function EmployesHeures(){
 				$total2 = $totala[0];
 			}
 			$semaineN = $semaineN +1;
-		$vretour= $vretour."
+			$vretour= $vretour."
 											<tr>
 												<td>".utf8_encode($employeN)."</td>
 												".utf8_encode($mois)."
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
-			
+				
 			$resultsansemployes->closeCursor();
 			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.
 			$vretour = '<ul id="navigation" class="nav-main">
 							<br>
-			
-			
+		
+		
 							<div >
 								<center>
 								<table id ="TableauNombreHeureEmployes">
@@ -617,18 +616,18 @@ public function EmployesHeures(){
 									<th>Employé</th><th> Période </th><th> Semaine </th><th> Nombre d\'heures (décimal) </th>
 								</tr>'.$vretour;
 			$heuremois = $heuremois + $total;
-				$vretour= $vretour."
+			$vretour= $vretour."
 										<tr bgcolor='##ffd700'>
 												<td>".utf8_encode($employeN)."</td>
 												".utf8_encode($mois)."
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";
-
+		
 			$vretour = $vretour."</table></center></div>";
-			
+				
 			$_SESSION['html'] = $vretour."</ul>"; //Pour generer l'excel PAS Besoin des boutons dans le document generer.
-			
+				
 			$vretour = $vretour."
 								<br>
 								<form name='excelgen' id='excel' method='POST' action='ExcelEmployes.php'>
@@ -636,156 +635,156 @@ public function EmployesHeures(){
 								</form>
 								<br>
 								</ul>";
-			
+				
 			$vretour = $vretour."";
 		
-	} //Fin du if
-	else { //Sinon le choix est effectué selon un employé  
-		$req = '';
-		if($_POST['MoisemployesH'] == 'VIDE'){ //Si le mois reste vide
-			$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY semaine ASC";	
-			$_SESSION['MoisemployesH']='';
-		}
-		else //Sinon c'est que le mois et l'annee on été sélectionné.
-		{
-			$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC";	
-			$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
-		}
+		} //Fin du if
+		else { //Sinon le choix est effectué selon un employé
+			$req = '';
+			if($_POST['MoisemployesH'] == 'VIDE'){ //Si le mois reste vide
+				$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY semaine ASC";
+				$_SESSION['MoisemployesH']='';
+			}
+			else //Sinon c'est que le mois et l'annee on été sélectionné.
+			{
+				$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC";
+				$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
+			}
 			//$_SESSION['listeemployes']=$_POST['listeemployes'];
-			$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];			
-			$result = $this->connexion->query($req);	
-				while($donnees = $result->fetch(PDO::FETCH_OBJ)){
-					$nom = utf8_decode($donnees->Nom);
-					$prenom = utf8_decode($donnees->Prenom);				
-					$semaine[]=$donnees->semaine; // Declaration d'un tableau dans lequel on stock les numeros de semaine pour ensuite pouvoir afficher le bon (d'oé le sem[i-1] ensuite).
-					$moisT[]=$donnees->mois; //Méme principe que pour la semaine.
-					if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
-					if($m != 0){ $numeromois = $moisT[$m-1];} //Semaine de l'enregistrement précedent.
+			$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];
+			$result = $this->connexion->query($req);
+			while($donnees = $result->fetch(PDO::FETCH_OBJ)){
+				$nom = utf8_decode($donnees->Nom);
+				$prenom = utf8_decode($donnees->Prenom);
+				$semaine[]=$donnees->semaine; // Declaration d'un tableau dans lequel on stock les numeros de semaine pour ensuite pouvoir afficher le bon (d'oé le sem[i-1] ensuite).
+				$moisT[]=$donnees->mois; //Méme principe que pour la semaine.
+				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
+				if($m != 0){ $numeromois = $moisT[$m-1];} //Semaine de l'enregistrement précedent.
 					
-					$annee = $donnees->annee; //L'année en cours.
-					if($s == 0)
-					{									
-						//Pour le 1er tour de la boucle while.
-						
-						$T1 = $donnees->T1 ;
-						$T2 = $donnees->T2 ;
-						$DESH = $donnees->DESH ;
-						$DECH = $donnees->DECH ;
-						$BRIC = $donnees->BRIC;
-						$VITRE = $donnees->VITR ;
-						$COURSES = $donnees->COURSES ;
-						$PULVE = $donnees->PULVERISATEUR;
-					}
-					else if(($donnees->semaine == $semaineN)&&($donnees->mois == $numeromois)) // Dans le cas oé la semaine et le mois reste identique
+				$annee = $donnees->annee; //L'année en cours.
+				if($s == 0)
+				{
+					//Pour le 1er tour de la boucle while.
+		
+					$T1 = $donnees->T1 ;
+					$T2 = $donnees->T2 ;
+					$DESH = $donnees->DESH ;
+					$DECH = $donnees->DECH ;
+					$BRIC = $donnees->BRIC;
+					$VITRE = $donnees->VITR ;
+					$COURSES = $donnees->COURSES ;
+					$PULVE = $donnees->PULVERISATEUR;
+				}
+				else if(($donnees->semaine == $semaineN)&&($donnees->mois == $numeromois)) // Dans le cas oé la semaine et le mois reste identique
+				{
+					$T1 = $T1 + $donnees->T1 ;
+					$T2 = $T2 + $donnees->T2 ;
+					$DESH = $DESH + $donnees->DESH ;
+					$DECH = $DECH + $donnees->DECH ;
+					$BRIC = $BRIC + $donnees->BRIC;
+					$VITRE = $VITRE + $donnees->VITR ;
+					$COURSES = $COURSES + $donnees->COURSES ;
+					$PULVE = $PULVE + $donnees->PULVERISATEUR;
+				}
+				else //Dans le cas ou la semaine change ou le mois.
+				{
+		
+					if($numeromois == 1)
 					{
-						$T1 = $T1 + $donnees->T1 ;
-						$T2 = $T2 + $donnees->T2 ;
-						$DESH = $DESH + $donnees->DESH ;
-						$DECH = $DECH + $donnees->DECH ;
-						$BRIC = $BRIC + $donnees->BRIC;
-						$VITRE = $VITRE + $donnees->VITR ;
-						$COURSES = $COURSES + $donnees->COURSES ;
-						$PULVE = $PULVE + $donnees->PULVERISATEUR;
-					}
-					else //Dans le cas ou la semaine change ou le mois.
-					{
-						
-						if($numeromois == 1)
-						{
-							$mois = "<td> JANVIER ".$annee." </td>";
+						$mois = "<td> JANVIER ".$annee." </td>";
 							
-						}
-						else if($numeromois == 2)
-						{
-							$mois = "<td> FÉVRIER ".$annee." </td>";
-						}
-						else if($numeromois == 3)
-						{
-							$mois = "<td> MARS ".$annee." </td>";
-						}
-						else if($numeromois == 4)
-						{
-							$mois = "<td> AVRIL ".$annee." </td>";
-						}
-						else if($numeromois == 5)
-						{
-							$mois = "<td> MAI ".$annee." </td>";
-						}
-						else if($numeromois == 6)
-						{
-							$mois = "<td> JUIN ".$annee." </td>";
-						}
-						else if($numeromois == 7)
-						{
-							$mois = "<td> JUILLET ". $annee." </td>";
-						}
-						else if($numeromois == 8)
-						{
-							$mois = "<td> AOÛT ". $annee." </td>";
-						}
-						else if($numeromois == 9)
-						{
-							$mois = "<td> SEPTEMBRE ".$annee." </td>";
-						}
-						else if($numeromois == 10)
-						{
-							$mois = "<td> OCTOBRE ".$annee." </td>";
-						}
-						else if($numeromois == 11)
-						{
-							$mois = "<td> NOVEMBRE ".$annee." </td>";
-						}
-						else if($numeromois == 12)
-						{
-							$mois = "<td> DÉCEMBRE ".$annee." </td>";
-						}
+					}
+					else if($numeromois == 2)
+					{
+						$mois = "<td> FÉVRIER ".$annee." </td>";
+					}
+					else if($numeromois == 3)
+					{
+						$mois = "<td> MARS ".$annee." </td>";
+					}
+					else if($numeromois == 4)
+					{
+						$mois = "<td> AVRIL ".$annee." </td>";
+					}
+					else if($numeromois == 5)
+					{
+						$mois = "<td> MAI ".$annee." </td>";
+					}
+					else if($numeromois == 6)
+					{
+						$mois = "<td> JUIN ".$annee." </td>";
+					}
+					else if($numeromois == 7)
+					{
+						$mois = "<td> JUILLET ". $annee." </td>";
+					}
+					else if($numeromois == 8)
+					{
+						$mois = "<td> AOÛT ". $annee." </td>";
+					}
+					else if($numeromois == 9)
+					{
+						$mois = "<td> SEPTEMBRE ".$annee." </td>";
+					}
+					else if($numeromois == 10)
+					{
+						$mois = "<td> OCTOBRE ".$annee." </td>";
+					}
+					else if($numeromois == 11)
+					{
+						$mois = "<td> NOVEMBRE ".$annee." </td>";
+					}
+					else if($numeromois == 12)
+					{
+						$mois = "<td> DÉCEMBRE ".$annee." </td>";
+					}
 					//	$total = $T1 + $T2 + $DECH + $DESH + $BRIC + $VITRE + $COURSES + $PULVE;
-						$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES;
-						$total1 = floatval($total);
-						$totala = explode('.',$total1);
-						if (isset ($totala[1]) ){
-							$total2 = $totala[0].','.$totala[1];
-						}
-						else
-						{
-								$total2 = $totala[0];
-						}	
-						$vretour= $vretour."
+					$total = $T1 + $T2 + $DECH + $BRIC + $VITRE + $COURSES;
+					$total1 = floatval($total);
+					$totala = explode('.',$total1);
+					if (isset ($totala[1]) ){
+						$total2 = $totala[0].','.$totala[1];
+					}
+					else
+					{
+						$total2 = $totala[0];
+					}
+					$vretour= $vretour."
 											<tr>
-												".utf8_encode($mois)."												 
+												".utf8_encode($mois)."
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
-						$heuremois = $heuremois + $total;
-						if($numeromois != $donnees->mois) //Si l'employe reste identique et le mois change et que la semaine change.
-						{
-								
-							$vretour= $vretour."
+					$heuremois = $heuremois + $total;
+					if($numeromois != $donnees->mois) //Si l'employe reste identique et le mois change et que la semaine change.
+					{
+		
+						$vretour= $vretour."
 										<tr bgcolor='##ffd700'>".utf8_encode($mois)."
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";
-								
-						}
-						if($numeromois != $donnees->mois) // Lorsque l'employer ou le mois change on réinisialise le nombre d'heure par mois
-						{
-							$heuremois = 0;
-						}
-						
-						// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
-						$T1 = $donnees->T1 ;
-						$T2 = $donnees->T2 ;
-						$DESH = $donnees->DESH ;
-						$DECH = $donnees->DECH ;
-						$BRIC = $donnees->BRIC;
-						$VITRE = $donnees->VITR ;
-						$COURSES = $donnees->COURSES ;
-						$PULVE = $donnees->PULVERISATEUR;
-					} //FIN DU ELSE 
-					$m = $m + 1 ;
-					$s = $s +1 ;																		
+		
+					}
+					if($numeromois != $donnees->mois) // Lorsque l'employer ou le mois change on réinisialise le nombre d'heure par mois
+					{
+						$heuremois = 0;
+					}
+		
+					// J'envoi le vretour avec les valeurs de l'ancienne semaine puis je mets celles de la nouvelle semaine.
+					$T1 = $donnees->T1 ;
+					$T2 = $donnees->T2 ;
+					$DESH = $donnees->DESH ;
+					$DECH = $donnees->DECH ;
+					$BRIC = $donnees->BRIC;
+					$VITRE = $donnees->VITR ;
+					$COURSES = $donnees->COURSES ;
+					$PULVE = $donnees->PULVERISATEUR;
+				} //FIN DU ELSE
+				$m = $m + 1 ;
+				$s = $s +1 ;
 			} // FIN DU WHILE
-			
+				
 			// POUR AFFICHER LE DERNIER CALCUL =)
 			if($numeromois == 1)
 			{
@@ -852,14 +851,14 @@ public function EmployesHeures(){
 												<td>".utf8_encode($semaineN)."</td>
 												<td> ".utf8_encode($total2)."</td>
 											</tr>";
-			$result->closeCursor();	
+			$result->closeCursor();
 			$_SESSION['NomEmployeH'] = $nom.'_'.$prenom; //SERT pour créer le fichier excel.
 			$vretour = '<ul id="navigation" class="nav-main">
 							<br>
-							
+				
 					<h2> Total des heures </h2>
 							<div >
-								<center>							
+								<center>
 								<table id ="TableauNombreHeureEmployes">
 								<caption><h2>'.utf8_encode($nom).' '.utf8_encode($prenom).'</h2></caption>
 								<tr>
@@ -868,30 +867,37 @@ public function EmployesHeures(){
 			$heuremois = $heuremois + $total;
 			if($heuremois != null)
 			{
-
-			$vretour= $vretour."			<tr bgcolor='##ffd700'>".$mois."
+		
+				$vretour= $vretour."			<tr bgcolor='##ffd700'>".$mois."
 												<td>MOIS ENTIER</td>
 												<td> ".utf8_encode($heuremois)."</td>
 											</tr>";
-				
+		
 			}
 			$vretour = $vretour."</table></center></div>";
-			
+				
 			$_SESSION['html'] = $vretour."</ul>"; //Pour generer l'excel PAS Besoin des boutons dans le document generer.
-			
+				
 			$vretour = $vretour."
-								<br>				
+								<br>
 								<form name='excelgen' id='excel' method='POST' action='ExcelEmployes.php'>
 									<input type='submit' id='exportexcel' class='submit' value='Exporter sous le format Excel'>
-								</form>	
+								</form>
 								<br>
-								</ul>";	
-			
+								</ul>";
+				
 			$vretour = $vretour."";
-
-		}  //Fin du else   
+		
+		}  //Fin du else
 		$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Employes.php'\"/><br> <br></ul>";
 		return $vretour;
+	}
+	else 
+		{
+		echo 'erreur rien sélectionner';
+		}
+	
+	
 	
 	}
 	
