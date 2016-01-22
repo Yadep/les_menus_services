@@ -655,7 +655,7 @@ public function les_clients($parametre,$id)
 					<th>Date</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th>
 					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
 			
-			
+		$bt = 0;
 				
 			// Entrer de toutes les variables pour les transmettres aux autres pages.
 			while ($donnees = $result->fetch(PDO::FETCH_OBJ))
@@ -701,10 +701,9 @@ public function les_clients($parametre,$id)
 				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
 				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
 				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
-			 
+			
 				";
 				
-		
 				
 				
 				if ($donnees->facture==1)
@@ -834,7 +833,21 @@ public function les_clients($parametre,$id)
 						
 						
  
-			
+			/*	if($bt == 0)
+				{
+					$a="
+				<form method='POST' name='FormI' id='FormI'  action='Interventions.php'>
+				
+						<input type='hidden' name='listeemployes' value='".$donnees->listeemployes."'>
+						<input type='hidden' name='listeclients' value='".$donnees->listeclients."'>
+						<input type='hidden' name='NomEmp' value='".$donnees->nomemp."'>
+						<input type='hidden' name='NomClient' value='".$donnees->nomclient."'>
+				<input type='submit' value='Retour'    onClick='javascript:history.back()'><br><br>
+				
+				</form>";
+					$bt++;
+				}*/
+				
 			}
 				
 				
@@ -858,10 +871,21 @@ public function les_clients($parametre,$id)
 			<form name='' action= \"ModifierClients.php\"  method=\"post\">
 			<input name='retour' type=\"submit\"style=\" width: 130px\"    value=\" retour vers client \" />
 			</form></centre><br>
-			    		<fom
-			<nav ><ul id='navigation' class='nav-main'>
-			    		<input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/></ul></ul>
-			</ul></ul></nav>";
+			   
+			    			
+			<form name='' action='Interventions.php'  method=\"post\">
+					
+			    <input type='hidden' name='listeemployes' id='DateD' value=".$DateD.">		
+			    <input type='hidden' name='listeclients' id='DateF' value=".$DateF.">
+			    <input type='hidden' name='NomEmp' value=".$CodeEI.">
+			    <input type='hidden' name='NomClient' value=".$CodeCI.">	
+			   
+					<br>
+				<input type='button' value='Retour avec les informations' onClick='javascript:history.back()'><br><br>
+			</form ></centre><br><nav >
+			    		
+			    		
+			<nav ></ul></nav>";
 			    		
 			
 			
