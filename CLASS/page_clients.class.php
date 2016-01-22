@@ -1101,7 +1101,7 @@ class page_clients extends page_base {
 				<input type='radio' id='triN' name='triN' value='TriN'> Tri par nom <br><br>
 				<input type='radio' id='triCl' name='triCl' value='TriCl'> Tri par code client
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
-				<fieldset>
+				</fieldset>
 		</form>";
 	
 	
@@ -1132,8 +1132,10 @@ class page_clients extends page_base {
 			if(isset($_POST['rechercher']))
 			{
 				$recherche = $_POST['rechercher'];
-				echo $recherche;
-				$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" Or NOM LIKE "%'.$recherche.'%" Or COMPLEMENT LIKE "%'.$recherche.'%" Or ADRESSE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';
+			//	echo $recherche;
+				$recherche = strtoupper($recherche);
+			//	echo $recherche;
+				$requete = 'SELECT * FROM clients where COMMUNE LIKE "%'.$recherche.'%" Or NOM LIKE "%'.$recherche.'%" Or COMPLEMENT LIKE "%'.$recherche.'%" Or ADRESSE LIKE "%'.$recherche.'%" LIMIT '.$limite.' OFFSET '.$debut.' ;';				
 				$resultat = $this->connexion->query($requete);
 			}
 			
