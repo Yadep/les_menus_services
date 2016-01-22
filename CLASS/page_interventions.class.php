@@ -857,12 +857,15 @@ public function les_clients($parametre,$id)
 			
 			<form name='' action= \"ModifierClients.php\"  method=\"post\">
 			<input name='retour' type=\"submit\"style=\" width: 130px\"    value=\" retour vers client \" />
-			</form ></centre><br><nav ><ul id='navigation' class='nav-main'></ul></ul>
+			</form></centre><br>
+			    		<fom
+			<nav ><ul id='navigation' class='nav-main'>
+			    		<input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/></ul></ul>
 			</ul></ul></nav>";
 			    		
 			
 			
-			$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br> <br></ul>";
+			$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br><br></ul>";
 			
 		$result=null;
 		
@@ -1332,14 +1335,15 @@ public function Afficher_modifier_Interventions() {
 	         				
 	   					</form>
 			
-			<form method='POST' name='' id=''  action='interventions.php'>
+			<form method='POST' name='FormI' id='FormI'  action='interventions.php'>
 			<input type='submit' name='' value='Nouvelle intervention'><br><br>
 			</form>
-			<form method='POST' name='' id=''  action='Modif_interventions.php'>
-			<input type=\"button\" value=\"Retour\" onClick=\"javascript:history.back()\">
+			
+			<form method='POST' name='FormI' id='FormI'  action='Modif_interventions.php'>
+			<input type='submit' value='Retour'    onClick='javascript:history.back()'><br><br>
 			</form>
 				
-			</center>
+		</center>
 					</center>
 	    	    </article>
 	    	</section>
@@ -1370,6 +1374,8 @@ public function Afficher_supprimer_Interventions() {
 			<form method='POST' name='' id=''  action='Interventions.php'>
 			<input type='submit' name='' value='retour'>
 			</form>
+			
+			
 			
 			</center>
 					</center>
