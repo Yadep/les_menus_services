@@ -196,7 +196,7 @@ class page_interventions extends page_base {
 	// Suites de réquetes SQL afin d'obtenir toute les informations selons les interventions de la BDD
 	public function les_interventions()
 	{
-		$req = "Select * , DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions";
+		$req = "Select * , DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions";
 		$res = $this->connexion->query($req);
 		return $res;
 	}
@@ -206,7 +206,7 @@ class page_interventions extends page_base {
 		$DateD = $this->envoiMysqlDate($_POST['DateD']);
 		$DateF = $this->envoiMysqlDate($_POST['DateF']);
 		
-		$req = "Select *, DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE Date BETWEEN '$DateD' AND '$DateF'";
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE Date BETWEEN '$DateD' AND '$DateF'";
 		$res = $this->connexion->query($req);
 		return $res;
 	}
@@ -218,7 +218,7 @@ class page_interventions extends page_base {
 		$DateF = $this->envoiMysqlDate($_POST['DateF']);
 		
 		if (isset ($_POST['listeclients2'])){$listeclients= $_POST['listeclients2'];}
-		$req = "Select *, DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients' AND Date BETWEEN '$DateD' AND '$DateF'";
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients' AND Date BETWEEN '$DateD' AND '$DateF'";
 		$res = $this->connexion->query($req);
 		
 		
@@ -235,7 +235,7 @@ class page_interventions extends page_base {
 	
 		if (isset ($_POST['listeemployes2'])){$listeemployes= $_POST['listeemployes2'];}
 		
-		$req = "Select * , DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes AND Date BETWEEN '$DateD' AND '$DateF'";
+		$req = "Select * , DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes AND Date BETWEEN '$DateD' AND '$DateF'";
 		$res = $this->connexion->query($req);
 		return $res;
 	}
@@ -249,7 +249,7 @@ class page_interventions extends page_base {
 		if (isset($_POST['listeemployes2']) && isset($_POST['listeclients2'])) 
 		{$listeemployes=$_POST['listeemployes2'];
 		 $listeclients=$_POST['listeclients2'];}
-		$req = "Select *, DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes AND CODESAGE='$listeclients' AND Date BETWEEN '$DateD' AND '$DateF'";
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes AND CODESAGE='$listeclients' AND Date BETWEEN '$DateD' AND '$DateF'";
 		$res = $this->connexion->query($req);
 		return $res;
 	}
@@ -260,7 +260,7 @@ class page_interventions extends page_base {
 		{$listeemployes=$_POST['listeemployes2'];
 		 $listeclients=$_POST['listeclients2'];}
 
-		$req = "Select *, DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes AND CODESAGE='$listeclients'";
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes AND CODESAGE='$listeclients'";
 		$res = $this->connexion->query($req);
 		return $res;
 	}
@@ -268,7 +268,7 @@ class page_interventions extends page_base {
 	{
 	
 	if (isset($_POST['listeemployes2'])) {$listeemployes=$_POST['listeemployes2'];}
-		$req = "Select *, DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes";
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes";
 		$res = $this->connexion->query($req);
 		return $res;
 	}
@@ -278,7 +278,7 @@ class page_interventions extends page_base {
 	if (isset ($_POST['listeclients2'])){
 		$listeclients =$_POST['listeclients2'];}
 		Else {$listeclients=$_POST['CodeC'];}
-		$req = "Select *, DAY(date) AS jour, MONTH(date) AS mois, YEAR(date) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients'";
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients'";
 		$res = $this->connexion->query($req);
 		return $res;
 	}

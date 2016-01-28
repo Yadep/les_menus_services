@@ -289,7 +289,9 @@ public function choisir_employe (){
 						<br><form id='formchoisiremployes' method='POST' action='EmployesHeures.php' > ";
 	$result = $this->les_employes();
 	if(isset($result)){
-		$vretour= $vretour."<center><h2>Heures des employés :</h2> 	
+		
+		$vretour= $vretour."
+				<center><h2>Heures des employés :</h2> 	
 							<br>    <input type='radio' name='datedet' id='datedet' value='datedet' required> Jour <br>
 			Du	<input type=\"text\" name=\"DateD\" id=\"DateD\"   class=\"validate[optionnal] text-input datepicker\"  />  au 
 				<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\"  /><br>
@@ -370,34 +372,44 @@ public function EmployesHeures(){
 	$PULVE = 0;
 	$heuremois = 0;
 	$compteligne = 0;
-	
+	$dateD = 0 ;
+	$dateF = 0 ;
 	$rbDate = $_POST['datedet'];
+	
 	if ($rbDate == "datedet") 
 	{
-		
+		$dateD = date("Y-m-d", strtotime(str_replace('/', '-', $_POST['DateD'])));
+		$dateF = date("Y-m-d", strtotime(str_replace('/', '-', $_POST['DateF'])));
 	}
-	elseif ($rbDate == "moisch")
-	{
+
 		if($_POST['listeemployes'] == 'VIDE'){ //Si le choix est sans Employé
 			//echo "<script>alert('Aucun employé selectionner'); document.location = ('Employes.php')</script>";
 			$nom = "Liste";
 			$prenom = "Complete";
 			$reqsansemployes = '';
-			if($_POST['MoisemployesH'] == 'VIDE'){
+			if($_POST['MoisemployesH'] == 'VIDE' && $rbDate == "moisch"){
 				//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY mois ASC, semaine ASC,EmplSage ASC; ";
 				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
 				$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
 			}
-			else
+			elseif($rbDate == "moisch")
 			{
 				//$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC,mois DESC,EmplSage ASC; ";
 				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
 					
 				$_SESSION['MoisemployesH']='';
 			}
+			elseif($rbDate == "datedet")
+			{
+				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE DATE BETWEEN '" . $dateD . "' AND '" . $dateF . "' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			}
+			else 
+			{
+				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE DATE BETWEEN '$dateD' AND '$dateF' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			}
 			$_SESSION['AnneeemployesH']=$_POST['AnneeemployesH'];
 			$resultsansemployes = $this->connexion->query($reqsansemployes);
-				
+
 		
 			while($donnees = $resultsansemployes->fetch(PDO::FETCH_OBJ)){
 		
@@ -641,11 +653,20 @@ public function EmployesHeures(){
 		} //Fin du if
 		else { //Sinon le choix est effectué selon un employé
 			$req = '';
-			if($_POST['MoisemployesH'] == 'VIDE'){ //Si le mois reste vide
+			if($_POST['MoisemployesH'] == 'VIDE' && $rbDate == "moisch"){ //Si le mois reste vide
 				$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' ORDER BY semaine ASC";
 				$_SESSION['MoisemployesH']='';
 			}
-			else //Sinon c'est que le mois et l'annee on été sélectionné.
+			elseif($rbDate == "moisch") //Sinon c'est que le mois et l'annee on été sélectionné.
+			{
+				$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC";
+				$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
+			}
+			elseif($rbDate == "datedet")
+			{
+				$req="SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE NumEmplSage = ".$_POST['listeemployes']." AND DATE BETWEEN '" . $dateD . "' AND '" . $dateF . "' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+			}
+			else 
 			{
 				$req="SELECT *,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage  WHERE NumEmplSage = ".$_POST['listeemployes']." AND YEAR(DATE)='".$_POST['AnneeemployesH']."' AND MONTH(DATE)='".$_POST['MoisemployesH']."' ORDER BY semaine ASC";
 				$_SESSION['MoisemployesH']=$_POST['MoisemployesH'];
@@ -891,13 +912,7 @@ public function EmployesHeures(){
 		}  //Fin du else
 		$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Employes.php'\"/><br> <br></ul>";
 		return $vretour;
-	}
-	else 
-		{
-		echo 'erreur rien sélectionner';
-		}
-	
-	
+
 	
 	}
 	
