@@ -869,7 +869,7 @@ public function les_clients($parametre,$id)
 			</form ></centre><br><nav >
 			
 			<form name='' action= \"ModifierClients.php\"  method=\"post\">
-			<input name='retour' type=\"submit\"style=\" width: 130px\"    value=\" retour vers client \" />
+			<input name='retour' type=\"submit\"style=\" width: 130px\"    value=\" Retour vers client \" />
 			</form></centre><br>
 			   
 			    			
@@ -881,7 +881,7 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='NomClient' value=".$CodeCI.">	
 			   
 					<br>
-				<input type='button' value='Retour avec les informations' onClick='javascript:history.back()'><br><br>
+				<input type='button' value='Retour avec infos' onClick='javascript:history.back()'><br><br>
 			</form ></centre><br><nav >
 			    		
 			    		
