@@ -682,10 +682,12 @@ public function EmployesHeures(){
 				$prenom = utf8_decode($donnees->Prenom);
 				$semaine[]=$donnees->semaine; // Declaration d'un tableau dans lequel on stock les numeros de semaine pour ensuite pouvoir afficher le bon (d'oé le sem[i-1] ensuite).
 				$moisT[]=$donnees->mois; //Méme principe que pour la semaine.
+				$anneeT[] = $donnees->annee;
+				if($a != 0){ $annee = $anneeT[$a-1];}
 				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
 				if($m != 0){ $numeromois = $moisT[$m-1];} //Semaine de l'enregistrement précedent.
 					
-				$annee = $donnees->annee; //L'année en cours.
+				
 				if($s == 0)
 				{
 					//Pour le 1er tour de la boucle while.
@@ -807,6 +809,7 @@ public function EmployesHeures(){
 				} //FIN DU ELSE
 				$m = $m + 1 ;
 				$s = $s +1 ;
+				$a = $a + 1;
 			} // FIN DU WHILE
 				
 			// POUR AFFICHER LE DERNIER CALCUL =)
