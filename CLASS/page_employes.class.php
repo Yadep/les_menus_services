@@ -353,6 +353,7 @@ public function EmployesHeures(){
 	$employe = array();
 	$semaine = array();
 	$moisT = array();	
+	$anneeT = array();
 	$nom = '';
 	$prenom = '';
 	$employeN ='';
@@ -362,6 +363,7 @@ public function EmployesHeures(){
 	$e = 0;
 	$s = 0;
 	$m =0;
+	$a = 0 ;
 	$T1 = 0;
 	$T2 = 0;
 	$DESH = 0;
@@ -412,16 +414,16 @@ public function EmployesHeures(){
 
 		
 			while($donnees = $resultsansemployes->fetch(PDO::FETCH_OBJ)){
-		
+				$anneeT[] = $donnees->annee;
 				$employe[] = $donnees->Nom;
 				$semaine[] = $donnees->semaine;
 				$moisT[] = $donnees->mois;
+				if($a != 0){ $annee = "".$anneeT[$a-1]."";}
 				if($e != 0){ $employeN = "".$employe[$e-1]."";} //Employé de l'enregistrement précedent.
 				if($s != 0){ $semaineN = $semaine[$s-1];} //Semaine de l'enregistrement précedent.
 				if($m != 0){ $numeromois = $moisT[$m-1];} //Mois de l'enregistrement précedent.
 		
 		
-				$annee = $donnees->annee;
 				if($e == 0){
 					$T1 = $donnees->T1 ;
 					$T2 = $donnees->T2 ;
@@ -540,6 +542,7 @@ public function EmployesHeures(){
 				$e = $e+1;
 				$s = $s+1;
 				$m= $m+1;
+				$a = $a+1;
 		
 		
 		
