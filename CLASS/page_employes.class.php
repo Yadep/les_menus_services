@@ -872,6 +872,7 @@ public function EmployesHeures(){
 			else{
 				$total2 = $totala[0];
 			}
+			$semaineN = $semaineN +1;
 			$vretour= $vretour."
 											<tr>
 												".utf8_encode($mois)."
