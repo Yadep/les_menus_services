@@ -403,7 +403,7 @@ public function EmployesHeures(){
 			}
 			elseif($rbDate == "datedet")
 			{
-				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE DATE BETWEEN '" . $dateD . "' AND '" . $dateF . "' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+				$reqsansemployes = "SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE DATE BETWEEN '" . $dateD . "' AND '" . $dateF . "' ORDER BY EmplSage ASC,annee ASC,mois ASC,semaine ASC; ";
 			}
 			else 
 			{
@@ -667,7 +667,7 @@ public function EmployesHeures(){
 			}
 			elseif($rbDate == "datedet")
 			{
-				$req="SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE NumEmplSage = ".$_POST['listeemployes']." AND DATE BETWEEN '" . $dateD . "' AND '" . $dateF . "' ORDER BY EmplSage ASC,mois ASC,semaine ASC; ";
+				$req="SELECT * ,YEAR(DATE) AS annee,MONTH(DATE) AS mois,WEEKOFYEAR(DATE) AS semaine FROM INTERVENTIONS AS I INNER JOIN EMPLOYES AS E ON I.NumEmplSage = E.EmplSage WHERE NumEmplSage = ".$_POST['listeemployes']." AND DATE BETWEEN '" . $dateD . "' AND '" . $dateF . "' ORDER BY EmplSage ASC,annee ASC,mois ASC,semaine ASC; ";
 			}
 			else 
 			{
