@@ -281,6 +281,7 @@ public function enregistrer_employes() {
 }
 
 public function choisir_employe (){
+	$anneeSys = date('Y');
 	$vretour = "
 						
 			<ul id='navigation' class='nav-main'>
@@ -312,7 +313,7 @@ public function choisir_employe (){
 										<option value='12'>Décembre</option>
 									</select>
 									
-									<label>Année : </label><input type='number' name='AnneeemployesH' id='AnneeemployesH' value='2016' class='validate[required,custom[integer],minSize[4],maxSize[4]] text-input' >
+									<label>Année : </label><input type='number' name='AnneeemployesH' id='AnneeemployesH' value=" . $anneeSys . " class='validate[required,custom[integer],minSize[4],maxSize[4]] text-input' >
 									<br><br>
 									<li>
 									<label>Liste des employés : </label><select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
@@ -329,7 +330,6 @@ public function choisir_employe (){
 							 </center>";
 	}
 	$vretour = $vretour."</form></article></section><br></ul>";
-	
 	return $vretour;
 }
 
