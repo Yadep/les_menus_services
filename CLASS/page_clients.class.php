@@ -304,7 +304,14 @@ class page_clients extends page_base {
 			$vretour=$vretour.$this->afficherclient($tabCodeSage); //Envoi du tableau des clients qui permet de faire fonctionner les boutons précedent et suivant.
 		}
 		//$vretour = $vretour."<a href=\"Clients.php\">Retour</a>"	;
-		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ModifierClients.php'\"/><br> <br></ul>";
+		if((isset($_POST['afficherC']))||(isset($_POST['CodeSageClientCache']))||(isset($_POST['modifierC']))||(isset($_POST['CodeSageClientM'])))
+		{		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='ModifierClients.php'\"/><br> <br></ul>";
+			
+		}
+		else 
+		{
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		}
 		return $vretour;	
 	}
 		
