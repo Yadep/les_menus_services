@@ -650,18 +650,16 @@ class page_clients extends page_base {
 		if( isset($_POST['ValidFormRappelclient'])) // Lorsqu'on a choisi une date.
 		{
 			$daterecu1 = $_POST['DateEnvoiRappel1'];
-			$daterecu2 = $_POST['DateEnvoiRappel2'];
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-			<label> Veuillez choisir un intervalle de date (les clients dont la derniére intervention se situe dans l'intervalle choisi s'afficheront) :</label>
+			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
 			<br><input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
-			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2'  value='$daterecu2'>
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
 			</form>
 			<br>
 			</ul>";
-			$vretour = $vretour.$this->afficheclientsrappel($daterecu1,$daterecu2);
+			$vretour = $vretour.$this->afficheclientsrappel($daterecu1);
 				
 				
 		}
@@ -669,7 +667,6 @@ class page_clients extends page_base {
 		{
 			
 			$daterecu1 = $_POST['Daterappel1'];
-				$daterecu2 = $_POST['Daterappel2'];
 				$CodeSageR = $_POST['Codesagerappel'];
 				$NomR = $this->connexion -> quote($_POST['Nomrappel']);
 				if($_POST['Regulariterappel']==0)
@@ -698,14 +695,13 @@ class page_clients extends page_base {
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-			<label> Veuillez choisir un intervalle de date (les clients dont la derniére intervention se situe dans l'intervalle choisi s'afficheront) :</label>
+			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
-			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2'  value='$daterecu2'>
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
 			</form>
 			<br>
 			</ul>";
-			$vretour = $vretour.$this->afficheclientsrappel($daterecu1,$daterecu2);
+			$vretour = $vretour.$this->afficheclientsrappel($daterecu1);
 		
 		}
 		/*else if(isset($_POST['RappelDInterv'])) // REDIRECTION SUR L'intervention.
@@ -719,9 +715,8 @@ class page_clients extends page_base {
 		$vretour="
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-					<label> Veuillez choisir un intervalle de date (les clients dont la derniére intervention se situe dans l'intervalle choisi s'afficheront) :</label>
+					<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
-					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2'  value='$daterecu'>
 					<input type='submit' name='ValidFormRappelclient' value='OK'>
 					</form>
 					<br>
@@ -730,7 +725,7 @@ class page_clients extends page_base {
 		return $vretour;
 	}
 	
-	public function afficheclientsrappel($dateRa1,$dateRa2){
+	public function afficheclientsrappel($dateRa1){
 		$lien = "RappelClients.php";
 		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
 		if(isset($_GET['debut'])){
@@ -741,7 +736,6 @@ class page_clients extends page_base {
 			$debut=0;					// L'offset sert é définir le point de départ.
 		}
 		$datePourMysql1 =  $this->envoiMysqlDate($dateRa1);
-		$datePourMysql2 = $this->envoiMysqlDate($dateRa2);
 		/*
 		$reqcompt = "SELECT COUNT(*) AS nb From interventions
 			as I INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
@@ -758,7 +752,8 @@ class page_clients extends page_base {
 		$vretour= "<ul id='navigation' class='nav-main'>";
 		if($nblignes > 0)
 		{		
-			$req = "Select C.CODESAGE,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+			$req = "SELECT C.CODESAGE,MAX(DATE),C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date < '$datePourMysql1' group by `CLIENTSAGE` ORDER BY MAX(DATE) DESC";
+		/*	$req = "Select C.CODESAGE,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
 					From interventions as I
 					INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
 					WHERE I.DATE BETWEEN CAST('$datePourMysql1' AS DATE)AND CAST('$datePourMysql2' AS DATE)					
@@ -799,7 +794,7 @@ class page_clients extends page_base {
 	        								<td>
 												<table id='tabrappel'>
 													<caption>
-														<h2>Liste des clients dont la derniére intervention <br> est situé entre le :<input type='text' name='DateAffiche1' readonly='true' value='$dateRa1'> et le <input type='text' name='DateAffiche2' readonly='true' value='$dateRa2'></h2>
+														<h2>Liste des clients dont la derniére intervention <br> est situé avant le :<input type='text' name='DateAffiche1' readonly='true' value='$dateRa1'> </h2>
 													</caption>
 													<tr>
 														<th>CodeSage</th><th>Nom</th><th>Date de la derniére intervention</th><th>Régulier</th><th>Non Régulier</th><th>Inconnu</th><th>Inactif</th><th>Lien vers l'intervention</th>
@@ -841,7 +836,6 @@ class page_clients extends page_base {
 												<td> 	<input type='submit' name='RappelDIntervCE' id='RappelDIntervCE' value=\"Voir l'intervention\" > </td>
 												</tr>
 												<input type='hidden' name='Daterappel1' value='$dateRa1'>
-												<input type='hidden' name='Daterappel2' value='$dateRa2'>
 												<input type='hidden' name='Emplrappel' value='$clients->NUMEMPLSAGE'>
 												<input type='hidden' name='RappelDInterv' value='".$clients->NINTERV."'>
 												</form>";
