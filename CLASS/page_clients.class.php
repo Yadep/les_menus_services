@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if (!isset ($_SESSION['login']))
 {
@@ -18,7 +17,12 @@ class page_clients extends page_base {
 		
 	}
 	
-	
+	public function les_employes()
+	{
+		$req = "Select * From employes";
+		$res = $this->connexion->query($req);
+		return $res;
+	}
 	
 	public function afficheajoutclient(){ //Fonction qui permet d'afficher le formulaire pour ajouter un nouveau client.
 		$vretour = "
@@ -645,7 +649,7 @@ class page_clients extends page_base {
 		 $demain =  time() + 86400; // ajout de 24 heures
 		 date('Y-m-d', $demain)
 		 */
-	
+		$result = $this->les_employes();
 		$vretour = '';
 		if( isset($_POST['ValidFormRappelclient'])) // Lorsqu'on a choisi une date.
 		{
@@ -715,11 +719,28 @@ class page_clients extends page_base {
 		$vretour="
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-					<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
+					<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
-					<input type='submit' name='ValidFormRappelclient' value='OK'>
-					</form>
-					<br>
+					<br> <center> Séléctionné un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
+			if($donnees->ANCIEN_EMPLOYE == 0)
+			{
+				$vretour= $vretour.'<option value=' . $donnees->EmplSage. '>'. $donnees->Nom .' - ' . $donnees->Prenom. '</option>';
+			}
+		}
+		$result->closeCursor ();
+		$tabCodeSage = array();
+		$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
+		$result = $this->connexion->query($req);
+		$vretour .= "</select>";
+		$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
+			$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
+			//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
+			$tabCodeSage[] = $donnees->CODESAGE;
+		}
+		$result->closeCursor ();
+		$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
 					</ul>";
 		}
 		return $vretour;
@@ -736,55 +757,49 @@ class page_clients extends page_base {
 			$debut=0;					// L'offset sert é définir le point de départ.
 		}
 		$datePourMysql1 =  $this->envoiMysqlDate($dateRa1);
-		/*
-		$reqcompt = "SELECT COUNT(*) AS nb From interventions
-			as I INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-			WHERE I.DATE < CAST('$datePourMysql' AS DATE)
-			AND C.inactif !=1
-			AND C.CODESAGE NOT IN (Select C.CODESAGE From interventions as I
-			INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-			WHERE C.inactif != 1 AND I.DATE > CAST('$datePourMysql' AS DATE))
-			ORDER BY I.DATE DESC;";
-		$result = $this->connexion->query($reqcompt);		
-		$nblignes = $result->fetch(PDO::FETCH_OBJ )->nb;
-		*/
 		$nblignes = 2 ; // /!\ TEMPORAIRE NE SERA PLUS LA LORSQUE QUE LA BARRE DE NAVIGATION SERA EN PLACE
 		$vretour= "<ul id='navigation' class='nav-main'>";
 		if($nblignes > 0)
 		{		
-			$req = "SELECT C.CODESAGE,MAX(DATE),C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date < '$datePourMysql1' group by `CLIENTSAGE` ORDER BY MAX(DATE) DESC";
-		/*	$req = "Select C.CODESAGE,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
-					From interventions as I
-					INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-					WHERE I.DATE BETWEEN CAST('$datePourMysql1' AS DATE)AND CAST('$datePourMysql2' AS DATE)					
-					AND C.CODESAGE NOT IN (Select C.CODESAGE From interventions as I
-					                       INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-					                       WHERE I.DATE > CAST('$datePourMysql2' AS DATE))
-					                       ORDER BY I.DATE DESC; ";
-			/*$req ="Select C.CODESAGE,C.NOM,C.REGULARITE,I.DATE From interventions
-				as I INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-				WHERE I.DATE < CAST('$datePourMysql' AS DATE)
-				AND C.inactif !=1
-				AND C.CODESAGE NOT IN (Select C.CODESAGE From interventions as I
-				INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-				WHERE C.inactif != 1 AND I.DATE > CAST('$datePourMysql' AS DATE))
-				ORDER BY I.DATE DESC ;";
-			*/
-			
-			/*
-			$req ="Select C.CODESAGE,C.NOM,C.REGULARITE,I.DATE From interventions
-				as I INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-				WHERE I.DATE < CAST('$datePourMysql' AS DATE)
-				AND C.inactif !=1
-				AND C.CODESAGE NOT IN (Select C.CODESAGE From interventions as I
-				INNER JOIN clients as C on I.CLIENTSAGE=C.CODESAGE
-				WHERE C.inactif != 1 AND I.DATE > CAST('$datePourMysql' AS DATE))
-				ORDER BY I.DATE DESC LIMIT ".$limite." OFFSET ".$debut.";";
-				*/
+			$client = $_POST['listeclients1'];
+			$employe = $_POST['listeemployes'];
+			if ($client != 'VIDE' && $employe != 'VIDE') //Si un client ET un employer a été séléctionner alors on utilise cette requete
+			{
+			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+					FROM interventions as I 
+					INNER JOIN `clients` as C on clientsage = codesage 
+					INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
+					WHERE date < '$datePourMysql1' 
+					AND CODESAGE = '$client' 
+					AND emplsage = '$employe' 
+					group by `CLIENTSAGE` 
+					ORDER BY DATE2 DESC";
+			}
+			elseif($client != 'VIDE' && $employe = 'VIDE')
+			{
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
+				WHERE date < '$datePourMysql1' AND CODESAGE = '$client' group by `CLIENTSAGE` ORDER BY DATE2 DESC";
+			}
+			elseif ($client = 'VIDE' && $employe != 'VIDE')
+			{
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+				FROM interventions as I 
+				INNER JOIN `clients` as C on clientsage = codesage 
+				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
+				WHERE date < '$datePourMysql1' 
+				AND emplsage = '$employe' 
+				group by `CLIENTSAGE` 
+				ORDER BY DATE2 DESC";
+			}
+			elseif ($client = 'VIDE' && $employe = 'VIDE')
+			{
+			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date < '$datePourMysql1' group by `CLIENTSAGE` ORDER BY MAX(DATE) DESC";
+			}
 			$resultat = $this->connexion->query($req);
 			if ( !$resultat)
 			{
-				$vretour=$vretour."<p>Aucun clients é rappeler</p>";
+				$vretour=$vretour."<p>Aucun clients à rappeler</p>";
 			}
 			else
 			{
@@ -829,7 +844,7 @@ class page_clients extends page_base {
 								<tr>
 								<td>	<input type='text' name='Codesagerappel' readonly='true' value='".utf8_encode($clients->CODESAGE)."'></td>
 															<td>	<input type='text' name='Nomrappel' readonly='true' value='".utf8_encode($clients->NOM)."'>	</td>
-										<td>	<input type='text' name='Daterappel' readonly='true' value='".$this->AfficheDate($clients->DATE)."'>	</td>
+										<td>	<input type='text' name='Daterappel' readonly='true' value='".$this->AfficheDate($clients->DATE2)."'>	</td>
 												$RadioRegulier
 												<td>	<input type=checkbox name='Inactifrappel' value='0'>	</td>
 												
@@ -839,6 +854,7 @@ class page_clients extends page_base {
 												<input type='hidden' name='Emplrappel' value='$clients->NUMEMPLSAGE'>
 												<input type='hidden' name='RappelDInterv' value='".$clients->NINTERV."'>
 												</form>";
+
 					}
 				}
 				$resultat->closeCursor ();
