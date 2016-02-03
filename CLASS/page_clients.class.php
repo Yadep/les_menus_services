@@ -670,7 +670,7 @@ class page_clients extends page_base {
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
-			<br> <center> Séléctionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+			<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 			while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
 			{
