@@ -682,7 +682,7 @@ class page_clients extends page_base {
 					$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
 		$result = $this->connexion->query($req);
 					$vretour .= "</select>";
-					$vretour= $vretour."<center><li><label>Séléctionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+					$vretour= $vretour."<center><li><label>Sélectionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 					//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
@@ -762,7 +762,7 @@ class page_clients extends page_base {
 		$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
 		$result = $this->connexion->query($req);
 		$vretour .= "</select>";
-		$vretour= $vretour."<center><li><label>Séléctionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+		$vretour= $vretour."<center><li><label>Sélectionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 			//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
