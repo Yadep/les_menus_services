@@ -663,6 +663,35 @@ class page_clients extends page_base {
 			</form>
 			<br>
 			</ul>";
+
+			$daterecu =  $this->AfficheDate(date('Y-m-d'));
+			$vretour="
+			<ul id='navigation' class='nav-main'><br>
+			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
+			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :
+			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
+			<br> <center> Séléctionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+			while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
+			if($donnees->ANCIEN_EMPLOYE == 0)
+			{
+			$vretour= $vretour.'<option value=' . $donnees->EmplSage. '>'. $donnees->Nom .' - ' . $donnees->Prenom. '</option>';
+			}
+			}
+		$result->closeCursor ();
+					$tabCodeSage = array();
+					$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
+		$result = $this->connexion->query($req);
+					$vretour .= "</select>";
+					$vretour= $vretour."<center><li><label>Séléctionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
+					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
+					//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
+			$tabCodeSage[] = $donnees->CODESAGE;
+			}
+			$result->closeCursor ();
+			$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
+					</ul>";
+			
 			$vretour = $vretour.$this->afficheclientsrappel($daterecu1);
 				
 				
@@ -721,7 +750,7 @@ class page_clients extends page_base {
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 					<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
-					<br> <center> Séléctionné un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+					<br> <center> Séléctionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
 			{
@@ -733,7 +762,7 @@ class page_clients extends page_base {
 		$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
 		$result = $this->connexion->query($req);
 		$vretour .= "</select>";
-		$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+		$vretour= $vretour."<center><li><label>Séléctionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 			//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
