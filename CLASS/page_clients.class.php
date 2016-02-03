@@ -864,7 +864,7 @@ class page_clients extends page_base {
 				        				</tr>".$this->navigateur($nblignes,$debut,$limite,$lien)."</table>
 				        					</center><br><nav><ul id='navigation' class='nav-main'></ul></nav>";
 				*/
-				$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+				$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='RappelClients.php'\"/><br> <br></ul>";
 			}
 		}
 		return $vretour;

@@ -772,6 +772,7 @@ public function les_clients($parametre,$id)
 					}
 				
 				$a=$a."
+					
 				<input type='hidden' name='listeemployes' value=".$listeemployes.">
 				<input type='hidden' name='listeclients' value=".$listeclients.">
 				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
@@ -864,6 +865,11 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
 			    <input type='hidden' name='listeclients2' value=".$CodeCI.">	
 			   
+			    		 '$DateD'
+			    		'$DateF'
+			    		'$CodeEI'
+			    		'$CodeCI'
+			    		
 					<br>
 				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
 			</form ></centre><br><nav >
