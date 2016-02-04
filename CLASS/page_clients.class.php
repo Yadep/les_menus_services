@@ -654,11 +654,13 @@ class page_clients extends page_base {
 		if( isset($_POST['ValidFormRappelclient'])) // Lorsqu'on a choisi une date.
 		{
 			$daterecu1 = $_POST['DateEnvoiRappel1'];
+			$daterecu2 = $_POST['DateEnvoiRappel2'];
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
 			<br><input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
+			<INPUT type='checkbox' name='choix1' value='1'> 
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
 			</form>
 			<br>
@@ -692,7 +694,7 @@ class page_clients extends page_base {
 			$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
 					</ul>";
 			
-			$vretour = $vretour.$this->afficheclientsrappel($daterecu1);
+			$vretour = $vretour.$this->afficheclientsrappel($daterecu1,$daterecu2);
 				
 				
 		}
@@ -734,7 +736,7 @@ class page_clients extends page_base {
 			</form>
 			<br>
 			</ul>";
-			$vretour = $vretour.$this->afficheclientsrappel($daterecu1);
+			$vretour = $vretour.$this->afficheclientsrappel($daterecu1,$daterecu2);
 		
 		}
 		/*else if(isset($_POST['RappelDInterv'])) // REDIRECTION SUR L'intervention.
@@ -745,11 +747,13 @@ class page_clients extends page_base {
 		else //SI on arrive sur la page la 1ere fois.
 		{
 		$daterecu =  $this->AfficheDate(date('Y-m-d'));
+		$daterecu2 = $this->AfficheDate(date('Y-m-d'));
 		$vretour="
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 					<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
+					<br>Ajouter l'intervale jusqu'au :<input type='text' class=' text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'><INPUT type='checkbox' name='choix1' value='1'> 
 					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
@@ -777,7 +781,7 @@ class page_clients extends page_base {
 		return $vretour;
 	}
 	
-	public function afficheclientsrappel($dateRa1){
+	public function afficheclientsrappel($dateRa1,$dateRa2){
 		$lien = "RappelClients.php";
 		$limite = 25; // Limit sert é définir le nombre de tuples é afficher.
 		if(isset($_GET['debut'])){
@@ -788,13 +792,14 @@ class page_clients extends page_base {
 			$debut=0;					// L'offset sert é définir le point de départ.
 		}
 		$datePourMysql1 =  $this->envoiMysqlDate($dateRa1);
+		$datePourMysql2 =  $this->envoiMysqlDate($dateRa2);
 		$nblignes = 2 ; // /!\ TEMPORAIRE NE SERA PLUS LA LORSQUE QUE LA BARRE DE NAVIGATION SERA EN PLACE
 		$vretour= "<ul id='navigation' class='nav-main'>";
 		if($nblignes > 0)
 		{		
 			$client = $_POST['listeclients1'];
 			$employe = $_POST['listeemployes'];
-			if ($client != 'VIDE' && $employe != 'VIDE') //Si un client ET un employer a été séléctionner alors on utilise cette requete
+			if ($client != 'VIDE' && $employe != 'VIDE' && !isset($_POST['choix1'])) //Si un client ET un employé ont été séléctionner alors on utilise cette requete
 			{
 			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
 					FROM interventions as I 
@@ -804,15 +809,15 @@ class page_clients extends page_base {
 					AND CODESAGE = '$client' 
 					AND emplsage = '$employe' 
 					group by `CLIENTSAGE` 
-					ORDER BY DATE2 DESC";
+					ORDER BY DATE2 ASC";
 			}
-			elseif($client != 'VIDE' && $employe = 'VIDE')
+			elseif($client != 'VIDE' && $employe == 'VIDE' && !isset($_POST['choix1']))  //Si un client a été séléctionner alors on utilise cette requete
 			{
 				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
 				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
-				WHERE date < '$datePourMysql1' AND CODESAGE = '$client' group by `CLIENTSAGE` ORDER BY DATE2 DESC";
+				WHERE date < '$datePourMysql1' AND CODESAGE = '$client' group by `CLIENTSAGE` ORDER BY DATE2 ASC";
 			}
-			elseif ($client = 'VIDE' && $employe != 'VIDE')
+			elseif ($client == 'VIDE' && $employe != 'VIDE' && !isset($_POST['choix1']))//Si un employer a été séléctionner alors on utilise cette requete
 			{
 				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
 				FROM interventions as I 
@@ -821,11 +826,42 @@ class page_clients extends page_base {
 				WHERE date < '$datePourMysql1' 
 				AND emplsage = '$employe' 
 				group by `CLIENTSAGE` 
-				ORDER BY DATE2 DESC";
+				ORDER BY DATE2 ASC";
 			}
-			elseif ($client = 'VIDE' && $employe = 'VIDE')
+			elseif ($client == 'VIDE' && $employe == 'VIDE' && !isset($_POST['choix1']))//Si un client ET un employer n'ont PAS été séléctionner alors on utilise cette requete
 			{
-			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date < '$datePourMysql1' group by `CLIENTSAGE` ORDER BY MAX(DATE) DESC";
+			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date < '$datePourMysql1' group by `CLIENTSAGE` ORDER BY MAX(DATE) ASC";
+			}
+			elseif ($client != 'VIDE' && $employe != 'VIDE' && isset($_POST['choix1']))
+			{
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				FROM interventions as I
+				INNER JOIN `clients` as C on clientsage = codesage
+				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage
+				WHERE date BETWEEN '$datePourMysql1' AND '$datePourMysql2' AND CODESAGE = '$client'	AND emplsage = '$employe'
+				group by `CLIENTSAGE`
+				ORDER BY DATE2 ASC";
+			}
+			elseif($client != 'VIDE' && $employe == 'VIDE' && isset($_POST['choix1']))
+			{
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
+				WHERE date BETWEEN '$datePourMysql1' AND '$datePourMysql2' AND CODESAGE = '$client' group by `CLIENTSAGE` ORDER BY DATE2 ASC";
+			}
+			elseif ($client == 'VIDE' && $employe != 'VIDE' && isset($_POST['choix1']))//Si un employer a été séléctionner alors on utilise cette requete
+			{
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				FROM interventions as I
+				INNER JOIN `clients` as C on clientsage = codesage
+				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage
+				WHERE date BETWEEN '$datePourMysql1' AND '$datePourMysql2'
+				AND emplsage = '$employe'
+				group by `CLIENTSAGE`
+				ORDER BY DATE2 ASC";
+			}
+			elseif ($client == 'VIDE' && $employe == 'VIDE' && isset($_POST['choix1']))//Si un client ET un employer n'ont PAS été séléctionner alors on utilise cette requete
+			{
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date BETWEEN '$datePourMysql1' AND '$datePourMysql2' group by `CLIENTSAGE` ORDER BY MAX(DATE) ASC";
 			}
 			$resultat = $this->connexion->query($req);
 			if ( !$resultat)
