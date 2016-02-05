@@ -582,8 +582,17 @@ public function les_clients($parametre,$id)
 					
 		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
 
+		if(isset($DateD))
 		$DateD = $this->envoiMysqlDate($_POST['DateD']);
+		else
+		$DateD="";
+		if(isset($DateF))
 		$DateF = $this->envoiMysqlDate($_POST['DateF']);
+		else 
+		$DateF="";
+
+		
+		
 		//Si la deuxieme liste client a été selectionner
 		if (isset ($_POST['listeclients2'])){
 		$listeclients =  $_POST['listeclients2'];}
@@ -850,10 +859,13 @@ public function les_clients($parametre,$id)
 				}*/
 				
 			}
-				
-				
+				if(isset($_POST['listeclients1']))
+			$CodeCI = $_POST['listeclients1'];
+				else
+			$CodeCI = "";
 				 
-			
+				$CodeEI = "";
+				
 			$result -> closeCursor();
 			//Formulaire de l'excel
 			$a=$a."</table>
@@ -865,10 +877,7 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
 			    <input type='hidden' name='listeclients2' value=".$CodeCI.">	
 			   
-			    		 '$DateD'
-			    		'$DateF'
-			    		'$CodeEI'
-			    		'$CodeCI'
+			    		 
 			    		
 					<br>
 				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
@@ -902,6 +911,9 @@ public function les_clients($parametre,$id)
 		
 	return $a;
 }
+
+
+
 
 public function dernier_NINTERV() //Permet de connaitre le dernier client C000 inscrit dans la BDD.
 {

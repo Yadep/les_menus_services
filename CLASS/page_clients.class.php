@@ -237,10 +237,155 @@ class page_clients extends page_base {
 	
 	
 	
+	public function les_clients2($parametre,$id)
+	{
+		$vretour="";
+		$req = "Select CODESAGE,NOM From clients order by NOM";
+		$res = $this->connexion->query($req);
+		// Si aucune sélection de liste n'a été demander avant, par défaut, au lancement de la page Interventions
+		if (!empty ($_POST['CodeCI']))
+		{
+			$CodeCI = $_POST['CodeCI'];
+			$req2 = "Select * From clients where CODESAGE = '$CodeCI'";
+			$res2 = $this->connexion->query($req2);
+	
+			while ($donneesR = $res2->fetch(PDO::FETCH_OBJ)) {
+				$NomC = utf8_decode($donneesR->NOM);
+	
+				$vretour = $vretour."<input type='hidden' name='NomC' value=$NomC>";
+					
+			}
+		}
+		if(isset($res)){
+	
+			if (!isset ($_POST['listeclients']) && !isset($_POST['listeclients2']))	{
+				$vretour= $vretour."
+				<select name='listeclients2' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurClientI()\"><option value=''></option>";
+				while ($donnees = $res->fetch(PDO::FETCH_OBJ)) {
+					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
+	
+				}
+				$vretour=$vretour."</select>";
+				$vretour = $vretour."<input type='hidden' id='CodeCI' name='CodeCI' value=''>";
+	
+			}
+			// Si un enregistrement é été effectuer juste avant.
+			if (isset ($_POST['CodeC'])) {
+	
+				$CodeC = $_POST['CodeC'];
+				$req2 = "Select * From clients where CODESAGE = '$CodeC'";
+				$res2 = $this->connexion->query($req2);
+				while ($donneesR = $res2->fetch(PDO::FETCH_OBJ)) {
+					$NomC = utf8_decode($donneesR->NOM);
+					$vretour = $vretour."<input type='hidden' name='NomC' value=$NomC>";
+	
+				}
+	
+				$vretour= $vretour."<select name='listeclients2' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurEmployeI()\"><option value=$CodeC>".$CodeC." - ".$NomC."</option><option value=''></option>";
+				while ($donnees = $res->fetch(PDO::FETCH_OBJ))
+				{
+					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . utf8_decode($donnees->NOM) .'</option>';
+				}
+				$vretour = $vretour."</select><input type='hidden' id='CodeCI' name='CodeCI' value=$CodeC>";
+			}
+			// Si une selection é été effectuer juste avant
+			if (isset ($_POST['NomClient']) && !empty ($_POST['NomClient'])){
+				$NomC = $_POST['NomClient'];
+				$req2 = "Select * From clients where Nom = '$NomC'";
+				$res2 = $this->connexion->query($req2);
+				while ($donneesR = $res2->fetch(PDO::FETCH_OBJ)) {
+					$CodeC = utf8_decode($donneesR->CODESAGE);
+	
+					$vretour = $vretour."<input type='hidden' name='NomC' value=$NomC>";
+				}
+					
+				$vretour= $vretour."<select name='listeclients2' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurClientI()\"><option value='$CodeC'>".$CodeC." - ".$NomC."</option><option value=''></option>";
+				while ($donnees = $res->fetch(PDO::FETCH_OBJ))
+				{
+					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . utf8_decode($donnees->NOM) .'</option>';
+				}
+				$vretour = $vretour."</select><input type='hidden' id='CodeC' name='CodeCI' value='$CodeC'>";
+			}
+			$res->closeCursor ();
 	
 	
 	
+		}
 	
+		return $vretour;
+	}
+	
+	
+	public function les_employes2($parametre,$id)
+	{
+		$vretour='';
+		$req = "Select EmplSage,Nom,Prenom From employes where ANCIEN_EMPLOYE='0'";
+		$res = $this->connexion->query($req);
+		if (!empty ($_POST['CodeEI']))
+		{
+			$CodeEI = $_POST['CodeEI'];
+				
+			$req2 = "Select * From employes where EmplSage = '$CodeEI'";
+			$res2 = $this->connexion->query($req2);
+	
+			while ($donneesR = $res2->fetch(PDO::FETCH_OBJ)) {
+				$NomE = utf8_decode($donneesR->Nom);
+				$PrenomE = utf8_decode($donneesR->Prenom);
+				$vretour = $vretour."<input type='hidden' name='NomE' value=$NomE>";
+				$vretour = $vretour."<input type='hidden' name='PrenomE' value=$PrenomE>";
+			}
+		}
+		if(isset($res)){
+			if (!isset ($_POST['listeemployes']) && !isset($_POST['listeemployes2']))	{
+				$vretour= $vretour."<select name='listeemployes2' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurEmployeI()\"><option value=''></option><option value=''></option>";
+				while ($donnees = $res->fetch(PDO::FETCH_OBJ))
+				{
+					$vretour= $vretour.'<option value=' . $donnees->EmplSage . '>'. $donnees->EmplSage .' - ' . utf8_decode($donnees->Nom) .' - ' . utf8_decode($donnees->Prenom) .  '</option>';
+				}
+				$vretour=$vretour."</select><input type='hidden' id='CodeEI' name='CodeEI' value=''>";
+	
+			}
+			if (isset ($_POST['CodeE'])) {
+	
+				$CodeE = $_POST['CodeE'];
+				$req2 = "Select * From employes where EmplSage = '$CodeE'";
+				$res2 = $this->connexion->query($req2);
+				while ($donneesR = $res2->fetch(PDO::FETCH_OBJ)) {
+					$NomE = utf8_decode($donneesR->Nom);
+					$PrenomE = utf8_decode($donneesR->Prenom);
+					$vretour = $vretour."<input type='hidden' name='NomE' value=$NomE>";
+					$vretour = $vretour."<input type='hidden' name='PrenomE' value=$PrenomE>";
+				}
+	
+				$vretour= $vretour."<select name='listeemployes2' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurEmployeI()\"><option value=$CodeE>".$CodeE." - ".$NomE." - ".$PrenomE."</option><option value=''></option>";
+				while ($donnees = $res->fetch(PDO::FETCH_OBJ))
+				{
+					$vretour= $vretour.'<option value=' . $donnees->EmplSage . '>'. $donnees->EmplSage .' - ' . utf8_decode($donnees->Nom) .' - ' . utf8_decode($donnees->Prenom) .  '</option>';
+				}
+				$vretour = $vretour."</select><input type='hidden' id='CodeEI' name='CodeEI' value=$CodeE>";
+			}
+	
+			if (isset ($_POST['NomEmp']) && !empty ($_POST['NomEmp'])){
+				$NomE = $_POST['NomEmp'];
+				$req2 = "Select * From employes where Nom = '$NomE'";
+				$res2 = $this->connexion->query($req2);
+				while ($donneesR = $res2->fetch(PDO::FETCH_OBJ)) {
+					$CodeE = utf8_decode($donneesR->EmplSage);
+					$PrenomE = utf8_decode($donneesR->Prenom);
+					$vretour = $vretour."<input type='hidden' name='NomE' value=$NomE><input type='hidden' name='PrenomE' value=$PrenomE>";
+				}
+	
+				$vretour= $vretour."<select name='listeemployes2' id='$id' class=\"validate[$parametre] \" Onchange=\"ValeurEmployeI()\"><option value=$CodeE>".$CodeE." - ".$NomE." - ".$PrenomE."</option><option value=''></option>";
+				while ($donnees = $res->fetch(PDO::FETCH_OBJ))
+				{
+					$vretour= $vretour.'<option value=' . $donnees->EmplSage . '>'. $donnees->EmplSage .' - ' . utf8_decode($donnees->Nom) .' - ' . utf8_decode($donnees->Prenom) .  '</option>';
+				}
+				$vretour = $vretour."</select><input type='hidden' id='CodeE' name='CodeEI' value=$CodeE>";
+			}
+	
+		}	$res->closeCursor ();
+		return $vretour;
+	}
 	
 	public function affichelisteclient(){ // Permet d'afficher la liste des clients selon leurs codesage. 
 		/*
@@ -266,6 +411,7 @@ class page_clients extends page_base {
 				<h3> Fiche client : </h3>
 				<br><form id='formlist1' method='POST' action='ModifierClients.php' >";
 		
+	
 		
 		$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';			
 		$result = $this->connexion->query($req);		
@@ -280,21 +426,50 @@ class page_clients extends page_base {
 					$tabCodeSage[] = $donnees->CODESAGE;
 				}
 				$result->closeCursor ();
+				
+				
+				
+			
+				
 				$vretour = $vretour."</select></li></center>
 						<input type='submit' name='afficherC' id='afficherC' value='Afficher' >
-						<input type='submit' name='modifierC' id='modifierC' value='Modifier'> 
+						<input type='submit' name='modifierC' id='modifierC' value='Modifier'>
+					
 						" ;			
 		}
 		
+		
+	
+		
 		$vretour= $vretour."</form><br>
-				
-				<form id='ValidFormI' method='POST' action='Interventions.php'>
-				<input type='submit' name='ValidFormI' id='ValidFormI' value='Recherche d\'intervention'>
-				</form>
-				
-				
-				
-				<br></ul>";
+
+		<form id='formlist1' method='POST' action='ListeInterventions.php' >
+		<input type='submit' name='Rechecher' id='Rechecher' value='Rechecher' >";
+		
+		if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+			$DateD = $_POST['DateD'];
+			$DateF = $_POST['DateF'];}
+			Else {
+				$DateD = $this->AfficheDate(date('Y-m-d'));
+				$DateF = $this->AfficheDate(date('Y-m-d'));
+			}
+		
+			$CodeEI = "";
+			
+		if(isset($_POST['listeclients1']))
+			$CodeCI = $_POST['listeclients1'];
+		else
+			$CodeCI = "";
+		
+		$vretour= $vretour."
+		<input  type='hidden'  name='DateD' id='DateD'  value='$DateD' class='validate[optionnal] text-input datepicker'/>
+		<br><br>
+		
+		<input type='hidden' name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\" value='$DateF' />
+		<br><br><br>
+			
+		
+		<br><br></ul></form>";
 		
 		//ENSUITE j'affiche le reste de la page. 
 		
@@ -319,6 +494,13 @@ class page_clients extends page_base {
 		return $vretour;	
 	}
 		
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public function afficherclient($tousCodeSage){ //Fonction qui permet d'afficher un client préalablement choisi dans la liste. 
@@ -776,7 +958,7 @@ class page_clients extends page_base {
 		$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
 				
 					</ul>";
-		$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='nbClients.php'\"/><br> <br></ul>";
 		}
 		return $vretour;
 	}
