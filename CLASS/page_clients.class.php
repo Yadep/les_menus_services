@@ -842,6 +842,7 @@ class page_clients extends page_base {
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
 			<br><input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
+			<br>Ajouter l'intervale jusqu'au :<input type='text' class=' text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'><INPUT type='checkbox' name='choix1' value='1'> 
 			<INPUT type='checkbox' name='choix1' value='1'> 
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
 			</form>
@@ -854,6 +855,7 @@ class page_clients extends page_base {
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
+			<br>Ajouter l'intervale jusqu'au :<input type='text' class=' text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'><INPUT type='checkbox' name='choix1' value='1'> 
 			<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 			while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
@@ -981,23 +983,34 @@ class page_clients extends page_base {
 		{		
 			$client = $_POST['listeclients1'];
 			$employe = $_POST['listeemployes'];
-			if ($client != 'VIDE' && $employe != 'VIDE' && !isset($_POST['choix1'])) //Si un client ET un employé ont été séléctionner alors on utilise cette requete
+			/*echo $client;
+			echo '  ';
+			echo $employe;
+			echo '  ';
+			echo $datePourMysql1;
+			echo '  ';
+			echo $datePourMysql2;
+			echo '  ';*/
+					if ($client != 'VIDE' && $employe != 'VIDE' && !isset($_POST['choix1'])) //Si un client ET un employé ont été séléctionner alors on utilise cette requete
 			{
 			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
 					FROM interventions as I 
 					INNER JOIN `clients` as C on clientsage = codesage 
 					INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
-					WHERE date < '$datePourMysql1' 
-					AND CODESAGE = '$client' 
+					WHERE CODESAGE = '$client' 
 					AND emplsage = '$employe' 
-					group by `CLIENTSAGE` 
+					group by `CLIENTSAGE`
+                    HAVING date < '$datePourMysql1' 
 					ORDER BY DATE2 ASC";
 			}
 			elseif($client != 'VIDE' && $employe == 'VIDE' && !isset($_POST['choix1']))  //Si un client a été séléctionner alors on utilise cette requete
 			{
 				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
 				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
-				WHERE date < '$datePourMysql1' AND CODESAGE = '$client' group by `CLIENTSAGE` ORDER BY DATE2 ASC";
+				WHERE CODESAGE = '$client' 
+				group by `CLIENTSAGE`
+                HAVING  MAX(date) < '$datePourMysql1'
+                ORDER BY DATE2 ASC";
 			}
 			elseif ($client == 'VIDE' && $employe != 'VIDE' && !isset($_POST['choix1']))//Si un employer a été séléctionner alors on utilise cette requete
 			{
@@ -1005,14 +1018,16 @@ class page_clients extends page_base {
 				FROM interventions as I 
 				INNER JOIN `clients` as C on clientsage = codesage 
 				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
-				WHERE date < '$datePourMysql1' 
-				AND emplsage = '$employe' 
+				WHERE emplsage = '$employe' 
 				group by `CLIENTSAGE` 
+                HAVING MAX(date) < '$datePourMysql1' 
 				ORDER BY DATE2 ASC";
 			}
 			elseif ($client == 'VIDE' && $employe == 'VIDE' && !isset($_POST['choix1']))//Si un client ET un employer n'ont PAS été séléctionner alors on utilise cette requete
 			{
-			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date < '$datePourMysql1' group by `CLIENTSAGE` ORDER BY MAX(DATE) ASC";
+			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+			FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage 
+			group by `CLIENTSAGE` HAVING max(date) < '$datePourMysql1' ORDER BY MAX(DATE) ASC";
 			}
 			elseif ($client != 'VIDE' && $employe != 'VIDE' && isset($_POST['choix1']))
 			{
@@ -1020,31 +1035,36 @@ class page_clients extends page_base {
 				FROM interventions as I
 				INNER JOIN `clients` as C on clientsage = codesage
 				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage
-				WHERE date BETWEEN '$datePourMysql1' AND '$datePourMysql2' AND CODESAGE = '$client'	AND emplsage = '$employe'
+				WHERE CODESAGE = '$client'	AND emplsage = '$employe'
 				group by `CLIENTSAGE`
+                HAVING MAX(date) BETWEEN '$datePourMysql1' AND '$datePourMysql2' 
 				ORDER BY DATE2 ASC";
 			}
 			elseif($client != 'VIDE' && $employe == 'VIDE' && isset($_POST['choix1']))
 			{
 				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
 				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
-				WHERE date BETWEEN '$datePourMysql1' AND '$datePourMysql2' AND CODESAGE = '$client' group by `CLIENTSAGE` ORDER BY DATE2 ASC";
+				WHERE CODESAGE = '$client' 
+				group by `CLIENTSAGE`
+                HAVING max(date) BETWEEN '$datePourMysql1' AND '$datePourMysql2'
+                ORDER BY DATE2 ASC";
 			}
 			elseif ($client == 'VIDE' && $employe != 'VIDE' && isset($_POST['choix1']))//Si un employer a été séléctionner alors on utilise cette requete
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
-				FROM interventions as I
-				INNER JOIN `clients` as C on clientsage = codesage
-				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage
-				WHERE date BETWEEN '$datePourMysql1' AND '$datePourMysql2'
-				AND emplsage = '$employe'
-				group by `CLIENTSAGE`
-				ORDER BY DATE2 ASC";
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+						FROM interventions as I INNER JOIN `clients` as C on clientsage = codesage INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
+						WHERE emplsage = '$employe' group by `CLIENTSAGE` 
+						HAVING MAX(DATE) BETWEEN '$datePourMysql1' AND '$datePourMysql2' ORDER BY DATE2 ASC";
+				
 			}
 			elseif ($client == 'VIDE' && $employe == 'VIDE' && isset($_POST['choix1']))//Si un client ET un employer n'ont PAS été séléctionner alors on utilise cette requete
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage where date BETWEEN '$datePourMysql1' AND '$datePourMysql2' group by `CLIENTSAGE` ORDER BY MAX(DATE) ASC";
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage 
+				group by `CLIENTSAGE`
+				HAVING MAX(date) BETWEEN '$datePourMysql1' AND '$datePourMysql2' ORDER BY MAX(DATE) ASC";
 			}
+			echo $req ;
 			$resultat = $this->connexion->query($req);
 			if ( !$resultat)
 			{
