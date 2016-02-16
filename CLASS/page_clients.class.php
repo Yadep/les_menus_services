@@ -849,7 +849,7 @@ class page_clients extends page_base {
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
+			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commandé depuis cette dernière :</label>
 			<br><input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
 			<br>Ajouter l'intervale jusqu'au :<input type='text' class=' text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'><INPUT type='checkbox' name='choix1' value='1'> 
 			<INPUT type='checkbox' name='choix1' value='1'> 
@@ -863,7 +863,7 @@ class page_clients extends page_base {
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 					<input type='radio' name='datedet' id='datedet' value='avantcom' required> 
-					<label>Afficher les clients qui n'ont pas commander depuis le : 
+					<label>Afficher les clients qui n'ont pas commandé depuis le : 
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
 					
 					<br><input type='radio' name='datedet' id='datedet' value='intercom' required>
@@ -928,7 +928,7 @@ class page_clients extends page_base {
 			$vretour="
 			<ul id='navigation' class='nav-main'><br>
 			<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commander depuis cette dernière :</label>
+			<label> Veuillez choisir une date pour afficher les clients qui n'ont pas commandé depuis cette dernière :</label>
 			<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu1'>
 			<input type='submit' name='ValidFormRappelclient' value='OK'>
 			</form>
@@ -950,7 +950,7 @@ class page_clients extends page_base {
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
 					<input type='radio' name='datedet' id='datedet' value='avantcom' required> 
-					<label>Afficher les clients qui n'ont pas commander depuis le : 
+					<label>Afficher les clients qui n'ont pas commandé depuis le : 
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
 					
 					<br><input type='radio' name='datedet' id='datedet' value='intercom' required>
@@ -1091,11 +1091,11 @@ class page_clients extends page_base {
 				
 				if ($_POST['datedet'] == 'avantcom')
 				{
-				$vretour=$vretour.		"<h2>Liste des clients dont la derniére intervention <br> est situé avant le :<input type='text' name='DateAffiche1' readonly='true' value='$dateRa1'> </h2>";
+				$vretour=$vretour.		"<h2>Liste des clients dont la dernière intervention <br> est située avant le :<input type='text' name='DateAffiche1' readonly='true' value='$dateRa1'> </h2>";
 				}
 				elseif ($_POST['datedet'] == 'intercom')
 				{
-				$vretour=$vretour.		"<h2>Liste des clients dont la derniére intervention <br> est situé entre le :<input type='text' name='DateAffiche1' readonly='true' value='$dateinter1'> et le <input type='text' name='DateAffiche1' readonly='true' value='$dateinter2'> </h2>";			
+				$vretour=$vretour.		"<h2>Liste des clients dont la dernière intervention <br> est située entre le :<input type='text' name='DateAffiche1' readonly='true' value='$dateinter1'> et le <input type='text' name='DateAffiche1' readonly='true' value='$dateinter2'> </h2>";			
 				}
 				$vretour=$vretour.		"</caption>
 													<tr>
