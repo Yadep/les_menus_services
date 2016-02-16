@@ -443,31 +443,40 @@ class page_clients extends page_base {
 		
 		$vretour= $vretour."</form><br>
 
-		<form id='formlist1' method='POST' action='ListeInterventions.php' >
-		<input type='submit' name='Rechecher' id='Rechecher' value='Rechecher' >";
+		<form id='formlist' method='POST' action='ListeInterventions1.php' >";
 		
 		if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
 			$DateD = $_POST['DateD'];
-			$DateF = $_POST['DateF'];}
-			Else {
-				$DateD = $this->AfficheDate(date('Y-m-d'));
-				$DateF = $this->AfficheDate(date('Y-m-d'));
-			}
-		
-			$CodeEI = "";
-			
-		if(isset($_POST['listeclients1']))
-			$CodeCI = $_POST['listeclients1'];
-		else
-			$CodeCI = "";
+			$DateF = $_POST['DateF'];
+				
+		}
+		Else {
+			$DateD = $this->AfficheDate(date('Y-m-d'));
+			$DateF = $this->AfficheDate(date('Y-m-d'));
+		}
 		
 		$vretour= $vretour."
-		<input  type='hidden'  name='DateD' id='DateD'  value='$DateD' class='validate[optionnal] text-input datepicker'/>
-		<br><br>
+		<label> Recherche d'interventions du </label>	
+		<input  type='text'  name='DateD' id='DateD'  value='$DateD' class='validate[optionnal] text-input datepicker'/> 
+		<label> au </label>	
+		<input  type='text'  name='DateF' id='DateF'  value='$DateF' class='validate[optionnal] text-input datepicker'/> 
+		<input type='submit' name='Rechecher' id='Rechecher' value='Rechecher' >";
+				
 		
-		<input type='hidden' name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\" value='$DateF' />
-		<br><br><br>
 			
+		if(isset($_POST['listeclients1']))
+		{	$CodeC = $_POST['listeclients1'];
+		
+		}
+		else
+			$CodeC = "";
+		
+		
+		$vretour= $vretour."<input type='hidden' name='CodeC' value=".$CodeC.">";
+		
+		
+		$vretour= $vretour."
+		
 		
 		<br><br></ul></form>";
 		

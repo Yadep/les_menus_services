@@ -282,6 +282,16 @@ class page_interventions extends page_base {
 		$res = $this->connexion->query($req);
 		return $res;
 	}
+	public function les_interventions_clients1()
+	{
+	
+		if (isset ($_POST['listeclients1'])){
+			$listeclients =$_POST['listeclients1'];}
+			Else {$listeclients=$_POST['CodeC'];}
+			$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients'";
+			$res = $this->connexion->query($req);
+			return $res;
+	}
 	//Liste déroulante Client d'enregistrer clients, ou modifier client.
 public function les_clients($parametre,$id)
 	{
@@ -576,20 +586,10 @@ public function les_clients($parametre,$id)
 		
 		
 		
-		
 		$a="
 	
 					
 		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
-
-		if(isset($DateD))
-		$DateD = $this->envoiMysqlDate($_POST['DateD']);
-		else
-		$DateD="";
-		if(isset($DateF))
-		$DateF = $this->envoiMysqlDate($_POST['DateF']);
-		else 
-		$DateF="";
 
 		
 		
@@ -597,12 +597,16 @@ public function les_clients($parametre,$id)
 		if (isset ($_POST['listeclients2'])){
 		$listeclients =  $_POST['listeclients2'];}
 		else $listeclients='';
+		
+		
 		//Si la deuxieme liste employés a été selectionner
 		if (isset ($_POST['listeemployes2'])){
 		$listeemployes =  $_POST['listeemployes2'];}
 		else $listeemployes='';
 		
+		
 		//Conditions des executions des réquetes SQL 
+		
 		if (!empty ($listeclients) && empty ($listeemployes))
 		{
 			$result = $this->les_interventions_date_clients();
@@ -639,6 +643,9 @@ public function les_clients($parametre,$id)
 		{
 			$result = $this->les_interventions();
 		}
+		
+		
+		
 		// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste employé qui é été renvoyer
 		
 		if (isset ($_POST['CodeE'])){
@@ -843,28 +850,17 @@ public function les_clients($parametre,$id)
 						
 						
  
-			/*	if($bt == 0)
-				{
-					$a="
-				<form method='POST' name='FormI' id='FormI'  action='Interventions.php'>
-				
-						<input type='hidden' name='listeemployes' value='".$donnees->listeemployes."'>
-						<input type='hidden' name='listeclients' value='".$donnees->listeclients."'>
-						<input type='hidden' name='NomEmp' value='".$donnees->nomemp."'>
-						<input type='hidden' name='NomClient' value='".$donnees->nomclient."'>
-				<input type='submit' value='Retour'    onClick='javascript:history.back()'><br><br>
-				
-				</form>";
-					$bt++;
-				}*/
+			
 				
 			}
 				if(isset($_POST['listeclients1']))
-			$CodeCI = $_POST['listeclients1'];
+				{$CodeCI = $_POST['listeclients1'];}
 				else
-			$CodeCI = "";
+				{$CodeCI = "";}
 				 
-				$CodeEI = "";
+			$CodeEI = "";			
+			$DateD = "";
+			$DateF = "";
 				
 			$result -> closeCursor();
 			//Formulaire de l'excel
@@ -882,10 +878,6 @@ public function les_clients($parametre,$id)
 					<br>
 				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
 			</form ></centre><br><nav >
-			
-			<form name='' action= \"ModifierClients.php\"  method=\"post\">
-			<input name='retour' type=\"submit\"style=\" width: 130px\"    value=\" Retour vers client \" />
-			</form></centre><br>
 			   
 			    			
 			<form name='' action='Interventions.php'  method=\"post\">
@@ -896,7 +888,7 @@ public function les_clients($parametre,$id)
 			    <input type='hidden' name='NomClient' value=".$CodeCI.">	
 			   
 					<br>
-				<input type='button' value='Retour avec infos' onClick='javascript:history.back()'><br><br>
+				<input type='button' value='Retour vers selection' onClick='javascript:history.back()'><br><br>
 			</form ></centre><br><nav >
 			    		
 			    		
@@ -909,6 +901,286 @@ public function les_clients($parametre,$id)
 		$result=null;
 		
 		
+	return $a;
+}
+
+
+public function affiche_interventions1() {
+
+
+
+	$a="
+
+			
+		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
+
+
+
+	//Si la deuxieme liste client a été selectionner
+	if (isset ($_POST['CodeC'])){
+		$listeclients =  $_POST['CodeC'];
+		
+	}
+		else
+		{ $listeclients='';
+		
+		}
+
+
+		//Si la deuxieme liste employés a été selectionner
+		if (isset ($_POST['listeemployes1'])){
+			$listeemployes =  $_POST['listeemployes1'];}
+			else $listeemployes='';
+
+						
+					// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui é été renvoyer
+					if (isset ($_POST['CodeC'])){
+						$CodeC = $_POST['CodeC'];
+						$a=$a."<input type='hidden' name='CodeC' value=".$CodeC.">";}
+
+						if (isset ($_POST['CodeCI'])){
+							$CodeCI = $_POST['CodeCI'];
+							$a=$a."<input type='hidden' name='CodeCI' value=".$CodeCI.">";}
+
+							
+							$result = $this->les_interventions_clients1();
+							
+							$a=$a. "<center>
+					<table id='TBZHEBRA' border='1'>
+					<tr><th>Numéro</th><th>Client</th><th>Employé(e)</th>
+					<th>Date</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th>
+					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
+								
+							$bt = 0;
+
+							// Entrer de toutes les variables pour les transmettres aux autres pages.
+							while ($donnees = $result->fetch(PDO::FETCH_OBJ))
+							{
+								$a=$a."<form name='Modifier' action=\"Modif_interventions.php\" id='PDF' method=\"post\">";
+
+								if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+									$DateD = $_POST['DateD'];
+									$DateF = $_POST['DateF'];
+									$a=$a. "
+									<input type='hidden' name='DateD' value=$DateD>
+									<input type='hidden' name='DateF' value=$DateF> ";
+								}
+
+								$a=$a."
+				<input type='hidden' name='listeemployes' value=".$listeemployes.">
+				<input type='hidden' name='listeclients' value=".$listeclients.">
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			  
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
+		
+				";
+
+
+
+								if ($donnees->facture==1)
+								{ $donnees->facture='Oui'; }
+								Else
+								{ $donnees->facture='Non';}
+
+								if ($donnees->TOTAL=='0')
+								{
+									$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+								}
+								if ($donnees->TOTAL=='')
+								{
+									$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+								}
+
+								if ($donnees->mois<10)
+								{$mois = '0'.$donnees->mois;}
+								else { $mois =$donnees->mois;}
+
+								if ($donnees->jour<10)
+								{$jour = '0'.$donnees->jour;}
+								else { $jour =$donnees->jour;}
+
+								// Affichage du tableau de la liste des interventions
+								$a=$a."
+								<tr>
+								<td id='TD1I'> $donnees->NINTERV</td>
+								<td id='TD2I'>" .utf8_encode($donnees->CLIENTSAGE)." <br>" .utf8_encode($donnees->NOM)."</td>
+			    <td>".utf8_encode($donnees->Nom)."</td>
+			    <td id='TD1I' > $jour/$mois/$donnees->annee</td>
+			    <td id='TD1I'> $donnees->T1</td>
+			    <td id='TD1I'> $donnees->T2</td>
+
+			    <td id='TD1I'> $donnees->DECH</td>
+			    <td id='TD1I'> $donnees->BRIC</td>
+			    <td id='TD1I'> $donnees->VITR</td>
+			    <td id='TD1I'> $donnees->COURSES</td>
+			    	
+			    <td id='TD1I'> $donnees->TOTAL</td>
+
+			    <td id='TD1I'> $donnees->PULVERISATEUR</td>
+			    <td id='TD1I'> $donnees->DESH</td>
+
+			    <td id='TD1I'>$donnees->RefDevis</td>
+			    <td id='TD1I'>$donnees->DateProInterv</td>
+			    <td id='TD1I'>$donnees->TravauxPrev</td>
+			    <td id='TD1I'>$donnees->InfoFacture</td>
+
+			    <td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
+			    	
+			    </form>
+
+
+
+
+
+			    <form name='Supprimer' action=\"Supp_interventions.php\" id='PDF' method=\"post\">";
+
+								if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+									$DateD = $_POST['DateD'];
+									$DateF = $_POST['DateF'];
+									$a=$a. "
+									<input type='hidden' name='DateD' value=$DateD>
+									<input type='hidden' name='DateF' value=$DateF> ";
+							}
+
+				$a=$a."
+			
+				<input type='hidden' name='listeemployes' value=".$listeemployes.">
+				<input type='hidden' name='listeclients' value=".$listeclients.">
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			  
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
+
+			 
+						";
+
+
+						if ($donnees->facture==1)
+						{ $donnees->facture='Oui'; }
+						Else
+							{ $donnees->facture='Non';}
+
+							if ($donnees->TOTAL=='0')
+								{
+								$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+						}
+						if ($donnees->TOTAL=='')
+						{
+						$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+							}
+
+								
+
+			    // Affichage du tableau de la liste des interventions
+				$a=$a."
+
+				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \" /></td>
+		
+				</form>
+				";
+
+
+
+					
+
+							}
+							if(isset($_POST['listeclients1']))
+							{$CodeCI = $_POST['listeclients1'];}
+							else
+							{$CodeCI = "";}
+								
+							$CodeEI = "";
+							$DateD = "";
+							$DateF = "";
+
+							$result -> closeCursor();
+							//Formulaire de l'excel
+			$a=$a."</table>
+
+			<form name='Excel' action=\"Excelinterv.php\"  method=\"post\">
+			
+			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
+			    <input type='hidden' name='DateF' id='DateF' value=".$DateF.">
+			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
+			    <input type='hidden' name='listeclients2' value=".$CodeCI.">
+
+
+			  
+					<br>
+				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
+			</form ></centre><br><nav >
+
+
+			<form name='' action='Interventions.php'  method=\"post\">
+			
+			    <input type='hidden' name='listeemployes' id='DateD' value=".$DateD.">
+			    <input type='hidden' name='listeclients' id='DateF' value=".$DateF.">
+			    <input type='hidden' name='NomEmp' value=".$CodeEI.">
+			    <input type='hidden' name='NomClient' value=".$CodeCI.">
+
+					<br>
+			    		<input type='button' value='Retour vers selection' onClick='javascript:history.back()'><br><br>
+			</form ></centre><br><nav >
+			  
+			  
+			<nav ></ul></nav>";
+			  
+		
+		
+			$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br><br></ul>";
+		
+		$result=null;
+
+
 	return $a;
 }
 
