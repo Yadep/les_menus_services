@@ -23,6 +23,11 @@
 					<a href="RappelClients.php">
 					Rappel clients</a>
 				</li>
+			<br>	
+				<li>
+					<a href="periodeclients.php">
+					Période Client</a>
+				</li>
 			<br>				
 			</ul>		
 			</nav>';

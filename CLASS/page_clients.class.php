@@ -835,11 +835,25 @@ class page_clients extends page_base {
 		return $tel;
 	}	
 	
+	public function PeriodeClients ()
+	{
+		$result = $this->les_employes();
+		$vretour = '';
+		$daterecu =  $this->AfficheDate(date('Y-m-d'));
+		 $daterecu2 = $this->AfficheDate(date('Y-m-d'));
+		$vretour="
+		<ul id='navigation' class='nav-main'><br>
+		<form method='POST' id='Formrappelclient' action='periodeclients.php' >
+				Afficher les clients qui ont des interventions plus de X fois durant : <input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
+				et le <input type='text' class=' text-input datepicker' name='DateEnvoiRappel3' id='DateEnvoiRappel3' value='$daterecu2'>";
+		$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
+		
+		</ul>";		
+		return $vretour;
+	}
+	
 	public function Rappelclients(){
-		/*rzsd
-		 $demain =  time() + 86400; // ajout de 24 heures
-		 date('Y-m-d', $demain)
-		 */
+
 		$result = $this->les_employes();
 		$vretour = '';
 		if( isset($_POST['ValidFormRappelclient'])) // Lorsqu'on a choisi une date.
