@@ -460,7 +460,7 @@ class page_clients extends page_base {
 		<input  type='text'  name='DateD' id='DateD'  value='$DateD' class='validate[optionnal] text-input datepicker'/> 
 		<label> au </label>	
 		<input  type='text'  name='DateF' id='DateF'  value='$DateF' class='validate[optionnal] text-input datepicker'/> 
-		<input type='submit' name='Rechecher' id='Rechecher' value='Rechecher' >";
+		<input type='submit' name='Rechecher' id='Rechecher' value='Rechercher' >";
 				
 		
 			

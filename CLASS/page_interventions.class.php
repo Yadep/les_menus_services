@@ -226,6 +226,23 @@ class page_interventions extends page_base {
 		
 	
 	}
+	public function les_interventions_date_clients1()
+	{
+	
+		$DateD = $this->envoiMysqlDate($_POST['DateD']);
+		$DateF = $this->envoiMysqlDate($_POST['DateF']);
+	
+		if (isset ($_POST['listeclients1'])){
+				$listeclients =$_POST['listeclients1'];}
+		Else {$listeclients=$_POST['CodeC'];}
+		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients' AND Date BETWEEN '$DateD' AND '$DateF'";
+		$res = $this->connexion->query($req);
+	
+	
+		return $res;
+	
+	
+	}
 	
 	public function les_interventions_date_employes()
 	{
@@ -932,6 +949,47 @@ public function affiche_interventions1() {
 			$listeemployes =  $_POST['listeemployes1'];}
 			else $listeemployes='';
 
+			
+			//Conditions des executions des réquetes SQL
+			
+			if (!empty ($listeclients) && empty ($listeemployes))
+			{
+				$result = $this->les_interventions_date_clients1();
+			}
+			if (!empty ($listeemployes) && empty ($listeclients))
+			{
+				$result = $this->les_interventions_date_employes();
+			}
+			if (!empty ($listeclients) && !empty ($listeemployes))
+			{
+				$result = $this->les_interventions_date_employes_clients();
+			}
+			if (empty ($listeclients) && empty ($listeemployes))
+			{
+				$result = $this->les_interventions_date();
+			
+			}
+			if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions_employes_clients();
+			}
+			
+			if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions_clients();
+			}
+			
+			if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions_employes();
+			}
+			
+			if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions();
+			}
+			
+			
 						
 					// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui é été renvoyer
 					if (isset ($_POST['CodeC'])){
@@ -943,7 +1001,7 @@ public function affiche_interventions1() {
 							$a=$a."<input type='hidden' name='CodeCI' value=".$CodeCI.">";}
 
 							
-							$result = $this->les_interventions_clients1();
+							
 							
 							$a=$a. "<center>
 					<table id='TBZHEBRA' border='1'>
