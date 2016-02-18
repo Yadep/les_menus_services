@@ -334,20 +334,7 @@ public function choisir_employe (){
 }
 
 public function EmployesHeures(){	
-	/*
-	$annee = (date('Y', $date))-1;		
-	$mois = date('m', $date);	//Récupération du mois
-	$semaine = week('w',$date);	
-	
-	$requeteA = "SELECT * FROM INTERVENTIONS WHERE NUMEMPLSAGE = ".$_POST['listeemployes']." AND YEAR(DATE)='".$annee."';";
-	$resultatA = $this->connexion->query($requeteA);
-	
-	$requeteM = "SELECT * FROM INTERVENTIONS WHERE NUMEMPKSAGE = ".$_POST['listeemployes']." AND YEAR(DATE)='".$annee."' AND MONTH(DATE)='".$mois."';";
-	$resultatM = $this->connexion->query($requeteM);
-	
-	$requeteS = "SELECT * FROM INTERVENTIONS WHERE NUMEMPLSAGE = ".$_POST['listeemployes']." AND YEAR(DATE)='".$annee."' AND MONTH(DATE)='".$mois."' AND WEEK(DATE,3)='".$semaine."';";
-	$resultatS = $this->connexion->query($requeteS);
-	*/
+
 	
 	$vretour = '';
 	$employe = array();
@@ -935,11 +922,77 @@ public function EmployesHeures(){
 		return $vretour;
 	}
 	
+	
+	
+	public function Interventions_Employés(){
+		$anneeSys = date('Y');
+		
+		$vretour = "
+		
+		
+		
+		<ul id='navigation'  class='nav-main'>
+				<section>
+					<article>
+			
+		<h2>Interventions des employés :</h2>
+				
+			<form method='POST' id='FormE'  action='ListeInterventions2.php'>";
+		
+				$result = $this->les_employes();
+$vretour=$vretour."	<label>Liste des employés : </label><select name='listeemployesI' id='listeemployesI'><option value=''></option>";
+				while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
+					if($donnees->ANCIEN_EMPLOYE == 0)
+					{
+						$vretour= $vretour.'<option value=' . $donnees->EmplSage. '>'. $donnees->Nom .' - ' . $donnees->Prenom. '</option>';
+					}
+				}
+
+			$vretour=$vretour."	</select>";
+				
+				$result->closeCursor ();
+				
+$vretour=$vretour."<br><br>
+									
+
+									<labal>Mois : </label><select name='MoisemployesI' id='MoisemployesI'>
+      									<option value=''></option>
+										<option value='01'>Janvier</option>
+										<option value='02'>Février</option>
+										<option value='03'>Mars</option>
+										<option value='04'>Avril</option>
+										<option value='05'>Mai</option>
+										<option value='06'>Juin</option>
+										<option value='07'>Juillet</option>
+										<option value='08'>Aout</option>
+										<option value='09'>Septembre</option>
+										<option value='10'>Octobre</option>
+										<option value='11'>Novembre</option>
+										<option value='12'>Décembre</option>
+									</select>
+		
+									<label>Année : </label><input type='number' name='AnneeemployesI' id='AnneeemployesI' value=" . $anneeSys . " >
+									<br><br>
+						<br><br>
+	<input type='submit' id='Rechecher' name='Rechecher' value='Rechercher'><br><br>
+	
+		
+											
+		
+											
+			</form>
+		
+	                </article>
+	            </section>
+		</ul>
+		
+		";
+		return $vretour;
+		
+		
+	}
+	
 }
-	
-	
-	
-	
 	
 	
 	

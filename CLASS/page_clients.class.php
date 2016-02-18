@@ -417,12 +417,10 @@ class page_clients extends page_base {
 		$result = $this->connexion->query($req);		
 		if(isset($result)) //Si il existe un resultat alors je remplis la liste de client.
 		{			
-				//$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1'  onchange=\"Submitliste1()\"><option value='VIDE'> </option>";
-		
+				
 			$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
 				while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {					
 					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
-					//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
 					$tabCodeSage[] = $donnees->CODESAGE;
 				}
 				$result->closeCursor ();
@@ -465,8 +463,7 @@ class page_clients extends page_base {
 		
 			
 		if(isset($_POST['listeclients1']))
-		{	$CodeC = $_POST['listeclients1'];
-		
+		{	$CodeC = $_POST['listeclients1'];	
 		}
 		else
 			$CodeC = "";
