@@ -838,14 +838,59 @@ class page_clients extends page_base {
 		$vretour = '';
 		$daterecu =  $this->AfficheDate(date('Y-m-d'));
 		 $daterecu2 = $this->AfficheDate(date('Y-m-d'));
+		 if( !isset($_POST['Periodeclient']))
+		 {
 		$vretour="
-		<ul id='navigation' class='nav-main'><br>
-		<form method='POST' id='Formrappelclient' action='periodeclients.php' >
-				Afficher les clients qui ont des interventions plus de X fois durant : <input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
-				et le <input type='text' class=' text-input datepicker' name='DateEnvoiRappel3' id='DateEnvoiRappel3' value='$daterecu2'>";
-		$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
-		
-		</ul>";		
+		 	<ul id='navigation' class='nav-main'><br>
+		 	<form method='POST' id='Periodeclient' action='periodeclients.php' >
+		 	Afficher les clients qui ont eu des interventions moins de <input type='number' name='nbfois' id='nbfois' value='2'> fois durant : <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$daterecu2'>
+		 	et le <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$daterecu2'>";
+		 	$vretour .= "<br><br><br><input type='submit' name='Periodeclient' value='OK'> </form></label>	</center><br>		</ul>";		
+		 }
+		 else 
+		 {
+		 	$date1 = $_POST['Date1'];
+		 	$date2 = $_POST['Date2'];
+		 	$nbfois = $_POST['nbfois'];
+		 	$color = "grey";
+		 	$codesage = "1";
+		$vretour="
+		 	<ul id='navigation' class='nav-main'><br>
+		 	<form method='POST' id='Periodeclient' action='periodeclients.php' >
+		 	Afficher les clients qui ont eu des interventions moins de <input type='number' name='nbfois' id='nbfois' value='$nbfois'> fois durant : <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$date1'>
+		 	et le <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$date2'>";
+		 	$vretour .= "<br><br><br><input type='submit' name='Periodeclient' value='OK'> </form></label>	</center><br>		</ul>";		
+		 	$vretour .= "<ul id='navigation' class='nav-main'><br>";
+		 	$vretour .=	"<center><table border='1'><tr><th>CodeSage</th><th>Nom Client</th><th>Date</th><th>Nom intervenant</th></tr>";
+		 	$requete ="SELECT C.CODESAGE,C.NOM AS NOMC,I.DATE,E.NOM AS NOME
+					  FROM interventions as I INNER JOIN clients as C on codesage = clientsage INNER JOIN employes as E on EmplSage = NUMEMPLSAGE 
+					  WHERE MONTH(DATE) BETWEEN '$date1' AND '$date2' 
+					  AND C.CODESAGE IN 
+		 			 (SELECT C.CODESAGE FROM interventions as I INNER JOIN clients as C on codesage = clientsage INNER JOIN employes as E on EmplSage = NUMEMPLSAGE WHERE MONTH(DATE) BETWEEN '$date1' AND '$date2' GROUP BY `CLIENTSAGE` HAVING COUNT(CODESAGE)<='$nbfois' ORDER BY COUNT(CODESAGE) ASC) ORDER BY `C`.`NOM` ASC";
+		 	$result=$this->connexion->query($requete);
+		 	while($donnees = $result->fetch(PDO::FETCH_OBJ))
+		 			{
+						if($codesage != $donnees->CODESAGE)
+		 				{
+		 					if ($color = "grey")
+		 					{
+		 					$color = "white";
+		 					}
+		 				}
+		 				if($codesage != $donnees->CODESAGE)
+		 				{
+		 					if ($color = "white")
+		 					{
+		 					$color = "grey";
+		 					}
+		 				}
+		 				$codesage = $donnees->CODESAGE;
+		 				$Date = $donnees->DATE;
+		 				$datefr = date("d-m-Y", strtotime($Date));
+		 				$vretour .= "<tr><td>$donnees->CODESAGE</td><td>$donnees->NOMC</td><td>$datefr</td><td>$donnees->NOME</td></tr>";
+		 			}
+		 			$vretour .="</table></ul>";
+		 }
 		return $vretour;
 	}
 	
@@ -878,7 +923,7 @@ class page_clients extends page_base {
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
 					
 					<br><input type='radio' name='datedet' id='datedet' value='intercom' required>
-					Afficher les clients qui ont commander la dernière fois entre le  :<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
+					Afficher les clients qui ont commandé la dernière fois entre le  :<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
 					 et le <input type='text' class=' text-input datepicker' name='DateEnvoiRappel3' id='DateEnvoiRappel3' value='$daterecu2'>
 					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
@@ -965,7 +1010,7 @@ class page_clients extends page_base {
 					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
 					
 					<br><input type='radio' name='datedet' id='datedet' value='intercom' required>
-					Afficher les clients qui ont commander la dernière fois entre le  :<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
+					Afficher les clients qui ont commandé la dernière fois entre le  :<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
 					 et le <input type='text' class=' text-input datepicker' name='DateEnvoiRappel3' id='DateEnvoiRappel3' value='$daterecu2'>
 					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
