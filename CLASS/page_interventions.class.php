@@ -672,7 +672,8 @@ public function les_clients($parametre,$id)
 	
 					
 		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
-
+		
+		
 		
 		
 		//Si la deuxieme liste client a été selectionner
@@ -1314,9 +1315,27 @@ public function affiche_interventions2() {
 	$a="
 
 		
-		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
+		<ul id='navigation' class='nav-main'>";
 
-
+	if (!empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec un employés, le mois et l'année : </h2>";
+	}
+	elseif (!empty($_POST['MoisemployesI']) && empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec un employés et le mois : </h2>";
+	}
+	elseif (empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec un employés et l'année : </h2>";
+	}
+	elseif (!empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec le mois et l'année : </h2>";
+	}
+	elseif (!empty($_POST['MoisemployesI']) && empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec le mois : </h2>";
+	}
+	elseif (empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec l'année : </h2>";
+	}
+	
 	
 	//si la liste mois a été selectionné
 	if (isset($_POST['MoisemployesI'])){
