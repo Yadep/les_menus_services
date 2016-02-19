@@ -19,6 +19,10 @@
 					Créer un nouveau Client</a>
 				</li>
 			<br>				
+					
+			</ul>	
+			<ul id="navigation" class="nav-main">
+			<br>				
 				<li>
 					<a href="RappelClients.php">
 					Rappel clients</a>
@@ -28,8 +32,7 @@
 					<a href="periodeclients.php">
 					Période Client</a>
 				</li>
-			<br>				
-			</ul>		
+			<br>	
 			</nav>';
 	$site->affiche();
 
