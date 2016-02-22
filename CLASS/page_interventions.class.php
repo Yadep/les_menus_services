@@ -323,7 +323,6 @@ class page_interventions extends page_base {
 		if (isset($_POST['listeemployesI'])) {$listeemployes=$_POST['listeemployesI'];}
 		$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE EmplSage=$listeemployes";
 		$res = $this->connexion->query($req);
-		$res .= $req;
 		return $res;
 	}
 	public function les_interventions_employesMois()
@@ -1311,29 +1310,73 @@ public function affiche_interventions1() {
 public function affiche_interventions2() {
 
 
+	if($_POST['MoisemployesI'] == 01)
+		$libmois = "Janvier";
+	if($_POST['MoisemployesI'] == 02)
+		$libmois = "Frévier";
+	if($_POST['MoisemployesI'] == 03)
+		$libmois = "Mars";
+	if($_POST['MoisemployesI'] == 04)
+		$libmois = "Avril";
+	if($_POST['MoisemployesI'] == 05)
+		$libmois = "Mai";
+	if($_POST['MoisemployesI'] == 06)
+		$libmois = "Juin";
+	if($_POST['MoisemployesI'] == 07)
+		$libmois = "Juillet";
+	if($_POST['MoisemployesI'] == 08)
+		$libmois = "Août";
+	if($_POST['MoisemployesI'] == 09)
+		$libmois = "Septembre";
+	if($_POST['MoisemployesI'] == 10)
+		$libmois = "Octobre";
+	if($_POST['MoisemployesI'] == 11)
+		$libmois = "Novembre";
+	if($_POST['MoisemployesI'] == 11)
+		$libmois = "Décembre";
+	
+	
+	if($_POST['listeemployesI'] == 1)
+		$libemp = 'PALAZON David';
+	if($_POST['listeemployesI'] == 3)
+		$libemp = 'DAVID Patrick';
+	if($_POST['listeemployesI'] == 4)
+		$libemp = 'JACOB François-Régis';
+	if($_POST['listeemployesI'] == 5)
+		$libemp = 'MORIN Jea-yves';
+	if($_POST['listeemployesI'] == 13)
+		$libemp = 'BOULLAY Philippe';
 
+		
+		
+		
 	$a="
 
+		
+		
 		
 		<ul id='navigation' class='nav-main'>";
 
 	if (!empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec un employés, le mois et l'année : </h2>";
+		$a=$a. "<h2>Liste avec un employé : $libemp <br> le mois : $libmois <br> l'année : ".$_POST['AnneeemployesI']." </h2>";
 	}
 	elseif (!empty($_POST['MoisemployesI']) && empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec un employés et le mois : </h2>";
+		$a=$a. "<h2>Liste avec un employé : $libemp <br> le mois : $libmois </h2>";
 	}
 	elseif (empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec un employés et l'année : </h2>";
+		$a=$a. "<h2>Liste avec un employé : $libemp<br> l'année : ".$_POST['AnneeemployesI']." </h2>";
 	}
 	elseif (!empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec le mois et l'année : </h2>";
+		$a=$a. "<h2>Liste avec le mois : $libmois <br> l'année : ".$_POST['AnneeemployesI']." </h2>";
 	}
 	elseif (!empty($_POST['MoisemployesI']) && empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec le mois : </h2>";
+		$a=$a. "<h2>Liste avec le mois : $libmois </h2>";
 	}
 	elseif (empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec l'année : </h2>";
+		$a=$a. "<h2>Liste avec l'année : ".$_POST['AnneeemployesI']." </h2>";
+	}
+	elseif (empty($_POST['MoisemployesI']) && empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
+		$a=$a. "<h2>Liste avec l'employé : $libemp </h2>";
 	}
 	
 	
