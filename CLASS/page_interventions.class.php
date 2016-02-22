@@ -1336,18 +1336,94 @@ public function affiche_interventions2() {
 		$libmois = "Décembre";
 	
 	
-	if($_POST['listeemployesI'] == 1)
-		$libemp = 'PALAZON David';
-	if($_POST['listeemployesI'] == 3)
-		$libemp = 'DAVID Patrick';
-	if($_POST['listeemployesI'] == 4)
-		$libemp = 'JACOB François-Régis';
-	if($_POST['listeemployesI'] == 5)
-		$libemp = 'MORIN Jea-yves';
-	if($_POST['listeemployesI'] == 13)
-		$libemp = 'BOULLAY Philippe';
 
-		
+	//si la liste mois a été selectionné
+	if (isset($_POST['MoisemployesI'])){
+		$mois = $_POST['MoisemployesI'];
+	}
+	else
+	{
+		$mois ='';
+	}
+	
+	
+	//si la liste année a été selectionné
+	if (isset($_POST['AnneeemployesI'])){
+		$annee = $_POST['AnneeemployesI'];
+	}
+	else
+	{
+		$annee ='';
+	}
+	
+	
+	
+	//si la liste employés a été selectionné
+	if (isset($_POST['listeemployesI'])){
+		$listeemployes = $_POST['listeemployesI'];}
+		else
+		{
+			$listeemployes ='';
+		}
+	
+	
+	
+			
+		// Conditions des executions des réquetes SQL
+	
+	
+		// mois
+		if (empty ($listeemployes) && empty ($annee) && !empty($mois))
+		{
+			$result = $this->les_interventions_mois();
+		}
+		// employés saisie
+		if (!empty ($listeemployes) && empty ($annee) && empty($mois))
+		{
+			$result = $this->les_interventions_employes2();
+		}
+		// employés + mois
+		if (!empty ($listeemployes) && empty ($annee) && !empty($mois))
+		{
+			$result = $this->les_interventions_employesMois();
+		}
+		// employés + année
+		if (!empty ($listeemployes) && !empty ($annee) && empty($mois))
+		{
+			$result = $this->les_interventions_employesAnnee();
+		}
+		// employés + annee + mois
+		if (!empty ($listeemployes) && !empty ($annee) && !empty($mois))
+		{
+			$result = $this->les_interventions_employesMoisAnnee();
+		}
+		// année
+		if (empty ($listeemployes) && !empty ($annee) && empty ($mois))
+		{
+			$result = $this->les_interventions_annee();
+		}
+		// mois + annee
+		if (empty ($listeemployes) && !empty ($annee) && !empty ($mois))
+		{
+			$result = $this->les_interventions_moisannee();
+		}
+			
+	
+	
+		while ($donneees = $result->fetch(PDO::FETCH_OBJ))
+		{
+	
+			if($_POST['listeemployesI'] == 1)
+				$libemp = $donneees->Nom." ".$donneees->Prenom;
+			if($_POST['listeemployesI'] == 3)
+				$libemp = 'DAVID Patrick';
+			if($_POST['listeemployesI'] == 4)
+				$libemp = 'JACOB François-Régis';
+			if($_POST['listeemployesI'] == 5)
+				$libemp = 'MORIN Jea-yves';
+			if($_POST['listeemployesI'] == 13)
+				$libemp = 'BOULLAY Philippe';
+		}
 		
 		
 	$a="
@@ -1382,48 +1458,48 @@ public function affiche_interventions2() {
 	
 	//si la liste mois a été selectionné
 	if (isset($_POST['MoisemployesI'])){
-		$mois = $_POST['MoisemployesI'];	
+		$mois = $_POST['MoisemployesI'];
 	}
 	else
 	{
 		$mois ='';
 	}
-
+	
 	
 	//si la liste année a été selectionné
 	if (isset($_POST['AnneeemployesI'])){
-		$annee = $_POST['AnneeemployesI'];		
+		$annee = $_POST['AnneeemployesI'];
 	}
 	else
 	{
 		$annee ='';
 	}
 	
-
+	
 	
 	//si la liste employés a été selectionné
 	if (isset($_POST['listeemployesI'])){
 		$listeemployes = $_POST['listeemployesI'];}
-	else
-	{
-		$listeemployes ='';			
-	}
+		else
+		{
+			$listeemployes ='';
+		}
 	
-
+	
 	
 			
 		// Conditions des executions des réquetes SQL
 	
 	
 		// mois
-		if (empty ($listeemployes) && empty ($annee) && !empty($mois)) 
+		if (empty ($listeemployes) && empty ($annee) && !empty($mois))
 		{
 			$result = $this->les_interventions_mois();
 		}
-		// employés saisie	
+		// employés saisie
 		if (!empty ($listeemployes) && empty ($annee) && empty($mois))
 		{
-			$result = $this->les_interventions_employes2();		
+			$result = $this->les_interventions_employes2();
 		}
 		// employés + mois
 		if (!empty ($listeemployes) && empty ($annee) && !empty($mois))
@@ -1432,7 +1508,7 @@ public function affiche_interventions2() {
 		}
 		// employés + année
 		if (!empty ($listeemployes) && !empty ($annee) && empty($mois))
-		{		
+		{
 			$result = $this->les_interventions_employesAnnee();
 		}
 		// employés + annee + mois
@@ -1440,7 +1516,7 @@ public function affiche_interventions2() {
 		{
 			$result = $this->les_interventions_employesMoisAnnee();
 		}
-		// année 
+		// année
 		if (empty ($listeemployes) && !empty ($annee) && empty ($mois))
 		{
 			$result = $this->les_interventions_annee();
@@ -1450,8 +1526,6 @@ public function affiche_interventions2() {
 		{
 			$result = $this->les_interventions_moisannee();
 		}
-			
-	
 
 		// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui é été renvoyer
 		if (isset ($_POST['CodeC'])){
