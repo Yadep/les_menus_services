@@ -1416,13 +1416,13 @@ public function affiche_interventions2() {
 			if($_POST['listeemployesI'] == 1)
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
 			if($_POST['listeemployesI'] == 3)
-				$libemp = 'DAVID Patrick';
+				$libemp = $donneees->Nom." ".$donneees->Prenom;
 			if($_POST['listeemployesI'] == 4)
-				$libemp = 'JACOB François-Régis';
+				$libemp = $donneees->Nom." ".$donneees->Prenom;
 			if($_POST['listeemployesI'] == 5)
-				$libemp = 'MORIN Jea-yves';
+				$libemp = $donneees->Nom." ".$donneees->Prenom;
 			if($_POST['listeemployesI'] == 13)
-				$libemp = 'BOULLAY Philippe';
+				$libemp = $donneees->Nom." ".$donneees->Prenom;
 		}
 		
 		
