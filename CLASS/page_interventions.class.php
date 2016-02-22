@@ -989,13 +989,90 @@ public function les_clients($parametre,$id)
 
 public function affiche_interventions1() {
 
+	//Si la deuxieme liste client a été selectionner
+	if (isset ($_POST['CodeC'])){
+		$listeclients =  $_POST['CodeC'];
+	
+	}
+	else
+	{ $listeclients='';
+	
+	}
+	
+	
+/*	//Si la deuxieme liste employés a été selectionner
+	if (isset ($_POST['listeemployes1'])){
+		$listeemployes =  $_POST['listeemployes1'];}
+		else $listeemployes='';*/
+	
+			
+		//Conditions des executions des réquetes SQL
+			
+		if (!empty ($listeclients) && empty ($listeemployes))
+		{
+			$result = $this->les_interventions_date_clients1();
+		}
+		if (!empty ($listeemployes) && empty ($listeclients))
+		{
+			$result = $this->les_interventions_date_employes();
+		}
+		if (!empty ($listeclients) && !empty ($listeemployes))
+		{
+			$result = $this->les_interventions_date_employes_clients();
+		}
+		if (empty ($listeclients) && empty ($listeemployes))
+		{
+			$result = $this->les_interventions_date();
+				
+		}
+		if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions_employes_clients();
+		}
+			
+		if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions_clients();
+		}
+			
+		if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions_employes();
+		}
+			
+		if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions();
+		}
 
-
+		
+		while ($donneees = $result->fetch(PDO::FETCH_OBJ))
+		{
+		
+			if(isset($_POST['CodeC']))
+				$libcl = $donneees->NOM;
+		
+		}
+		
 	$a="
 
 			
-		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
+		<ul id='navigation' class='nav-main'>";
 
+	if(!empty($_POST['CodeC']) && !empty($_POST['DateD']) && !empty($_POST['DateF']))
+	{
+		$a=$a."<h2>Liste avec le client : $libcl <br>la date de début : ".$_POST['DateD']."<br> la date de fin :".$_POST['DateF']."</h2>";
+	}
+	if(!empty($_POST['CodeC']) && empty($_POST['DateD']) && empty($_POST['DateF']))
+	{
+		$a=$a."<h2>Liste avec le client : $libcl <br></h2>";
+	}
+	if(empty($_POST['CodeC']) && !empty($_POST['DateD']) && !empty($_POST['DateF']))
+	{
+		$a=$a."<h2>Liste avec la date de début : ".$_POST['DateD']."<br> la date de fin :".$_POST['DateF']."</h2>";
+	}
+	
+			
 
 
 	//Si la deuxieme liste client a été selectionner
@@ -1415,14 +1492,24 @@ public function affiche_interventions2() {
 	
 			if($_POST['listeemployesI'] == 1)
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
+			else 
+				$libemp ="";
 			if($_POST['listeemployesI'] == 3)
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
+			else
+				$libemp ="";
 			if($_POST['listeemployesI'] == 4)
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
+			else
+				$libemp ="";
 			if($_POST['listeemployesI'] == 5)
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
+			else
+				$libemp ="";
 			if($_POST['listeemployesI'] == 13)
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
+			else
+				$libemp ="";
 		}
 		
 		
