@@ -430,7 +430,7 @@ class page_clients extends page_base {
 			
 				
 				$vretour = $vretour."</select></li></center>
-						<input type='submit' name='afficherC' id='afficherC' value='Afficher' >
+						<label>Afficher d'abord la fiche client </label><input type='submit' name='afficherC' id='afficherC' value='Afficher' >
 						<input type='submit' name='modifierC' id='modifierC' value='Modifier'>
 					
 						" ;			
@@ -1977,6 +1977,9 @@ class page_clients extends page_base {
 	    }
 		return $vretour;
 	}
+	
+	
+	
 	
 	
 }

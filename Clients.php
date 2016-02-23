@@ -33,6 +33,11 @@
 					Période Client</a>
 				</li>
 			<br>	
+			<li>
+					<a href="InterventionPrevu.php">
+					Intervention prévu</a>
+				</li>
+			<br>
 			</nav>';
 	$site->affiche();
 

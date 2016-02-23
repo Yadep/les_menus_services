@@ -45,14 +45,14 @@ class page_interventions extends page_base {
 		$TOTAL = $this->connexion -> quote($_POST['TOTAL']) ;
 		
 		$REFDEV = $this->connexion -> quote($_POST['RefDev']) ;
-		$TRAVPREV = $this->connexion -> quote($_POST['TravPrev']) ;
 		$PROINTERV = $this->connexion -> quote($_POST['ProInterv']) ;
+		$TRAVPREV = $this->connexion -> quote($_POST['TravPrev']) ;	
 		$INFOFACTU = $this->connexion -> quote($_POST['InfoFactu']) ;
 		
 		
 			
 		$requete="insert into interventions (CLIENTSAGE,NUMEMPLSAGE,DATE,T1,T2,DESH,DECH,BRIC,VITR,COURSES,PULVERISATEUR,TOTAL,facture,RefDevis,DateProInterv,TravauxPrev,InfoFacture)
-				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.",".$REFDEV.",".$TRAVPREV.",".$PROINTERV.",".$INFOFACTU.")";
+				 VALUES(".$Client.",".$Employe.",'".$Date."',".$T1.",".$T2.",".$DESH.",".$DECH.",".$BRIC.",".$VITR.",".$COURSES.",".$PULVERISATEUR.",".$TOTAL.",".$facture.",".$REFDEV.",".$PROINTERV.",".$TRAVPREV.",".$INFOFACTU.")";
 		$nblignes=$this->connexion -> exec($requete);
 		
 		$dataIR = "alert('Insertion réussie')"; 
@@ -366,13 +366,46 @@ class page_interventions extends page_base {
 	public function les_interventions_clients1()
 	{
 	
-		if (isset ($_POST['listeclients1'])){
-			$listeclients =$_POST['listeclients1'];}
+		if (isset ($_POST['listeclientI'])){
+			$listeclients = $_POST['listeclientI'];}
 			Else {$listeclients=$_POST['CodeC'];}
 			$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients'";
 			$res = $this->connexion->query($req);
 			return $res;
 	}
+	public function les_interventions_clients_avenir()
+	{
+		
+		$DateD = $this->envoiMysqlDate($_POST['DateD']);
+		$DateF = $this->envoiMysqlDate($_POST['DateF']);
+	
+		if (isset ($_POST['listeclientI'])){
+			$listeclients = $_POST['listeclientI'];}
+			Else {$listeclients=$_POST['CodeC'];}
+			$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE CODESAGE='$listeclients' And DateProInterv BETWEEN '$DateD' AND '$DateF'";
+			$res = $this->connexion->query($req);
+			return $res;
+	}
+	public function les_interventions_avenir()
+	{
+	
+		$DateD = $this->envoiMysqlDate($_POST['DateD']);
+		$DateF = $this->envoiMysqlDate($_POST['DateF']);
+	
+		if (isset ($_POST['listeclientI'])){
+			$listeclients = $_POST['listeclientI'];}
+			Else {$listeclients=$_POST['CodeC'];}
+			$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE DateProInterv BETWEEN '$DateD' AND '$DateF'";
+			$res = $this->connexion->query($req);
+			return $res;
+	}
+	public function les_clients1()
+	{
+		$req = "SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC";
+		$res = $this->connexion->query($req);
+		return $res;
+	}
+	
 	//Liste déroulante Client d'enregistrer clients, ou modifier client.
 public function les_clients($parametre,$id)
 	{
@@ -665,13 +698,93 @@ public function les_clients($parametre,$id)
 
 	public function affiche_interventions() {
 		
+		//Si la deuxieme liste client a été selectionner
+		if (isset ($_POST['listeclients2'])){
+			$listeclients =  $_POST['listeclients2'];}
+			else $listeclients='';
 		
+		
+			//Si la deuxieme liste employés a été selectionner
+			if (isset ($_POST['listeemployes2'])){
+				$listeemployes =  $_POST['listeemployes2'];}
+				else $listeemployes='';
+		
+		
+				//Conditions des executions des réquetes SQL
+		
+				if (!empty ($listeclients) && empty ($listeemployes))
+				{
+					$result = $this->les_interventions_date_clients();
+				}
+				if (!empty ($listeemployes) && empty ($listeclients))
+				{
+					$result = $this->les_interventions_date_employes();
+				}
+				if (!empty ($listeclients) && !empty ($listeemployes))
+				{
+					$result = $this->les_interventions_date_employes_clients();
+				}
+				if (empty ($listeclients) && empty ($listeemployes))
+				{
+					$result = $this->les_interventions_date();
+		
+				}
+				if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+				{
+					$result = $this->les_interventions_employes_clients();
+				}
+		
+				if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+				{
+					$result = $this->les_interventions_clients();
+				}
+		
+				if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+				{
+					$result = $this->les_interventions_employes();
+				}
+		
+				if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+				{
+					$result = $this->les_interventions();
+				}
+				
+				
+				while ($donneees = $result->fetch(PDO::FETCH_OBJ))
+				{
+				
+					if($_POST['listeemployes2'])
+						$libemp = $donneees->Nom." ".$donneees->Prenom;
+					else
+						$libemp ="";
+			
+					
+					if(isset($_POST['listeclients2']))
+						$libcl = $donneees->NOM;
+					else 
+						$libcl = "";
+				}
 		
 		$a="
 	
 					
-		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
-		
+		<ul id='navigation' class='nav-main'>";
+
+		if (!empty($_POST['listeclients2']) && !empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
+			$a=$a. "<h2>Liste concernant : $libcl <br> l'employé : $libemp <br> du : ".$_POST['DateD']."<br> au : ".$_POST['DateF']." </h2>";
+		}
+		if (!empty($_POST['listeclients2']) && !empty($_POST['listeemployes2']) && empty($_POST['DateD']) && empty($_POST['DateF'])){
+			$a=$a. "<h2>Liste conernant : $libcl <br> et : $libemp <br> </h2>";
+		}
+		if (empty($_POST['listeclients2']) && empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
+			$a=$a. "<h2>Liste du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." <br> </h2>";
+		}
+		if (!empty($_POST['listeclients2']) && empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
+			$a=$a. "<h2>Liste conernant : $libcl <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
+		}
+		if (empty($_POST['listeclients2']) && !empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
+			$a=$a. "<h2>Liste conernant : $libemp <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
+		}
 		
 		
 		
@@ -999,11 +1112,7 @@ public function affiche_interventions1() {
 	
 	}
 	
-	
-/*	//Si la deuxieme liste employés a été selectionner
-	if (isset ($_POST['listeemployes1'])){
-		$listeemployes =  $_POST['listeemployes1'];}
-		else $listeemployes='';*/
+
 	
 			
 		//Conditions des executions des réquetes SQL
@@ -1051,6 +1160,8 @@ public function affiche_interventions1() {
 		
 			if(isset($_POST['CodeC']))
 				$libcl = $donneees->NOM;
+			else
+				$libcl = "";
 		
 		}
 		
@@ -1061,15 +1172,15 @@ public function affiche_interventions1() {
 
 	if(!empty($_POST['CodeC']) && !empty($_POST['DateD']) && !empty($_POST['DateF']))
 	{
-		$a=$a."<h2>Liste avec le client : $libcl <br>la date de début : ".$_POST['DateD']."<br> la date de fin :".$_POST['DateF']."</h2>";
+		$a=$a."<h2>Liste concernant : $libcl <br> du : ".$_POST['DateD']."<br> au :".$_POST['DateF']."</h2>";
 	}
 	if(!empty($_POST['CodeC']) && empty($_POST['DateD']) && empty($_POST['DateF']))
 	{
-		$a=$a."<h2>Liste avec le client : $libcl <br></h2>";
+		$a=$a."<h2>Liste concernant : $libcl <br></h2>";
 	}
 	if(empty($_POST['CodeC']) && !empty($_POST['DateD']) && !empty($_POST['DateF']))
 	{
-		$a=$a."<h2>Liste avec la date de début : ".$_POST['DateD']."<br> la date de fin :".$_POST['DateF']."</h2>";
+		$a=$a."<h2>Liste concernant : ".$_POST['DateD']."<br> du :".$_POST['DateF']."</h2>";
 	}
 	
 			
@@ -1490,26 +1601,11 @@ public function affiche_interventions2() {
 		while ($donneees = $result->fetch(PDO::FETCH_OBJ))
 		{
 	
-			if($_POST['listeemployesI'] == 1)
+			if($_POST['listeemployesI'])
 				$libemp = $donneees->Nom." ".$donneees->Prenom;
 			else 
 				$libemp ="";
-			if($_POST['listeemployesI'] == 3)
-				$libemp = $donneees->Nom." ".$donneees->Prenom;
-			else
-				$libemp ="";
-			if($_POST['listeemployesI'] == 4)
-				$libemp = $donneees->Nom." ".$donneees->Prenom;
-			else
-				$libemp ="";
-			if($_POST['listeemployesI'] == 5)
-				$libemp = $donneees->Nom." ".$donneees->Prenom;
-			else
-				$libemp ="";
-			if($_POST['listeemployesI'] == 13)
-				$libemp = $donneees->Nom." ".$donneees->Prenom;
-			else
-				$libemp ="";
+	
 		}
 		
 		
@@ -1521,13 +1617,13 @@ public function affiche_interventions2() {
 		<ul id='navigation' class='nav-main'>";
 
 	if (!empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec un employé : $libemp <br> le mois : $libmois <br> l'année : ".$_POST['AnneeemployesI']." </h2>";
+		$a=$a. "<h2>Liste concernant : $libemp <br> le mois : $libmois <br> l'année : ".$_POST['AnneeemployesI']." </h2>";
 	}
 	elseif (!empty($_POST['MoisemployesI']) && empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
 		$a=$a. "<h2>Liste avec un employé : $libemp <br> le mois : $libmois </h2>";
 	}
 	elseif (empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && !empty($_POST['listeemployesI'])){
-		$a=$a. "<h2>Liste avec un employé : $libemp<br> l'année : ".$_POST['AnneeemployesI']." </h2>";
+		$a=$a. "<h2>Liste concernant : $libemp<br> l'année : ".$_POST['AnneeemployesI']." </h2>";
 	}
 	elseif (!empty($_POST['MoisemployesI']) && !empty($_POST['AnneeemployesI']) && empty($_POST['listeemployesI'])){
 		$a=$a. "<h2>Liste avec le mois : $libmois <br> l'année : ".$_POST['AnneeemployesI']." </h2>";
@@ -1863,6 +1959,324 @@ public function affiche_interventions2() {
 
 
 					return $a;
+				}
+				
+				
+				
+				
+		public function affiche_interventions_pro() {
+				
+				
+				
+			//Si la deuxieme liste employés a été selectionner
+			if (isset ($_POST['listeclientI'])){
+				$listeclients =  $_POST['listeclientI'];
+			echo $listeclients; }
+			else $listeclients='';
+				
+				
+			if(!empty ($_POST['listeclientI'])){
+			$result = $this->les_interventions_clients_avenir();
+			}
+			elseif(empty ($_POST['listeclientI']))
+			{
+				$result = $this->les_interventions_avenir();
+			}		
+							
+				
+				
+					
+						if($_POST['listeclientI'])
+						{
+						
+							$reqs = "SELECT * FROM clients where codesage = '$listeclients'";
+							$res = $this->connexion->query($reqs);
+							while ($donneesclient = $res->fetch(PDO::FETCH_OBJ))
+							{
+								$nomClient = $donneesclient->NOM;
+								
+							}
+						}
+						$a="
+				
+				
+				
+				
+		<ul id='navigation' class='nav-main'>";
+				
+						if (!empty($_POST['listeclientI'])){
+							$a=$a. "<h2>Liste concernant : $nomClient <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateD']." </h2>";
+						}
+						if (empty($_POST['listeclientI'])){
+							$a=$a. "<h2>Liste du : ".$_POST['DateD']." <br> au : ".$_POST['DateD']." </h2>";
+						}
+				
+				
+						
+						
+			//Si la deuxieme liste employés a été selectionner
+			if (isset ($_POST['listeclientI'])){
+				$listeclients =  $_POST['listeclientI']; }
+			else $listeclients='';
+				
+				
+			$result = $this->les_interventions_clients_avenir();				
+				
+		
+			
+			
+							
+							
+							
+							// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui é été renvoyer
+							if (isset ($_POST['CodeC'])){
+								$CodeC = $_POST['CodeC'];
+								$a=$a."<input type='hidden' name='CodeC' value=".$CodeC.">";}
+				
+								if (isset ($_POST['CodeCI'])){
+									$CodeCI = $_POST['CodeCI'];
+									$a=$a."<input type='hidden' name='CodeCI' value=".$CodeCI.">";}
+				
+										
+										
+										
+									$a=$a. "<center>
+					<table id='TBZHEBRA' border='1'>
+					<tr><th>Numéro</th><th>Client</th><th>Employé(e)</th>
+					<th>Date</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th>
+					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
+				
+									$bt = 0;
+				
+									// Entrer de toutes les variables pour les transmettres aux autres pages.
+									while ($donnees = $result->fetch(PDO::FETCH_OBJ))
+									{
+										$a=$a."<form name='Modifier' action=\"Modif_interventions.php\" id='PDF' method=\"post\">";
+				
+										if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+											$DateD = $_POST['DateD'];
+											$DateF = $_POST['DateF'];
+											$a=$a. "
+											<input type='hidden' name='DateD' value=$DateD>
+											<input type='hidden' name='DateF' value=$DateF> ";
+										}
+				
+										$a=$a."
+				
+				
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+		
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
+				
+				";
+				
+				
+				
+										if ($donnees->facture==1)
+										{ $donnees->facture='Oui'; }
+										Else
+										{ $donnees->facture='Non';}
+				
+										if ($donnees->TOTAL=='0')
+										{
+											$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+										}
+										if ($donnees->TOTAL=='')
+										{
+											$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+										}
+				
+										if ($donnees->mois<10)
+										{$mois = '0'.$donnees->mois;}
+										else { $mois =$donnees->mois;}
+				
+										if ($donnees->jour<10)
+										{$jour = '0'.$donnees->jour;}
+										else { $jour =$donnees->jour;}
+				
+										// Affichage du tableau de la liste des interventions
+										$a=$a."
+										<tr>
+										<td id='TD1I'> $donnees->NINTERV</td>
+										<td id='TD2I'>" .utf8_encode($donnees->CLIENTSAGE)." <br>" .utf8_encode($donnees->NOM)."</td>
+			    <td>".utf8_encode($donnees->Nom)."</td>
+							    <td id='TD1I' > $jour/$mois/$donnees->annee</td>
+							    <td id='TD1I'> $donnees->T1</td>
+							    <td id='TD1I'> $donnees->T2</td>
+				
+							    <td id='TD1I'> $donnees->DECH</td>
+							    <td id='TD1I'> $donnees->BRIC</td>
+							    <td id='TD1I'> $donnees->VITR</td>
+							    <td id='TD1I'> $donnees->COURSES</td>
+				
+							    <td id='TD1I'> $donnees->TOTAL</td>
+				
+							    <td id='TD1I'> $donnees->PULVERISATEUR</td>
+							    <td id='TD1I'> $donnees->DESH</td>
+				
+							    <td id='TD1I'>$donnees->RefDevis</td>
+							    <td id='TD1I'>$donnees->DateProInterv</td>
+							    <td id='TD1I'>$donnees->TravauxPrev</td>
+							    <td id='TD1I'>$donnees->InfoFacture</td>
+				
+							    <td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
+				
+							    </form>
+				
+				
+				
+				
+				
+							    <form name='Supprimer' action=\"Supp_interventions.php\" id='PDF' method=\"post\">";
+				
+										if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+							    $DateD = $_POST['DateD'];
+							    $DateF = $_POST['DateF'];
+							    $a=$a. "
+							    <input type='hidden' name='DateD' value=$DateD>
+							    <input type='hidden' name='DateF' value=$DateF> ";
+										}
+				
+										$a=$a."
+				
+			
+				
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+		
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
+				
+				
+						";
+				
+				
+										if ($donnees->facture==1)
+										{ $donnees->facture='Oui'; }
+										Else
+										{ $donnees->facture='Non';}
+				
+										if ($donnees->TOTAL=='0')
+										{
+											$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+										}
+										if ($donnees->TOTAL=='')
+										{
+											$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+										}
+				
+				
+				
+										// Affichage du tableau de la liste des interventions
+										$a=$a."
+				
+				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \" /></td>
+				
+				</form>
+				";
+				
+				
+				
+											
+				
+									}
+									if(isset($_POST['listeclients1']))
+									{$CodeCI = $_POST['listeclients1'];}
+									else
+									{$CodeCI = "";}
+				
+									$CodeEI = "";
+									$DateD = "";
+									$DateF = "";
+				
+									$result -> closeCursor();
+									//Formulaire de l'excel
+									$a=$a."</table>
+				
+			<form name='Excel' action=\"Excelinterv.php\"  method=\"post\">
+				
+			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
+			    <input type='hidden' name='DateF' id='DateF' value=".$DateF.">
+			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
+			    <input type='hidden' name='listeclients2' value=".$CodeCI.">
+				
+				
+		
+					<br>
+				<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
+			</form ></centre><br><nav >
+				
+				
+			<form name='' action='Interventions.php'  method=\"post\">
+				
+			    <input type='hidden' name='listeemployes' id='DateD' value=".$DateD.">
+			    <input type='hidden' name='listeclients' id='DateF' value=".$DateF.">
+			    <input type='hidden' name='NomEmp' value=".$CodeEI.">
+			    <input type='hidden' name='NomClient' value=".$CodeCI.">
+				
+					<br>
+			    		<input type='button' value='Retour vers selection' onClick='javascript:history.back()'><br><br>
+			</form ></centre><br><nav >
+		
+		
+			<nav ></ul></nav>";
+				
+				
+				
+									$a= $a."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br><br></ul>";
+				
+									$result=null;
+				
+				
+									return $a;
 				}
 
 
@@ -2695,6 +3109,57 @@ public function affiche_Excel()
 }
 
 
+
+
+		Public function InterventionPrevu()
+		{
+			
+			if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+				$DateD = $_POST['DateD'];
+				$DateF = $_POST['DateF'];}
+				Else {
+					$DateD = $this->AfficheDate(date('Y-m-d'));
+					$DateF = $this->AfficheDate(date('Y-m-d'));
+				}
+			
+			$vretour = "
+					
+			<ul id='navigation'  class='nav-main'>
+				<section>
+				
+					<article>
+						<center>
+							<h2>Recherche d'intervention(s) à venir</h2>		
+					
+					
+					<form method='POST' id='FormE'  action='ListeInterventionspro.php'>";
+			
+			$result = $this->les_clients1();
+			$vretour=$vretour."	<label>Liste des clients : </label><select name='listeclientI' id='listeclientI'><option value=''></option>";
+			while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
+			$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
+			}
+			
+			$vretour=$vretour."	</select><br><br>
+			<label>Date début :</label>
+		<input  type='text'  name='DateD' id='DateD'  value='$DateD' class='validate[optionnal] text-input datepicker'/> 
+		<br><br>
+		<label>Date fin :</label>
+		<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\" value='$DateF' /> 
+		<br><br><br>
+	
+			<input type='submit' id='input' name='ValidFormCDI' value='Rechercher'>
+		
+						</form>
+						    	<span><br>
+							</center>
+		                </article>
+		            </section>
+			</ul>
+			";
+	$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Interventions.php'\"/><br> <br></ul>";
+	return $vretour;
+		}
 	}
 	
 	
