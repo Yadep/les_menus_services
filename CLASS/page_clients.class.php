@@ -1060,7 +1060,7 @@ class page_clients extends page_base {
 			$employe = $_POST['listeemployes'];
 					if ($client != 'VIDE' && $employe != 'VIDE' && $_POST['datedet'] == 'avantcom') //Si un client ET un employé ont été séléctionner alors on utilise cette requete
 			{
-			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE, E.NOM AS NOME
 					FROM interventions as I 
 					INNER JOIN `clients` as C on clientsage = codesage 
 					INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
@@ -1072,8 +1072,9 @@ class page_clients extends page_base {
 			}
 			elseif($client != 'VIDE' && $employe == 'VIDE' && $_POST['datedet'] == 'avantcom')  //Si un client a été séléctionner alors on utilise cette requete
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE, E.NOM AS NOME
 				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
+				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
 				WHERE CODESAGE = '$client' 
 				group by `CLIENTSAGE`
                 HAVING  MAX(date) < '$datePourMysql1'
@@ -1081,7 +1082,7 @@ class page_clients extends page_base {
 			}
 			elseif ($client == 'VIDE' && $employe != 'VIDE' && $_POST['datedet'] == 'avantcom')//Si un employer a été séléctionner alors on utilise cette requete
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE , E.NOM AS NOME
 				FROM interventions as I 
 				INNER JOIN `clients` as C on clientsage = codesage 
 				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
@@ -1092,13 +1093,14 @@ class page_clients extends page_base {
 			}
 			elseif ($client == 'VIDE' && $employe == 'VIDE' && $_POST['datedet'] == 'avantcom')//Si un client ET un employer n'ont PAS été séléctionner alors on utilise cette requete
 			{
-			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+			$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE , E.NOM AS NOME
 			FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage 
+			INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
 			group by `CLIENTSAGE` HAVING max(date) < '$datePourMysql1' ORDER BY MAX(DATE) DESC";
 			}
 			elseif ($client != 'VIDE' && $employe != 'VIDE' && $_POST['datedet'] == 'intercom')
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE, E.NOM AS NOME
 				FROM interventions as I
 				INNER JOIN `clients` as C on clientsage = codesage
 				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage
@@ -1109,8 +1111,9 @@ class page_clients extends page_base {
 			}
 			elseif($client != 'VIDE' && $employe == 'VIDE' && $_POST['datedet'] == 'intercom')
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE, E.NOM AS NOME
 				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage
+				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
 				WHERE CODESAGE = '$client' 
 				group by `CLIENTSAGE`
                 HAVING max(date) BETWEEN '$datePourMysql2' AND '$datePourMysql3'
@@ -1118,7 +1121,7 @@ class page_clients extends page_base {
 			}
 			elseif ($client == 'VIDE' && $employe != 'VIDE' && $_POST['datedet'] == 'intercom')//Si un employer a été séléctionner alors on utilise cette requete
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE , E.NOM AS NOME
 						FROM interventions as I INNER JOIN `clients` as C on clientsage = codesage INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
 						WHERE emplsage = '$employe' group by `CLIENTSAGE` 
 						HAVING MAX(DATE) BETWEEN '$datePourMysql2' AND '$datePourMysql3' ORDER BY DATE2 DESC";
@@ -1126,8 +1129,9 @@ class page_clients extends page_base {
 			}
 			elseif ($client == 'VIDE' && $employe == 'VIDE' && $_POST['datedet'] == 'intercom')//Si un client ET un employer n'ont PAS été séléctionner alors on utilise cette requete
 			{
-				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE 
+				$req = "SELECT C.CODESAGE,MAX(DATE) as DATE2,C.NOM AS NOMC,C.REGULARITE,I.NINTERV,I.NUMEMPLSAGE,I.DATE , E.NOM AS NOME
 				FROM `clients` as C INNER JOIN interventions as I on codesage = clientsage 
+				INNER JOIN employes as E on NUMEMPLSAGE = EmplSage 
 				group by `CLIENTSAGE`
 				HAVING MAX(date) BETWEEN '$datePourMysql2' AND '$datePourMysql3' ORDER BY MAX(DATE) DESC";
 			}
@@ -1155,7 +1159,7 @@ class page_clients extends page_base {
 				}
 				$vretour=$vretour.		"</caption>
 													<tr>
-														<th>CodeSage</th><th>Nom</th><th>Date de la derniére intervention</th><th>Régulier</th><th>Non Régulier</th><th>Inconnu</th><th>Inactif</th><th>Lien vers l'intervention</th>
+														<th>CodeSage</th><th>Nom</th><th>Date de la derniére intervention</th><th>Nom de l'intervenant</th><th>Lien vers l'intervention</th>
 													</tr>";
 				//$vretour = $vretour."<ul id='navigation' class='nav-main'><br><center>";//<table><tr><th>CodeSage :</th><th>Nom du client :</th><th>Date de la derniére intervention :</th><th>Régulier</th><th>Non Régulier</th><th>Inconnu</th><th>Inactif :</th></tr>";
 				
@@ -1165,32 +1169,13 @@ class page_clients extends page_base {
 					if((in_array($clients->CODESAGE , $tabcodesage)) == false){			 //SI le codesage est pas déjé dans la liste tu lui ajoute et modifie vretour.
 						$tabcodesage[]=$clients->CODESAGE;
 							
-						if($clients->REGULARITE == 1)
-						{
-							$RadioRegulier= "<td><input type='radio' name='Regulariterappel' checked value='1'></td>
-								<td><center><input type='radio' name='Regulariterappel' value='2'></center></td>
-														<td><input type='radio' name='Regulariterappel' value='0'></td>";
-						}
-						else if($clients->REGULARITE == 2)
-						{
-							$RadioRegulier= "<td><input type='radio' name='Regulariterappel' value='1'></td>
-													<td><center><input type='radio' name='Regulariterappel' checked value='2'></center></td>
-														<td><input type='radio' name='Regulariterappel' value='0'></td>";
-						}
-						else
-						{
-							$RadioRegulier= "<td><input type='radio' name='Regulariterappel' value='1'></td>
-								<td><center><input type='radio' name='Regulariterappel' value='2'></center></td>
-														<td><input type='radio' name='Regulariterappel' checked value='0'></td>";
-						}
 						$vretour = $vretour."<form method='post' id='rappelclients' name='Clientsrappel' action='RappelDInterv.php'>
 								<tr>
 								<td>	<input type='text' name='Codesagerappel' readonly='true' value='".utf8_encode($clients->CODESAGE)."'></td>
-															<td>	<input type='text' name='Nomrappel' readonly='true' value='".utf8_encode($clients->NOM)."'>	</td>
+															<td>	<input type='text' name='Nomrappel' readonly='true' value='".utf8_encode($clients->NOMC)."'>	</td>
 										<td>	<input type='text' name='Daterappel' readonly='true' value='".$this->AfficheDate($clients->DATE2)."'>	</td>
-												$RadioRegulier
-												<td>	<input type=checkbox name='Inactifrappel' value='0'>	</td>
-												
+									
+												<td> <input type='text' name='Daterappel' readonly='true' value='".$clients->NOME."'> </td>
 												<td> 	<input type='submit' name='RappelDIntervCE' id='RappelDIntervCE' value=\"Voir l'intervention\" > </td>
 												</tr>
 												<input type='hidden' name='Daterappel1' value='$dateRa1'>
@@ -1207,7 +1192,7 @@ class page_clients extends page_base {
 				        				</tr>".$this->navigateur($nblignes,$debut,$limite,$lien)."</table>
 				        					</center><br><nav><ul id='navigation' class='nav-main'></ul></nav>";
 				*/
-				$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='RappelClients.php'\"/><br> <br></ul>";
+				$vretour = $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
 			}
 		}
 		return $vretour;
