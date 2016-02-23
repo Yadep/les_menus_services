@@ -64,6 +64,7 @@ class page_base
 		?>		
 		<p id="copyright">
 			<b>
+				<font color="black">V2 Février 2016</font>
 				<a target="_blank" href="http://www.anjou-accompagne-services.fr/">Anjou Accompagn'Services</a> |||
 				<a target="_blank" href="http://www.les-menus-services.com/">Les Menus Services</a>
 			</b>
@@ -176,7 +177,7 @@ class page_base
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">	
 				<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/> 	
 					<title>
-						Les Menus Services
+						V2 Les Menus Services
 					</title>
 					 <link rel="icon" type="image" href="STYLES\les-menus-services.gif" />
 					 
@@ -269,7 +270,7 @@ class page_base
 						<head>	
 						<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">		
 							<title>
-								Les Menus Services
+								V2 Les Menus Services
 							</title>
 		
 						</head>
