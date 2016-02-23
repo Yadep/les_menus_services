@@ -843,9 +843,11 @@ class page_clients extends page_base {
 		$vretour="
 		 	<ul id='navigation' class='nav-main'><br>
 		 	<form method='POST' id='Periodeclient' action='periodeclients.php' >
-		 	Afficher les clients qui ont eu des interventions moins de <input type='number' name='nbfois' id='nbfois' value='2'> fois durant : <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$daterecu2'>
-		 	et le <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$daterecu2'>";
+		 	Afficher les clients qui ont eu des interventions plus de <input type='number' name='nbfois' id='nbfois' value='2'> fois entre <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$daterecu2'>
+		 	et <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$daterecu2'>";
 		 	$vretour .= "<br><br><br><input type='submit' name='Periodeclient' value='OK'> </form></label>	</center><br>		</ul>";		
+		 	$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		 	
 		 }
 		 else 
 		 {
@@ -857,8 +859,8 @@ class page_clients extends page_base {
 		$vretour="
 		 	<ul id='navigation' class='nav-main'><br>
 		 	<form method='POST' id='Periodeclient' action='periodeclients.php' >
-		 	Afficher les clients qui ont eu des interventions moins de <input type='number' name='nbfois' id='nbfois' value='$nbfois'> fois durant : <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$date1'>
-		 	et le <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$date2'>";
+		 	Afficher les clients qui ont eu des interventions plus de <input type='number' name='nbfois' id='nbfois' value='2'> fois entre <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$daterecu2'>
+		 	et <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$daterecu2'>";
 		 	$vretour .= "<br><br><br><input type='submit' name='Periodeclient' value='OK'> </form></label>	</center><br>		</ul>";		
 		 	$vretour .= "<ul id='navigation' class='nav-main'><br>";
 		 	$vretour .=	"<center><table border='1'><tr><th>CodeSage</th><th>Nom Client</th><th>Date</th><th>Nom intervenant</th></tr>";
@@ -890,6 +892,8 @@ class page_clients extends page_base {
 		 				$vretour .= "<tr><td>$donnees->CODESAGE</td><td>$donnees->NOMC</td><td>$datefr</td><td>$donnees->NOME</td></tr>";
 		 			}
 		 			$vretour .="</table></ul>";
+					$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		 					 			
 		 }
 		return $vretour;
 	}
@@ -913,6 +917,7 @@ class page_clients extends page_base {
 			</form>
 			<br>
 			</ul>";
+			
 
 			$daterecu =  $this->AfficheDate(date('Y-m-d'));
 			$vretour="
@@ -947,7 +952,8 @@ class page_clients extends page_base {
 		$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
 				
 					</ul>";		
-			
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		
 			$vretour = $vretour.$this->afficheclientsrappel($daterecu1,$daterecu2);
 				
 				
@@ -1033,7 +1039,10 @@ class page_clients extends page_base {
 		$result->closeCursor ();
 		$vretour .= "<br><br><br><input type='submit' name='ValidFormRappelclient' value='OK'> </form></label>	</center><br>
 				
-					</ul>";		}
+					</ul>";		
+		$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
+		
+		}
 		return $vretour;
 	}
 	
