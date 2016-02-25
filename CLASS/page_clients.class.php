@@ -1453,8 +1453,8 @@ class page_clients extends page_base {
 		$vretour = $vretour."
 		<form method='post' action='#'>
 				<fieldset align='right'>
-				<label> Rechercher : </label>
-				<input type='textbox' id'rechercher' name='rechercher' value=''><br><br>
+				<label> Recherche dans commune, nom de rue et nom de client : </label>
+				<input type='textbox' id'rechercher' name='recherche' value=''><br><br>
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
 				</fieldset>
 		</form>";
@@ -1467,7 +1467,8 @@ class page_clients extends page_base {
 				<fieldset align='left'>
 				<input type='radio' id='triC' name='triC' value='TriC'> Tri par commune <br>
 				<input type='radio' id='triN' name='triN' value='TriN'> Tri par nom <br><br>
-				<input type='radio' id='triCl' name='triCl' value='TriCl'> Tri par code client
+				<input type='radio' id='triCl' name='triCl' value='TriCl'> Tri par code client<br><br>
+				<label> Le tri s'applique sur l'ensemble des clients  </label>
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
 				</fieldset>
 		</form>";

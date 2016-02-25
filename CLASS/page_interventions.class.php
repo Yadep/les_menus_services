@@ -1046,14 +1046,36 @@ public function les_clients($parametre,$id)
 			
 				
 			}
+			
+			
+			if (isset ($_POST['CodeE'])){
+				$CodeE = $_POST['CodeE'];
+				$a=$a."<input type='hidden' name='CodeE' value=".$CodeE.">";}
+			
+				if (isset ($_POST['CodeEI'])){
+					$CodeEI = $_POST['CodeEI'];
+					$a=$a."<input type='hidden' name='CodeEI' value=".$CodeEI.">";}
 				if(isset($_POST['listeclients1']))
 				{$CodeCI = $_POST['listeclients1'];}
 				else
 				{$CodeCI = "";}
-				 
-			$CodeEI = "";			
-			$DateD = "";
-			$DateF = "";
+				
+		/*	if($_POST['CodeEI'])
+			{ $CodeEI = $_POST['CodeEI'];}
+			else
+			{$CodeEI = "";	}	*/
+			
+			if($_POST['DateD'])
+			{ $DateD = $_POST['DateD'];}
+			else
+			{$DateD = "";	}
+			
+			if($_POST['DateF'])
+			{ $DateF = $_POST['DateF'];}
+			else
+			{$DateF = "";	}
+				
+			
 				
 			$result -> closeCursor();
 			//Formulaire de l'excel
@@ -1097,7 +1119,272 @@ public function les_clients($parametre,$id)
 	return $a;
 }
 
+/*public function affiche_interventions() { //celui de base
 
+
+	$a="
+			
+		
+			
+		<ul id='navigation' class='nav-main'><h2>Liste : </h2>";
+
+	$DateD = $this->envoiMysqlDate($_POST['DateD']);
+	$DateF = $this->envoiMysqlDate($_POST['DateF']);
+	//Si la deuxieme liste client a été selectionner
+	if (isset ($_POST['listeclients2'])){
+		$listeclients =  $_POST['listeclients2'];}
+		else $listeclients='';
+		//Si la deuxieme liste employés a été selectionner
+		if (isset ($_POST['listeemployes2'])){
+			$listeemployes =  $_POST['listeemployes2'];}
+			else $listeemployes='';
+
+			//Conditions des executions des rêquetes SQL
+			if (!empty ($listeclients) && empty ($listeemployes))
+			{
+				$result = $this->les_interventions_date_clients();
+			}
+			if (!empty ($listeemployes) && empty ($listeclients))
+			{
+				$result = $this->les_interventions_date_employes();
+			}
+			if (!empty ($listeclients) && !empty ($listeemployes))
+			{
+				$result = $this->les_interventions_date_employes_clients();
+			}
+			if (empty ($listeclients) && empty ($listeemployes))
+			{
+				$result = $this->les_interventions_date();
+
+			}
+			if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions_employes_clients();
+			}
+
+			if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions_clients();
+			}
+
+			if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions_employes();
+			}
+
+			if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+			{
+				$result = $this->les_interventions();
+			}
+			// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste employé qui à été renvoyer
+
+			if (isset ($_POST['CodeE'])){
+				$CodeE = $_POST['CodeE'];
+				$a=$a."<input type='hidden' name='CodeE' value=".$CodeE.">";}
+
+				if (isset ($_POST['CodeEI'])){
+					$CodeEI = $_POST['CodeEI'];
+					$a=$a."<input type='hidden' name='CodeEI' value=".$CodeEI.">";}
+						
+					// Pour trouver si c'est la valeur de la premier liste ou deuxieme liste client qui à été renvoyer
+					if (isset ($_POST['CodeC'])){
+						$CodeC = $_POST['CodeC'];
+						$a=$a."<input type='hidden' name='CodeC' value=".$CodeC.">";}
+
+						if (isset ($_POST['CodeCI'])){
+							$CodeCI = $_POST['CodeCI'];
+							$a=$a."<input type='hidden' name='CodeCI' value=".$CodeCI.">";}
+
+							$a=$a. "<center>
+					<table id='TBZHEBRA' border='1'>
+					<tr><th>Numéro</th><th>Client</th><th>Employé(e)</th>
+					<th>Date</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th>
+					<th>VITR</th><th>COUR</th><th><b>TOTAL</b></th><th>PULVE</th><th>DESH</th></tr>";
+								
+								
+
+							// Entrer de toutes les variables pour les transmettres aux autres pages.
+							while ($donnees = $result->fetch(PDO::FETCH_OBJ))
+							{
+								$a=$a."<form name='Modifier' action=\"Modif_interventions.php\" id='PDF' method=\"post\">";
+
+								if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+									$DateD = $_POST['DateD'];
+									$DateF = $_POST['DateF'];
+									$a=$a. "
+									<input type='hidden' name='DateD' value=$DateD>
+									<input type='hidden' name='DateF' value=$DateF> ";
+								}
+
+								$a=$a."
+				<input type='hidden' name='listeemployes' value=".$listeemployes.">
+				<input type='hidden' name='listeclients' value=".$listeclients.">
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+
+				";
+
+
+								if ($donnees->facture==1)
+								{ $donnees->facture='Oui'; }
+								Else
+								{ $donnees->facture='Non';}
+
+								if ($donnees->TOTAL=='0')
+								{
+									$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+								}
+								if ($donnees->TOTAL=='')
+								{
+									$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+								}
+
+								if ($donnees->mois<10)
+								{$mois = '0'.$donnees->mois;}
+								else { $mois =$donnees->mois;}
+
+								if ($donnees->jour<10)
+								{$jour = '0'.$donnees->jour;}
+								else { $jour =$donnees->jour;}
+
+								// Affichage du tableau de la liste des interventions
+								$a=$a."
+								<tr>
+								<td id='TD1I'> $donnees->NINTERV</td>
+								<td id='TD2I'> $donnees->CLIENTSAGE <br> $donnees->NOM</td>
+								<td>$donnees->Nom</td>
+								<td id='TD1I' > $jour/$mois/$donnees->annee</td>
+								<td id='TD1I'> $donnees->T1</td>
+								<td id='TD1I'> $donnees->T2</td>
+
+								<td id='TD1I'> $donnees->DECH</td>
+								<td id='TD1I'> $donnees->BRIC</td>
+								<td id='TD1I'> $donnees->VITR</td>
+								<td id='TD1I'> $donnees->COURSES</td>
+									
+								<td id='TD1I'> $donnees->TOTAL</td>
+
+								<td id='TD1I'> $donnees->PULVERISATEUR</td>
+								<td id='TD1I'> $donnees->DESH</td>
+								<td><input type=\"submit\"  name='Modifier'  value=\" Modifier \"/></td>
+									
+								</tr>
+								</form>	
+								
+								<form name='Supprimer' action=\"Supp_interventions.php\" id='PDF' method=\"post\">";
+
+					if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
+						$DateD = $_POST['DateD'];
+						$DateF = $_POST['DateF'];
+						$a=$a. "
+						<input type='hidden' name='DateD' value=$DateD>
+						<input type='hidden' name='DateF' value=$DateF> ";
+					}
+				
+				$a=$a."
+					
+				<input type='hidden' name='listeemployes' value=".$listeemployes.">
+				<input type='hidden' name='listeclients' value=".$listeclients.">
+				<input type='hidden' name='NomEmp' value='".$donnees->Nom."'>
+				<input type='hidden' name='NomClient' value='".$donnees->NOM."'>
+			    <input type='hidden' name='AdresseClient' value='".$donnees->ADRESSE."'>
+			    <input type='hidden' name='CPClient' value='".$donnees->CODEPOSTAL."'>
+			    <input type='hidden' name='CommuneClient' value='".$donnees->COMMUNE."'>
+			    <input type='hidden' name='COMPLEMENTClient' value='".$donnees->COMPLEMENT."'>
+			    <input type='hidden' name='TELEPHONEClient' value='".$donnees->TELEPHONE."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    <input type='hidden' name='Client' value='".$donnees->CODESAGE."'>
+			    <input type='hidden' name='T1' value='".$donnees->T1."'>
+			    <input type='hidden' name='T2' value='".$donnees->T2."'>
+			    <input type='hidden' name='DESH' value='".$donnees->DESH."'>
+			    <input type='hidden' name='DECH' value='".$donnees->DECH."'>
+			    <input type='hidden' name='BRIC' value='".$donnees->BRIC."'>
+			    <input type='hidden' name='VITR' value='".$donnees->VITR."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='COURSES' value='".$donnees->COURSES."'>
+			    <input type='hidden' name='PULVERISATEUR' value='".$donnees->PULVERISATEUR."'>
+			    <input type='hidden' name='TOTAL' value='".$donnees->TOTAL."'>
+			    <input type='hidden' name='jour' value='".$donnees->jour."'>
+			    <input type='hidden' name='mois' value='".$donnees->mois."'>
+			    <input type='hidden' name='annee' value='".$donnees->annee."'>
+			    <input type='hidden' name='NINTERV' value='".$donnees->NINTERV."'>
+			    		
+			    <input type='hidden' name='RefDev' value='".$donnees->RefDevis."'>				
+				<input type='hidden' name='ProIinterv' value='".$donnees->DateProInterv."'>
+				<input type='hidden' name='TravPrev' value='".$donnees->TravauxPrev."'>
+				<input type='hidden' name='InfoFactu' value='".$donnees->InfoFacture."'>
+			 
+			    
+				";
+
+				
+				if ($donnees->facture==1)
+				{ $donnees->facture='Oui'; }
+				Else
+				{ $donnees->facture='Non';}
+				
+				if ($donnees->TOTAL=='0')
+				{
+					$donnees->TOTAL= $donnees->T1 + $donnees->T2 + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+				}
+				if ($donnees->TOTAL=='')
+				{
+					$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+				}
+				
+			
+				
+			    // Affichage du tableau de la liste des interventions
+				$a=$a."
+										
+				<td><input type=\"submit\"  name='Supprimer'  value=\" Supprimer \" /></td>
+			
+				</form>
+						";
+}
+
+
+	
+	
+$result -> closeCursor();
+//Formulaire de l'excel
+$a=$a."</table>
+
+			<form name='Excel' action=\"Excelinterv.php\"  method=\"post\">
+			
+			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
+		<input type='hidden' name='DateF' id='DateF' value=".$DateF.">
+			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
+			    <input type='hidden' name='listeclients2' value=".$CodeCI.">
+
+					<br>
+					<input name='Excel' type=\"submit\"style=\" width: 130px\"    value=\" Exporter \" />
+			</form ></centre><br><nav ><ul id='navigation' class='nav-main'></ul></nav>";
+		
+		$result=null;
+	return $a;
+}*/
 public function affiche_interventions1() {
 
 	//Si la deuxieme liste client a été selectionner
@@ -1109,8 +1396,6 @@ public function affiche_interventions1() {
 	{ $listeclients='';
 	
 	}
-	
-
 	
 			
 		//Conditions des executions des réquetes SQL
@@ -1152,7 +1437,7 @@ public function affiche_interventions1() {
 			$result = $this->les_interventions();
 		}
 
-		
+		$libcl = "";
 		while ($donneees = $result->fetch(PDO::FETCH_OBJ))
 		{
 		
@@ -1447,15 +1732,40 @@ public function affiche_interventions1() {
 							else
 							{$CodeCI = "";}
 								
-							$CodeEI = "";
-							$DateD = "";
-							$DateF = "";
+							
+							if (isset ($_POST['CodeE'])){
+								$CodeE = $_POST['CodeE'];
+								$a=$a."<input type='hidden' name='CodeE' value=".$CodeE.">";}
+									
+								if (isset ($_POST['CodeEI'])){
+									$CodeEI = $_POST['CodeEI'];
+									$a=$a."<input type='hidden' name='CodeEI' value=".$CodeEI.">";}
+									if(isset($_POST['listeclients1']))
+									{$CodeCI = $_POST['listeclients1'];}
+									else
+									{$CodeCI = "";}
+							
+									if(isset ($_POST['CodeEI']))
+										{ $CodeEI = $_POST['CodeEI'];}
+									else
+									{$CodeEI = "";	}	
+										
+									if(isset ($_POST['DateD']))
+									{ $DateD = $_POST['DateD'];}
+									else
+									{$DateD = "";	}
+										
+									if(isset ($_POST['DateF']))
+									{ $DateF = $_POST['DateF'];}
+									else
+									{$DateF = "";	}
+							
 
 							$result -> closeCursor();
 							//Formulaire de l'excel
 			$a=$a."</table>
 
-			<form name='Excel' action=\"Excelinterv.php\"  method=\"post\">
+			<form name='Excel' action=\"Excelinterv1.php\"  method=\"post\">
 			
 			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
 			    <input type='hidden' name='DateF' id='DateF' value=".$DateF.">
@@ -1908,25 +2218,49 @@ public function affiche_interventions2() {
 									
 
 					}
-					if(isset($_POST['listeclients1']))
-					{$CodeCI = $_POST['listeclients1'];}
-					else
-					{$CodeCI = "";}
+				
 
-					$CodeEI = "";
-					$DateD = "";
-					$DateF = "";
-
+					
+//si la liste mois a été selectionné
+	if (isset($_POST['MoisemployesI'])){
+		$mois = $_POST['MoisemployesI'];
+	}
+	else
+	{
+		$mois ='';
+	}
+	
+	
+	//si la liste année a été selectionné
+	if (isset($_POST['AnneeemployesI'])){
+		$annee = $_POST['AnneeemployesI'];
+	}
+	else
+	{
+		$annee ='';
+	}
+	
+	
+	
+	//si la liste employés a été selectionné
+	if (isset($_POST['listeemployesI'])){
+		$listeemployes = $_POST['listeemployesI'];}
+		else
+		{
+			$listeemployes ='';
+		}
+					
+					
 					$result -> closeCursor();
 					//Formulaire de l'excel
 					$a=$a."</table>
 
-			<form name='Excel' action=\"Excelinterv.php\"  method=\"post\">
+			<form name='Excel' action=\"Excelinterv2.php\"  method=\"post\">
 		
-			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
-			    <input type='hidden' name='DateF' id='DateF' value=".$DateF.">
-			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
-			    <input type='hidden' name='listeclients2' value=".$CodeCI.">
+			    <input type='hidden' name='mois' id='mois' value=".$mois.">
+			    <input type='hidden' name='annee' id='annee' value=".$annee.">
+			    <input type='hidden' name='listeemployes' id='listeemployes' value=".$listeemployes.">
+			    
 
 
 			
@@ -1937,10 +2271,9 @@ public function affiche_interventions2() {
 
 			<form name='' action='Interventions.php'  method=\"post\">
 		
-			    <input type='hidden' name='listeemployes' id='DateD' value=".$DateD.">
-			    <input type='hidden' name='listeclients' id='DateF' value=".$DateF.">
-			    <input type='hidden' name='NomEmp' value=".$CodeEI.">
-			    <input type='hidden' name='NomClient' value=".$CodeCI.">
+			     <input type='hidden' name='mois' id='mois' value=".$mois.">
+			    <input type='hidden' name='annee' id='annee' value=".$annee.">
+			    <input type='hidden' name='listeemployes' value=".$listeemployes.">
 
 					<br>
 			    		<input type='button' value='Retour vers selection' onClick='javascript:history.back()'><br><br>
@@ -2236,25 +2569,36 @@ public function affiche_interventions2() {
 											
 				
 									}
-									if(isset($_POST['listeclients1']))
-									{$CodeCI = $_POST['listeclients1'];}
-									else
-									{$CodeCI = "";}
-				
-									$CodeEI = "";
-									$DateD = "";
-									$DateF = "";
+
+					
+					//Si la deuxieme liste employés a été selectionner
+			if (isset ($_POST['listeclientI'])){
+				$listeclients =  $_POST['listeclientI'];
+			 }
+			else $listeclients='';
+			
+			
+			
+			if($_POST['DateD'])
+			{ $DateD = $_POST['DateD'];}
+			else
+			{$DateD = "";	}
+			
+			if($_POST['DateF'])
+			{ $DateF = $_POST['DateF'];}
+			else
+			{$DateF = "";	}
 				
 									$result -> closeCursor();
 									//Formulaire de l'excel
 									$a=$a."</table>
 				
-			<form name='Excel' action=\"Excelinterv.php\"  method=\"post\">
+			<form name='Excel' action=\"Excelintervpro.php\"  method=\"post\">
 				
 			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
 			    <input type='hidden' name='DateF' id='DateF' value=".$DateF.">
-			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
-			    <input type='hidden' name='listeclients2' value=".$CodeCI.">
+			    
+			    <input type='hidden' name='listeclientI' value=".$listeclients.">
 				
 				
 		
@@ -2267,8 +2611,8 @@ public function affiche_interventions2() {
 				
 			    <input type='hidden' name='listeemployes' id='DateD' value=".$DateD.">
 			    <input type='hidden' name='listeclients' id='DateF' value=".$DateF.">
-			    <input type='hidden' name='NomEmp' value=".$CodeEI.">
-			    <input type='hidden' name='NomClient' value=".$CodeCI.">
+			  
+			    
 				
 					<br>
 			    		<input type='button' value='Retour vers selection' onClick='javascript:history.back()'><br><br>
@@ -2754,10 +3098,6 @@ public function Afficher_modifier_Interventions() {
 			<form method='POST' name='FormI' id='FormI'  action='interventions.php'>
 			<input type='submit' name='' value='Nouvelle intervention'><br><br>
 			</form>
-			
-			<form method='POST' name='FormI' id='FormI'  action='Modif_interventions.php'>
-			<input type='submit' value='Retour'    onClick='javascript:history.back()'><br><br>
-			</form>
 				
 		</center>
 					</center>
@@ -3116,7 +3456,622 @@ public function affiche_Excel()
 		return $a;
 }
 
+public function affiche_Excel1()
+{
 
+	$DateD = $_POST['DateD'];
+	$DateF = $_POST['DateF'];
+	header("Content-type: application/msexcel; charset=Windows-1252");
+	header ("Content-Disposition: attachment; filename=Excel_$DateD \ $DateF.xls");
+
+	//Si la deuxieme liste client a été selectionner
+	if (isset ($_POST['CodeC'])){
+		$listeclients =  $_POST['CodeC'];
+	
+	}
+	else
+	{ $listeclients='';
+	
+	}
+			
+		//Conditions des executions des réquetes SQL
+			
+		if (!empty ($listeclients) && empty ($listeemployes))
+		{
+			$result = $this->les_interventions_date_clients1();
+		}
+		if (!empty ($listeemployes) && empty ($listeclients))
+		{
+			$result = $this->les_interventions_date_employes();
+		}
+		if (!empty ($listeclients) && !empty ($listeemployes))
+		{
+			$result = $this->les_interventions_date_employes_clients();
+		}
+		if (empty ($listeclients) && empty ($listeemployes))
+		{
+			$result = $this->les_interventions_date();
+				
+		}
+		if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions_employes_clients();
+		}
+			
+		if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions_clients();
+		}
+			
+		if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions_employes();
+		}
+			
+		if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		{
+			$result = $this->les_interventions();
+		}
+	
+
+
+
+			$a='';
+			if ( !$result)
+			{   $a=$a."<p>Aucune interventions enregistrer</p>";  }
+			else
+			{
+				$TotalDutotal='0';
+				$TotalT1 = '0';
+				$TotalT2 = '0';
+				$TotalDESH = '0';
+				$TotalDECH = '0';
+				$TotalBRIC = '0';
+				$TotalVITR = '0';
+				$TotalCOURSES = '0';
+				$TotalPULVERISATEUR = '0';
+				$a=$a. "<center><table border='1'><tr><th>CLIENTSAGE</th><th>CLIENTS.Nom</th><th>Adresse</th><th>COMPLEMENT</th><th>CODE POSTAL</th><th>COMMUNE</th><th>Date</th><th>NUMEMPLSAGE</th><th>EMPLOYES.Nom</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th><th>VITR</th><th>COUR</th><th>TOTAL</th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
+				$nb = $result->rowCount();
+				while ($donnees = $result->fetch(PDO::FETCH_OBJ))
+				{
+						
+					if ($donnees->facture==1)
+					{ $donnees->facture='Oui'; }
+					Else
+					{ $donnees->facture='Non';}
+						
+					if ($donnees->TOTAL=='0')
+					{
+						$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+					}
+					if ($donnees->TOTAL=='')
+					{
+						$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+					}
+					// Remplacer les valeurs Varchar en Int, directement en changeant le point en virgules, pour le excel.
+					$T1 = floatval($donnees->T1);
+					$T1a = explode('.',$T1);
+					if (isset ($T1a[1]) ){
+						$T11 = $T1a[0].','.$T1a[1];}
+						Else { $T11 = $T1a[0];}
+							
+						$T2 = floatval($donnees->T2);
+						$T2a = explode('.',$T2);
+						if (isset ($T2a[1]) ){
+							$T21 = $T2a[0].','.$T2a[1];}
+							Else { $T21 = $T2a[0];}
+								
+							$DESH = floatval($donnees->DESH);
+							$DESHa = explode('.',$DESH);
+							if (isset ($DESHa[1]) ){
+								$DESH1 = $DESHa[0].','.$DESHa[1];}
+								Else { $DESH1 = $DESHa[0];}
+									
+								$DECH = floatval($donnees->DECH);
+								$DECHa = explode('.',$DECH);
+								if (isset ($DECHa[1]) ){
+									$DECH1 = $DECHa[0].','.$DECHa[1];}
+									Else { $DECH1 = $DECHa[0];}
+
+									$BRIC = floatval($donnees->BRIC);
+									$BRICa = explode('.',$BRIC);
+									if (isset ($BRICa[1]) ){
+										$BRIC1 = $BRICa[0].','.$BRICa[1];}
+										Else { $BRIC1 = $BRICa[0];}
+
+										$VITR = floatval($donnees->VITR);
+										$VITRa = explode('.',$VITR);
+										if (isset ($VITRa[1]) ){
+											$VITR1 = $VITRa[0].','.$VITRa[1];}
+											Else { $VITR1 = $VITRa[0];}
+												
+											$COURSES = floatval($donnees->COURSES);
+											$COURSESa = explode('.',$COURSES);
+											if (isset ($COURSESa[1]) ){
+												$COURSES1 = $COURSESa[0].','.$COURSESa[1];}
+												Else { $COURSES1 = $COURSESa[0];}
+													
+												$PULVERISATEUR = floatval($donnees->PULVERISATEUR);
+												$PULVERISATEURa = explode('.',$PULVERISATEUR);
+												if (isset ($PULVERISATEURa[1]) ){
+													$PULVERISATEUR1 = $PULVERISATEURa[0].','.$PULVERISATEURa[1];}
+													Else { $PULVERISATEUR1 = $PULVERISATEURa[0];}
+														
+													$TOTAL = floatval($donnees->TOTAL);
+													$TOTALa = explode('.',$TOTAL);
+													if (isset ($TOTALa[1]) ){
+														$TOTAL1 = $TOTALa[0].','.$TOTALa[1];}
+														Else { $TOTAL1 = $TOTALa[0];}
+															
+														$a=$a. "<tr>
+			<td >" .utf8_encode ($donnees->CLIENTSAGE)."</td>
+			<td >" .utf8_encode ($donnees->NOM)."</td>
+			<td >" .utf8_encode ($donnees->ADRESSE)."</td>
+			<td >" .utf8_encode ($donnees->COMPLEMENT)."</td>
+			<td >" .utf8_encode ($donnees->CODEPOSTAL)."</td>
+			<td >" .utf8_encode ($donnees->COMMUNE)."</td>
+			<td>  $donnees->jour / $donnees->mois / $donnees->annee</td>
+			<td >".utf8_encode ($donnees->NUMEMPLSAGE)."</td>
+			<td> ".utf8_encode ($donnees->Nom)."</td>
+			<td > ".utf8_encode ($T11)."</td>
+			<td >" .utf8_encode ($T21)."</td>
+		
+			<td > ".utf8_encode ($DECH1)."</td>
+			<td > ".utf8_encode ($BRIC1)."</td>
+			<td > ".utf8_encode ($VITR1)."</td>
+			<td > ".utf8_encode ($COURSES1)."</td>
+		
+			<td > ".utf8_encode ($TOTAL1)."</td>
+			<td > ".utf8_encode ($PULVERISATEUR1)."</td>
+			<td > ".utf8_encode ($DESH1)."</td>
+				
+			<td id='TD1I'>$donnees->RefDevis</td>
+			<td id='TD1I'>$donnees->DateProInterv</td>
+			<td id='TD1I'>$donnees->TravauxPrev</td>
+			<td id='TD1I'>$donnees->InfoFacture</td>
+			</tr>";
+															
+														$nb1 = 0;
+														while ($nb1<=$nb)
+														{
+															$nb1++;
+															 
+															$TotalT1 =  'SOMME(J2:J'.$nb1.')';
+															$TotalT2 = 'SOMME(K2:K'.$nb1.')';
+															$TotalDECH = 'SOMME(L2:L'.$nb1.')';
+															$TotalBRIC = 'SOMME(M2:M'.$nb1.')';
+															$TotalVITR = 'SOMME(N2:N'.$nb1.')';
+															$TotalCOURSES = 'SOMME(O2:O'.$nb1.')';
+																
+															$TotalDutotal = 'SOMME(P2:P'.$nb1.')';
+																
+															$TotalPULVERISATEUR = 'SOMME(Q2:Q'.$nb1.')';
+															$TotalDESH = 'SOMME(R2:R'.$nb1.')';
+														}
+															
+															
+				}
+
+				$a=$a."<tr ><td colspan='9' style='font-weight: bold; ' style='text-align:right;'>Total Heure : </td><td style='font-weight: bold; '>=$TotalT1</td><td style='font-weight: bold; '>=$TotalT2</td>
+				<td style='font-weight: bold; '>=$TotalDECH</td><td style='font-weight: bold; '>=$TotalBRIC</td><td style='font-weight: bold; '>=$TotalVITR</td><td style='font-weight: bold; '>=$TotalCOURSES</td><td style='font-weight: bold; '>=$TotalDutotal</td><td style='font-weight: bold; '>=$TotalPULVERISATEUR</td><td style='font-weight: bold; '>=$TotalDESH</td></tr>";
+			}
+
+			$a=$a."</table></center>";
+			utf8_encode ($a);
+			return $a;
+}
+
+public function affiche_Excel2()
+{
+
+	echo $_POST['mois'];
+	$mois = $_POST['mois'];
+	$annee = $_POST['annee'];
+	header("Content-type: application/msexcel; charset=Windows-1252");
+	header ("Content-Disposition: attachment; filename=Excel_$mois \ $annee.xls");
+
+//si la liste mois a été selectionné
+	if (isset($_POST['mois'])){
+		$mois = $_POST['mois'];
+		echo $mois;
+	}
+	else
+	{
+		$mois ='';
+		echo 1;
+	}
+	
+	
+	//si la liste année a été selectionné
+	if (isset($_POST['annee'])){
+		$annee = $_POST['annee'];
+	}
+	else
+	{
+		$annee ='';
+	}
+	
+	
+	
+	//si la liste employés a été selectionné
+	if (isset($_POST['listeemployes'])){
+		$listeemployes = $_POST['listeemployes'];}
+		else
+		{
+			$listeemployes ='';
+		}
+	
+	
+	
+			
+		// Conditions des executions des réquetes SQL
+	
+	
+		// mois
+		if (empty ($listeemployes) && empty ($annee) && !empty($mois))
+		{
+			$result = $this->les_interventions_mois();
+		}
+		// employés saisie
+		if (!empty ($listeemployes) && empty ($annee) && empty($mois))
+		{
+			$result = $this->les_interventions_employes2();
+		}
+		// employés + mois
+		if (!empty ($listeemployes) && empty ($annee) && !empty($mois))
+		{
+			$result = $this->les_interventions_employesMois();
+		}
+		// employés + année
+		if (!empty ($listeemployes) && !empty ($annee) && empty($mois))
+		{
+			$result = $this->les_interventions_employesAnnee();
+		}
+		// employés + annee + mois
+		if (!empty ($listeemployes) && !empty ($annee) && !empty($mois))
+		{
+			$result = $this->les_interventions_employesMoisAnnee();
+		}
+		// année
+		if (empty ($listeemployes) && !empty ($annee) && empty ($mois))
+		{
+			$result = $this->les_interventions_annee();
+		}
+		// mois + annee
+		if (empty ($listeemployes) && !empty ($annee) && !empty ($mois))
+		{
+			$result = $this->les_interventions_moisannee();
+		}
+
+
+
+
+	$a=$a.'';
+	if ( !$result)
+	{   $a=$a."<p>Aucune interventions enregistrer</p>"; 
+	 }
+	else
+	{
+		$TotalDutotal='0';
+		$TotalT1 = '0';
+		$TotalT2 = '0';
+		$TotalDESH = '0';
+		$TotalDECH = '0';
+		$TotalBRIC = '0';
+		$TotalVITR = '0';
+		$TotalCOURSES = '0';
+		$TotalPULVERISATEUR = '0';
+		$a=$a. "<center><table border='1'><tr><th>CLIENTSAGE</th><th>CLIENTS.Nom</th><th>Adresse</th><th>COMPLEMENT</th><th>CODE POSTAL</th><th>COMMUNE</th><th>Date</th><th>NUMEMPLSAGE</th><th>EMPLOYES.Nom</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th><th>VITR</th><th>COUR</th><th>TOTAL</th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
+		$nb = $result->rowCount();
+		while ($donnees = $result->fetch(PDO::FETCH_OBJ))
+		{
+
+			if ($donnees->facture==1)
+			{ $donnees->facture='Oui'; }
+			Else
+			{ $donnees->facture='Non';}
+
+			if ($donnees->TOTAL=='0')
+			{
+				$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+			}
+			if ($donnees->TOTAL=='')
+			{
+				$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+			}
+			// Remplacer les valeurs Varchar en Int, directement en changeant le point en virgules, pour le excel.
+			$T1 = floatval($donnees->T1);
+			$T1a = explode('.',$T1);
+			if (isset ($T1a[1]) ){
+				$T11 = $T1a[0].','.$T1a[1];}
+				Else { $T11 = $T1a[0];}
+					
+				$T2 = floatval($donnees->T2);
+				$T2a = explode('.',$T2);
+				if (isset ($T2a[1]) ){
+					$T21 = $T2a[0].','.$T2a[1];}
+					Else { $T21 = $T2a[0];}
+
+					$DESH = floatval($donnees->DESH);
+					$DESHa = explode('.',$DESH);
+					if (isset ($DESHa[1]) ){
+						$DESH1 = $DESHa[0].','.$DESHa[1];}
+						Else { $DESH1 = $DESHa[0];}
+							
+						$DECH = floatval($donnees->DECH);
+						$DECHa = explode('.',$DECH);
+						if (isset ($DECHa[1]) ){
+							$DECH1 = $DECHa[0].','.$DECHa[1];}
+							Else { $DECH1 = $DECHa[0];}
+
+							$BRIC = floatval($donnees->BRIC);
+							$BRICa = explode('.',$BRIC);
+							if (isset ($BRICa[1]) ){
+								$BRIC1 = $BRICa[0].','.$BRICa[1];}
+								Else { $BRIC1 = $BRICa[0];}
+
+								$VITR = floatval($donnees->VITR);
+								$VITRa = explode('.',$VITR);
+								if (isset ($VITRa[1]) ){
+									$VITR1 = $VITRa[0].','.$VITRa[1];}
+									Else { $VITR1 = $VITRa[0];}
+
+									$COURSES = floatval($donnees->COURSES);
+									$COURSESa = explode('.',$COURSES);
+									if (isset ($COURSESa[1]) ){
+										$COURSES1 = $COURSESa[0].','.$COURSESa[1];}
+										Else { $COURSES1 = $COURSESa[0];}
+											
+										$PULVERISATEUR = floatval($donnees->PULVERISATEUR);
+										$PULVERISATEURa = explode('.',$PULVERISATEUR);
+										if (isset ($PULVERISATEURa[1]) ){
+											$PULVERISATEUR1 = $PULVERISATEURa[0].','.$PULVERISATEURa[1];}
+											Else { $PULVERISATEUR1 = $PULVERISATEURa[0];}
+
+											$TOTAL = floatval($donnees->TOTAL);
+											$TOTALa = explode('.',$TOTAL);
+											if (isset ($TOTALa[1]) ){
+												$TOTAL1 = $TOTALa[0].','.$TOTALa[1];}
+												Else { $TOTAL1 = $TOTALa[0];}
+													
+												$a=$a. "<tr>
+			<td >" .utf8_encode ($donnees->CLIENTSAGE)."</td>
+			<td >" .utf8_encode ($donnees->NOM)."</td>
+			<td >" .utf8_encode ($donnees->ADRESSE)."</td>
+			<td >" .utf8_encode ($donnees->COMPLEMENT)."</td>
+			<td >" .utf8_encode ($donnees->CODEPOSTAL)."</td>
+			<td >" .utf8_encode ($donnees->COMMUNE)."</td>
+			<td>  $donnees->jour / $donnees->mois / $donnees->annee</td>
+			<td >".utf8_encode ($donnees->NUMEMPLSAGE)."</td>
+			<td> ".utf8_encode ($donnees->Nom)."</td>
+			<td > ".utf8_encode ($T11)."</td>
+			<td >" .utf8_encode ($T21)."</td>
+
+			<td > ".utf8_encode ($DECH1)."</td>
+			<td > ".utf8_encode ($BRIC1)."</td>
+			<td > ".utf8_encode ($VITR1)."</td>
+			<td > ".utf8_encode ($COURSES1)."</td>
+
+			<td > ".utf8_encode ($TOTAL1)."</td>
+			<td > ".utf8_encode ($PULVERISATEUR1)."</td>
+			<td > ".utf8_encode ($DESH1)."</td>
+
+			<td id='TD1I'>$donnees->RefDevis</td>
+			<td id='TD1I'>$donnees->DateProInterv</td>
+			<td id='TD1I'>$donnees->TravauxPrev</td>
+			<td id='TD1I'>$donnees->InfoFacture</td>
+			</tr>";
+													
+												$nb1 = 0;
+												while ($nb1<=$nb)
+												{
+													$nb1++;
+
+													$TotalT1 =  'SOMME(J2:J'.$nb1.')';
+													$TotalT2 = 'SOMME(K2:K'.$nb1.')';
+													$TotalDECH = 'SOMME(L2:L'.$nb1.')';
+													$TotalBRIC = 'SOMME(M2:M'.$nb1.')';
+													$TotalVITR = 'SOMME(N2:N'.$nb1.')';
+													$TotalCOURSES = 'SOMME(O2:O'.$nb1.')';
+
+													$TotalDutotal = 'SOMME(P2:P'.$nb1.')';
+
+													$TotalPULVERISATEUR = 'SOMME(Q2:Q'.$nb1.')';
+													$TotalDESH = 'SOMME(R2:R'.$nb1.')';
+												}
+													
+													
+		}
+
+		$a=$a."<tr ><td colspan='9' style='font-weight: bold; ' style='text-align:right;'>Total Heure : </td><td style='font-weight: bold; '>=$TotalT1</td><td style='font-weight: bold; '>=$TotalT2</td>
+		<td style='font-weight: bold; '>=$TotalDECH</td><td style='font-weight: bold; '>=$TotalBRIC</td><td style='font-weight: bold; '>=$TotalVITR</td><td style='font-weight: bold; '>=$TotalCOURSES</td><td style='font-weight: bold; '>=$TotalDutotal</td><td style='font-weight: bold; '>=$TotalPULVERISATEUR</td><td style='font-weight: bold; '>=$TotalDESH</td></tr>";
+	}
+
+	$a=$a."</table></center>";
+	utf8_encode ($a);
+	return $a;
+}
+
+
+public function affiche_Excelpro()
+{
+
+	$DateD = $_POST['DateD'];
+	$DateF = $_POST['DateF'];
+	header("Content-type: application/msexcel; charset=Windows-1252");
+	header ("Content-Disposition: attachment; filename=Excel_$DateD \ $DateF.xls");
+
+	
+	if (!empty($_POST['listeclientI'])){
+		$a=$a. "<h2>Liste concernant : $nomClient <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
+	}
+	if (empty($_POST['listeclientI'])){
+		$a=$a. "<h2>Liste du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
+	}
+	
+	
+	
+	
+	//Si la deuxieme liste employés a été selectionner
+	if (isset ($_POST['listeclientI'])){
+		$listeclients =  $_POST['listeclientI']; }
+		else $listeclients='';
+	
+	
+		if(!empty ($_POST['listeclientI'])){
+			$result = $this->les_interventions_clients_avenir();
+		}
+		elseif(empty ($_POST['listeclientI']) && isset($_POST['DateD']) && isset($_POST['DateF']))
+		{
+			$result = $this->les_interventions_avenir();
+		}
+
+
+
+			$a='';
+			if ( !$result)
+			{   $a=$a."<p>Aucune interventions enregistrer</p>";  }
+			else
+			{
+				$TotalDutotal='0';
+				$TotalT1 = '0';
+				$TotalT2 = '0';
+				$TotalDESH = '0';
+				$TotalDECH = '0';
+				$TotalBRIC = '0';
+				$TotalVITR = '0';
+				$TotalCOURSES = '0';
+				$TotalPULVERISATEUR = '0';
+				$a=$a. "<center><table border='1'><tr><th>CLIENTSAGE</th><th>CLIENTS.Nom</th><th>Adresse</th><th>COMPLEMENT</th><th>CODE POSTAL</th><th>COMMUNE</th><th>Date</th><th>NUMEMPLSAGE</th><th>EMPLOYES.Nom</th><th>T1</th><th>T2</th><th>DECH</th><th>BRIC</th><th>VITR</th><th>COUR</th><th>TOTAL</th><th>PULVE</th><th>DESH</th><th>RefDevis</th><th>Date Intervention</th><th>Travaux à prévoir</th><th>Info Facture</th></tr>";
+				$nb = $result->rowCount();
+				while ($donnees = $result->fetch(PDO::FETCH_OBJ))
+				{
+						
+					if ($donnees->facture==1)
+					{ $donnees->facture='Oui'; }
+					Else
+					{ $donnees->facture='Non';}
+						
+					if ($donnees->TOTAL=='0')
+					{
+						$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+					}
+					if ($donnees->TOTAL=='')
+					{
+						$donnees->TOTAL= $donnees->T1 + $donnees->T2  + $donnees->DECH + $donnees->BRIC + $donnees->VITR + $donnees->COURSES ;
+					}
+					// Remplacer les valeurs Varchar en Int, directement en changeant le point en virgules, pour le excel.
+					$T1 = floatval($donnees->T1);
+					$T1a = explode('.',$T1);
+					if (isset ($T1a[1]) ){
+						$T11 = $T1a[0].','.$T1a[1];}
+						Else { $T11 = $T1a[0];}
+							
+						$T2 = floatval($donnees->T2);
+						$T2a = explode('.',$T2);
+						if (isset ($T2a[1]) ){
+							$T21 = $T2a[0].','.$T2a[1];}
+							Else { $T21 = $T2a[0];}
+								
+							$DESH = floatval($donnees->DESH);
+							$DESHa = explode('.',$DESH);
+							if (isset ($DESHa[1]) ){
+								$DESH1 = $DESHa[0].','.$DESHa[1];}
+								Else { $DESH1 = $DESHa[0];}
+									
+								$DECH = floatval($donnees->DECH);
+								$DECHa = explode('.',$DECH);
+								if (isset ($DECHa[1]) ){
+									$DECH1 = $DECHa[0].','.$DECHa[1];}
+									Else { $DECH1 = $DECHa[0];}
+
+									$BRIC = floatval($donnees->BRIC);
+									$BRICa = explode('.',$BRIC);
+									if (isset ($BRICa[1]) ){
+										$BRIC1 = $BRICa[0].','.$BRICa[1];}
+										Else { $BRIC1 = $BRICa[0];}
+
+										$VITR = floatval($donnees->VITR);
+										$VITRa = explode('.',$VITR);
+										if (isset ($VITRa[1]) ){
+											$VITR1 = $VITRa[0].','.$VITRa[1];}
+											Else { $VITR1 = $VITRa[0];}
+												
+											$COURSES = floatval($donnees->COURSES);
+											$COURSESa = explode('.',$COURSES);
+											if (isset ($COURSESa[1]) ){
+												$COURSES1 = $COURSESa[0].','.$COURSESa[1];}
+												Else { $COURSES1 = $COURSESa[0];}
+													
+												$PULVERISATEUR = floatval($donnees->PULVERISATEUR);
+												$PULVERISATEURa = explode('.',$PULVERISATEUR);
+												if (isset ($PULVERISATEURa[1]) ){
+													$PULVERISATEUR1 = $PULVERISATEURa[0].','.$PULVERISATEURa[1];}
+													Else { $PULVERISATEUR1 = $PULVERISATEURa[0];}
+														
+													$TOTAL = floatval($donnees->TOTAL);
+													$TOTALa = explode('.',$TOTAL);
+													if (isset ($TOTALa[1]) ){
+														$TOTAL1 = $TOTALa[0].','.$TOTALa[1];}
+														Else { $TOTAL1 = $TOTALa[0];}
+															
+														$a=$a. "<tr>
+			<td >" .utf8_encode ($donnees->CLIENTSAGE)."</td>
+			<td >" .utf8_encode ($donnees->NOM)."</td>
+			<td >" .utf8_encode ($donnees->ADRESSE)."</td>
+			<td >" .utf8_encode ($donnees->COMPLEMENT)."</td>
+			<td >" .utf8_encode ($donnees->CODEPOSTAL)."</td>
+			<td >" .utf8_encode ($donnees->COMMUNE)."</td>
+			<td>  $donnees->jour / $donnees->mois / $donnees->annee</td>
+			<td >".utf8_encode ($donnees->NUMEMPLSAGE)."</td>
+			<td> ".utf8_encode ($donnees->Nom)."</td>
+			<td > ".utf8_encode ($T11)."</td>
+			<td >" .utf8_encode ($T21)."</td>
+		
+			<td > ".utf8_encode ($DECH1)."</td>
+			<td > ".utf8_encode ($BRIC1)."</td>
+			<td > ".utf8_encode ($VITR1)."</td>
+			<td > ".utf8_encode ($COURSES1)."</td>
+		
+			<td > ".utf8_encode ($TOTAL1)."</td>
+			<td > ".utf8_encode ($PULVERISATEUR1)."</td>
+			<td > ".utf8_encode ($DESH1)."</td>
+				
+			<td id='TD1I'>$donnees->RefDevis</td>
+			<td id='TD1I'>$donnees->DateProInterv</td>
+			<td id='TD1I'>$donnees->TravauxPrev</td>
+			<td id='TD1I'>$donnees->InfoFacture</td>
+			</tr>";
+															
+														$nb1 = 0;
+														while ($nb1<=$nb)
+														{
+															$nb1++;
+															 
+															$TotalT1 =  'SOMME(J2:J'.$nb1.')';
+															$TotalT2 = 'SOMME(K2:K'.$nb1.')';
+															$TotalDECH = 'SOMME(L2:L'.$nb1.')';
+															$TotalBRIC = 'SOMME(M2:M'.$nb1.')';
+															$TotalVITR = 'SOMME(N2:N'.$nb1.')';
+															$TotalCOURSES = 'SOMME(O2:O'.$nb1.')';
+																
+															$TotalDutotal = 'SOMME(P2:P'.$nb1.')';
+																
+															$TotalPULVERISATEUR = 'SOMME(Q2:Q'.$nb1.')';
+															$TotalDESH = 'SOMME(R2:R'.$nb1.')';
+														}
+															
+															
+				}
+
+				$a=$a."<tr ><td colspan='9' style='font-weight: bold; ' style='text-align:right;'>Total Heure : </td><td style='font-weight: bold; '>=$TotalT1</td><td style='font-weight: bold; '>=$TotalT2</td>
+				<td style='font-weight: bold; '>=$TotalDECH</td><td style='font-weight: bold; '>=$TotalBRIC</td><td style='font-weight: bold; '>=$TotalVITR</td><td style='font-weight: bold; '>=$TotalCOURSES</td><td style='font-weight: bold; '>=$TotalDutotal</td><td style='font-weight: bold; '>=$TotalPULVERISATEUR</td><td style='font-weight: bold; '>=$TotalDESH</td></tr>";
+			}
+
+			$a=$a."</table></center>";
+			utf8_encode ($a);
+			return $a;
+}
 
 
 		Public function InterventionPrevu()
