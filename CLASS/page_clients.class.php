@@ -857,32 +857,94 @@ class page_clients extends page_base {
 		$vretour="
 		 	<ul id='navigation' class='nav-main'><br>
 		 	<form method='POST' id='Periodeclient' action='periodeclients.php' >
-		 	Afficher les clients qui ont eu des interventions plus de <input type='number' name='nbfois' id='nbfois' value='2'> fois entre <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$daterecu2'>
-		 	et <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$daterecu2'>";
+		 	Afficher les clients qui ont eu des interventions au plus <input type='number' name='nbfois' id='nbfois' value='2'> fois entre le mois de
+		 	<select name='Date1' id='Date1' required>
+										<option value=''></option>
+										<option value='01|Janvier'>Janvier</option>
+										<option value='02|Février'>Février</option>
+										<option value='03|Mars'>Mars</option>
+										<option value='04|Avril'>Avril</option>
+										<option value='05|Mai'>Mai</option>
+										<option value='06|Juin'>Juin</option>
+										<option value='07|Juillet'>Juillet</option>
+										<option value='08|Aout'>Aout</option>
+										<option value='09|Septembre'>Septembre</option>
+										<option value='10|Octobre'>Octobre</option>
+										<option value='11|Novembre'>Novembre</option>
+										<option value='12|Décembre'>Décembre</option>
+									</select>
+		 	et 		 	<select name='Date2' id='Date2' required>
+										<option value=''></option>
+										<option value='01|Janvier'>Janvier</option>
+										<option value='02|Février'>Février</option>
+										<option value='03|Mars'>Mars</option>
+										<option value='04|Avril'>Avril</option>
+										<option value='05|Mai'>Mai</option>
+										<option value='06|Juin'>Juin</option>
+										<option value='07|Juillet'>Juillet</option>
+										<option value='08|Aout'>Aout</option>
+										<option value='09|Septembre'>Septembre</option>
+										<option value='10|Octobre'>Octobre</option>
+										<option value='11|Novembre'>Novembre</option>
+										<option value='12|Décembre'>Décembre</option>
+									</select>
+				<input type='hidden' name='datetext2' id='datetext2' value='' />";
 		 	$vretour .= "<br><br><br><input type='submit' name='Periodeclient' value='OK'> </form></label>	</center><br>		</ul>";		
 		 	$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
 		 	
 		 }
 		 else 
 		 {
-		 	$date1 = $_POST['Date1'];
-		 	$date2 = $_POST['Date2'];
+		 	$date1 = explode('|', $_POST['Date1']);
+		 	$date2 = explode('|', $_POST['Date2']);
 		 	$nbfois = $_POST['nbfois'];
 		 	$color = "grey";
 		 	$codesage = "1";
 		$vretour="
 		 	<ul id='navigation' class='nav-main'><br>
 		 	<form method='POST' id='Periodeclient' action='periodeclients.php' >
-		 	Afficher les clients qui ont eu des interventions plus de <input type='number' name='nbfois' id='nbfois' value='2'> fois entre <input type='text' class='validate[required] text-input datepicker' name='Date1' id='Date1' value='$daterecu2'>
-		 	et <input type='text' class=' text-input datepicker' name='Date2' id='Date2' value='$daterecu2'>";
+		 			 	Afficher les clients qui ont eu des interventions au plus <input type='number' name='nbfois' id='nbfois' value='$nbfois'> fois entre le mois de
+		 	<select name='Date1' id='Date1' OnSelect=\"document.getElementById('datetext1').value=this.options[this.selectedIndex].text\" required>
+										<option value='$date1[0]|$date1[1]'>$date1[1]</option>
+										<option value=''></option>
+										<option value='01|Janvier'>Janvier</option>
+										<option value='02|Février'>Février</option>
+										<option value='03|Mars'>Mars</option>
+										<option value='04|Avril'>Avril</option>
+										<option value='05|Mai'>Mai</option>
+										<option value='06|Juin'>Juin</option>
+										<option value='07|Juillet'>Juillet</option>
+										<option value='08|Aout'>Aout</option>
+										<option value='09|Septembre'>Septembre</option>
+										<option value='10|Octobre'>Octobre</option>
+										<option value='11|Novembre'>Novembre</option>
+										<option value='12|Décembre'>Décembre</option>
+									</select>
+		 	et 		 	<select name='Date2' id='Date2' required>
+										<option value='$date2[0]|$date2[1]'>$date2[1]</option>
+										<option value=''></option>
+										<option value='01|Janvier'>Janvier</option>
+										<option value='02|Février'>Février</option>
+										<option value='03|Mars'>Mars</option>
+										<option value='04|Avril'>Avril</option>
+										<option value='05|Mai'>Mai</option>
+										<option value='06|Juin'>Juin</option>
+										<option value='07|Juillet'>Juillet</option>
+										<option value='08|Aout'>Aout</option>
+										<option value='09|Septembre'>Septembre</option>
+										<option value='10|Octobre'>Octobre</option>
+										<option value='11|Novembre'>Novembre</option>
+										<option value='12|Décembre'>Décembre</option>
+									</select>
+		";
 		 	$vretour .= "<br><br><br><input type='submit' name='Periodeclient' value='OK'> </form></label>	</center><br>		</ul>";		
 		 	$vretour .= "<ul id='navigation' class='nav-main'><br>";
 		 	$vretour .=	"<center><table border='1'><tr><th>CodeSage</th><th>Nom Client</th><th>Date</th><th>Nom intervenant</th></tr>";
 		 	$requete ="SELECT C.CODESAGE,C.NOM AS NOMC,I.DATE,E.NOM AS NOME
 					  FROM interventions as I INNER JOIN clients as C on codesage = clientsage INNER JOIN employes as E on EmplSage = NUMEMPLSAGE 
-					  WHERE MONTH(DATE) BETWEEN '$date1' AND '$date2' 
+					  WHERE MONTH(DATE) BETWEEN '$date1[0]' AND '$date2[0]' 
 					  AND C.CODESAGE IN 
-		 			 (SELECT C.CODESAGE FROM interventions as I INNER JOIN clients as C on codesage = clientsage INNER JOIN employes as E on EmplSage = NUMEMPLSAGE WHERE MONTH(DATE) BETWEEN '$date1' AND '$date2' GROUP BY `CLIENTSAGE` HAVING COUNT(CODESAGE)<='$nbfois' ORDER BY COUNT(CODESAGE) ASC) ORDER BY `C`.`NOM` ASC";
+		 			 (SELECT C.CODESAGE FROM interventions as I INNER JOIN clients as C on codesage = clientsage INNER JOIN employes as E on EmplSage = NUMEMPLSAGE WHERE MONTH(DATE) BETWEEN '$date1[0]' AND '$date2[0]' GROUP BY `CLIENTSAGE` HAVING COUNT(CODESAGE)<='$nbfois' ORDER BY COUNT(CODESAGE) ASC) ORDER BY `C`.`NOM` ASC";
 		 	$result=$this->connexion->query($requete);
 		 	while($donnees = $result->fetch(PDO::FETCH_OBJ))
 		 			{
