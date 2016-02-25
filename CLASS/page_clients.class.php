@@ -40,6 +40,12 @@ class page_clients extends page_base {
 								<label id='TableauClient'>Commune :</label><center> <input type='text' class='validate[optionnal,custom[onlyNumberLetterSpAccent]] text-input' id='Commune' name='Commune' value=''></center><br />
 								<label id='TableauClient'>Telephone :</label><center> <input type='text' class='validate[optionnal,custom[phone],minSize[10]] text-input' id='Telephone' name='Telephone'  value=''></center><br /><br>
 								<label id='TableauClient'>Détails :</label><center> <input type='text' class='validate[optionnal] text-input' id='Details' name='Details'  value=''></center><br /><br>
+								<label id='TableauClient'>Mobile :</label><center> <input type='text' class='validate[optionnal] text-input' id='Mobile' name='Mobile'  value=''></center><br /><br>
+								<label id='TableauClient'>Mail :</label><center> <input type='text' class='validate[optionnal] text-input' id='Mail' name='Mail'  value=''></center><br /><br>
+								<label id='TableauClient'>Commentaire :</label><center> <input type='text' class='validate[optionnal] text-input' id='Commentaire' name='Commentaire'  value=''></center><br /><br>
+									
+										
+										
 								<ul><li><label id='TableauClient'>Age :</label> <label id='TableauClient1'>-70 ans :</label><center><input type='radio' class='validate[required] radio'  id='Age' name='Age' value='0'  ></li></center>
 								     <li> <label id='TableauClient1'>+70 ans :</label><center><input type='radio' class='validate[required] radio' id='Age2'  name='Age'  value='1'></li></ul></center><br><br>
 		          				<ul><li><label id='TableauClient'> Regularité :</label> <label id='TableauClient1'> Oui :</label><center><input type='radio' class='validate[required] radio' id='Regularite1' name='Regularite'  value='1'></center></li>
@@ -75,6 +81,10 @@ class page_clients extends page_base {
 			$Commune = $_POST['Commune'];
 			$Telephone = $_POST['Telephone'];
 			$Details = $_POST['Details'];	
+			$Mobile = $_POST['Mobile'];
+			$Mail = $_POST['Mail'];
+			$Commentaire = $_POST['Commentaire'];
+			
 			if($_POST['Age']==0){ // Si le radio bouton age - 70 est cocher alors Age = 0 . (On a dans la base de donnees un champ bit d'oé le 0 ou 1).
 				$Age=0;
 			}
@@ -103,7 +113,8 @@ class page_clients extends page_base {
 			}
 					
 			$retour = 'echec insertion mais connexion OK ';
-			$requete = 'insert into clients values ("'.$CodeSage.'",UPPER("'.$NomClient.'"),"'.$Abrege.'",UPPER("'.$Adresse.'"),UPPER("'.$Complement.'"),"'.$CodePostal.'",UPPER("'.$Commune.'"),"' .$Telephone .'","'.$Details.'",'.$Age.','.$Regularite.','.$inactif.');';
+			$requete = 'insert into clients values ("'.$CodeSage.'",UPPER("'.$NomClient.'"),"'.$Abrege.'",UPPER("'.$Adresse.'"),UPPER("'.$Complement.'"),"'.$CodePostal.'",UPPER("'.$Commune.'"),"' .$Telephone .'","'.$Details.'",'.$Age.','.$Regularite.','.$inactif.',"'.$Mobile.'","'.$Mail.'","'.$Commentaire.'");';
+			echo $requete;
 			$resultat = $this->connexion->query ( $requete );
 			$retour = '<h4>CLIENT INSERER</h4>';	
 			echo "<script> alert(' Insertion du client réussie '); </script>";	
@@ -125,6 +136,9 @@ class page_clients extends page_base {
 			$Commune = $_POST['CommuneM'];
 			$Telephone = $this->envoitelephone($_POST['TelephoneM']);
 			$Details = $_POST['DetailsM'];
+			$Mobile = $_POST['Mobile'];
+			$Mail = $_POST['Mail'];
+			$Commentaire = $_POST['Commentaire'];
 			if($_POST['AgeM']==0){
 				$Age=0;
 			}
@@ -156,7 +170,7 @@ class page_clients extends page_base {
 				$retour = '<h4>ERREUR DE SAISIE</h4>';
 			} else {
 			*/
-				$requete = 'update clients set CODESAGE="'.$CodeSage.'",NOM="'.$NomClient.'",ABREGE="'.$Abrege.'",ADRESSE="'.$Adresse.'",COMPLEMENT="'.$Complement.'",CODEPOSTAL="'.$CodePostal.'",COMMUNE="'.$Commune.'",TELEPHONE="' .$Telephone .'",DETAILS="'.$Details.'",AGE='.$Age.',REGULARITE='.$Regularite.',INACTIF='.$inactif.' WHERE CODESAGE="'.$CodeSage.'";';
+				$requete = 'update clients set CODESAGE="'.$CodeSage.'",NOM="'.$NomClient.'",ABREGE="'.$Abrege.'",ADRESSE="'.$Adresse.'",COMPLEMENT="'.$Complement.'",CODEPOSTAL="'.$CodePostal.'",COMMUNE="'.$Commune.'",TELEPHONE="' .$Telephone .'",DETAILS="'.$Details.'",AGE='.$Age.',REGULARITE='.$Regularite.',INACTIF='.$inactif.',NumMobile="'.$Mobile.'",Mail="'.$Mail.'",Commentaire="'.$Commentaire.'" WHERE CODESAGE="'.$CodeSage.'";';
 				$resultat = $this->connexion->query ( $requete );
 				$retour = '<script> alert(\" Modification du client réussie \"); </script>';
 				echo "<script> alert('Modification du client réussie '); </script>";

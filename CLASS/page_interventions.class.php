@@ -378,7 +378,7 @@ class page_interventions extends page_base {
 		
 		$DateD = $this->envoiMysqlDate($_POST['DateD']);
 		$DateF = $this->envoiMysqlDate($_POST['DateF']);
-	
+
 		if (isset ($_POST['listeclientI'])){
 			$listeclients = $_POST['listeclientI'];}
 			Else {$listeclients=$_POST['CodeC'];}
@@ -391,10 +391,8 @@ class page_interventions extends page_base {
 	
 		$DateD = $this->envoiMysqlDate($_POST['DateD']);
 		$DateF = $this->envoiMysqlDate($_POST['DateF']);
-	
-		if (isset ($_POST['listeclientI'])){
-			$listeclients = $_POST['listeclientI'];}
-			Else {$listeclients=$_POST['CodeC'];}
+		
+		
 			$req = "Select *, DAY(DATE) AS jour, MONTH(DATE) AS mois, YEAR(DATE) AS annee From interventions as I inner join employes as E on I.NUMEMPLSAGE=E.EmplSage inner join clients as C on I.CLIENTSAGE=C.CODESAGE WHERE DateProInterv BETWEEN '$DateD' AND '$DateF'";
 			$res = $this->connexion->query($req);
 			return $res;
@@ -1971,14 +1969,18 @@ public function affiche_interventions2() {
 			//Si la deuxieme liste employés a été selectionner
 			if (isset ($_POST['listeclientI'])){
 				$listeclients =  $_POST['listeclientI'];
-			echo $listeclients; }
+			 }
 			else $listeclients='';
 				
 				
+		
+			
+			
+			
 			if(!empty ($_POST['listeclientI'])){
 			$result = $this->les_interventions_clients_avenir();
 			}
-			elseif(empty ($_POST['listeclientI']))
+			elseif(empty ($_POST['listeclientI']) && isset($_POST['DateD']) && isset($_POST['DateF']))
 			{
 				$result = $this->les_interventions_avenir();
 			}		
@@ -2005,10 +2007,10 @@ public function affiche_interventions2() {
 		<ul id='navigation' class='nav-main'>";
 				
 						if (!empty($_POST['listeclientI'])){
-							$a=$a. "<h2>Liste concernant : $nomClient <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateD']." </h2>";
+							$a=$a. "<h2>Liste concernant : $nomClient <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
 						}
 						if (empty($_POST['listeclientI'])){
-							$a=$a. "<h2>Liste du : ".$_POST['DateD']." <br> au : ".$_POST['DateD']." </h2>";
+							$a=$a. "<h2>Liste du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
 						}
 				
 				
@@ -2020,7 +2022,13 @@ public function affiche_interventions2() {
 			else $listeclients='';
 				
 				
-			$result = $this->les_interventions_clients_avenir();				
+		if(!empty ($_POST['listeclientI'])){
+			$result = $this->les_interventions_clients_avenir();
+			}
+			elseif(empty ($_POST['listeclientI']) && isset($_POST['DateD']) && isset($_POST['DateF']))
+			{
+				$result = $this->les_interventions_avenir();
+			}				
 				
 		
 			
@@ -3114,6 +3122,8 @@ public function affiche_Excel()
 		Public function InterventionPrevu()
 		{
 			
+			$Datesys = date('d/m/Y');
+			
 			if (isset ($_POST['DateD']) && isset ($_POST['DateF'])){
 				$DateD = $_POST['DateD'];
 				$DateF = $_POST['DateF'];}
@@ -3146,11 +3156,24 @@ public function affiche_Excel()
 		<br><br>
 		<label>Date fin :</label>
 		<input type=\"text\" name=\"DateF\" id=\"DateF\"   class=\"validate[optionnal] text-input datepicker\" value='$DateF' /> 
-		<br><br><br>
-	
-			<input type='submit' id='input' name='ValidFormCDI' value='Rechercher'>
+		<br><br><br>";
+			
+		//	$vretour= $vretour."<input type='submit' id='input' name='ValidFormCDI' value='Rechercher' onclick=\"return alert('La date saisie est antérieure à celle du jour');\">
 		
-						</form>
+	if($DateD < $Datesys)
+	{
+		$vretour= $vretour."<input type='submit' id='input' name='ValidFormCDI' value='Rechercher' onclick=\"return alert('La date saisie est antérieure à celle du jour');\">";
+		
+	}
+	else
+	{
+		$vretour= $vretour."<input type='submit' id='input' name='ValidFormCDI' value='Rechercher'>";
+		
+	}
+	
+					
+					
+		$vretour= $vretour."</form>
 						    	<span><br>
 							</center>
 		                </article>
@@ -3164,4 +3187,13 @@ public function affiche_Excel()
 	
 	
 	
+	/*if($DateD < $datesys)
+	 {
+	$vretour= $vretour."<input type='submit' id='input' name='ValidFormCDI' value='Rechercher' onclick=\'return alert('La date saisie est antérieure à celle du jour');\">";
 	
+	}
+	else
+	{
+	$vretour= $vretour."<input type='submit' id='input' name='ValidFormCDI' value='Rechercher' onclick=\'return alert('La date saisie est antérieure à celle du jour');\">";
+	
+	}*/
