@@ -964,7 +964,8 @@ class page_clients extends page_base {
 		 				$codesage = $donnees->CODESAGE;
 		 				$Date = $donnees->DATE;
 		 				$datefr = date("d-m-Y", strtotime($Date));
-		 				$vretour .= "<tr><td>$donnees->CODESAGE</td><td>$donnees->NOMC</td><td>$datefr</td><td>$donnees->NOME</td></tr>";
+		 				$nomc = utf8_encode($donnees->NOMC);
+		 				$vretour .= "<tr><td>$donnees->CODESAGE</td><td>$nomc</td><td>$datefr</td><td>$donnees->NOME</td></tr>";
 		 			}
 		 			$vretour .="</table></ul>";
 					$vretour= $vretour."<ul id='navigation' class='nav-main'><br><input type='button' value='Retour' onClick=\"javascript:document.location.href='Clients.php'\"/><br> <br></ul>";
