@@ -1126,7 +1126,6 @@ public function affiche_interventions1() {
 	//Si la deuxieme liste client a été selectionner
 	if (isset ($_POST['CodeC'])){
 		$listeclients =  $_POST['CodeC'];
-	
 	}
 	else
 	{ $listeclients='';
@@ -1445,28 +1444,15 @@ public function affiche_interventions1() {
 					
 
 							}
-							if(isset($_POST['listeclients1']))
-							{$CodeCI = $_POST['listeclients1'];}
-							else
-							{$CodeCI = "";}
+
 								
 							
-							if (isset ($_POST['CodeE'])){
-								$CodeE = $_POST['CodeE'];
-								$a=$a."<input type='hidden' name='CodeE' value=".$CodeE.">";}
 									
-								if (isset ($_POST['CodeEI'])){
-									$CodeEI = $_POST['CodeEI'];
-									$a=$a."<input type='hidden' name='CodeEI' value=".$CodeEI.">";}
+						
 									if(isset($_POST['listeclients1']))
 									{$CodeCI = $_POST['listeclients1'];}
 									else
 									{$CodeCI = "";}
-							
-									if(isset ($_POST['CodeEI']))
-										{ $CodeEI = $_POST['CodeEI'];}
-									else
-									{$CodeEI = "";	}	
 										
 									if(isset ($_POST['DateD']))
 									{ $DateD = $_POST['DateD'];}
@@ -1477,7 +1463,6 @@ public function affiche_interventions1() {
 									{ $DateF = $_POST['DateF'];}
 									else
 									{$DateF = "";	}
-							
 
 							$result -> closeCursor();
 							//Formulaire de l'excel
@@ -1487,8 +1472,7 @@ public function affiche_interventions1() {
 			
 			    <input type='hidden' name='DateD' id='DateD' value=".$DateD.">
 			    <input type='hidden' name='DateF' id='DateF' value=".$DateF.">
-			    <input type='hidden' name='listeemployes2' value=".$CodeEI.">
-			    <input type='hidden' name='listeclients2' value=".$CodeCI.">
+			    <input type='hidden' name='listeclients2' value=".$listeclients.">
 
 
 			  
@@ -1501,7 +1485,6 @@ public function affiche_interventions1() {
 			
 			    <input type='hidden' name='listeemployes' id='DateD' value=".$DateD.">
 			    <input type='hidden' name='listeclients' id='DateF' value=".$DateF.">
-			    <input type='hidden' name='NomEmp' value=".$CodeEI.">
 			    <input type='hidden' name='NomClient' value=".$CodeCI.">
 
 					<br>
@@ -3174,38 +3157,39 @@ public function affiche_Excel()
 public function affiche_Excel1()
 {
 
-	$DateD = $_POST['DateD'];
-	$DateF = $_POST['DateF'];
-	header("Content-type: application/msexcel; charset=Windows-1252");
-	header ("Content-Disposition: attachment; filename=Excel_$DateD \ $DateF.xls");
-
-	//Si la deuxieme liste client a été selectionner
-	if (isset ($_POST['CodeC'])){
-		$listeclients =  $_POST['CodeC'];	
+		//Si la deuxieme liste client a été selectionner
+	if (!empty($_POST['listeclients2'])){
+		$listeclients =  $_POST['listeclients2'];	
 	}
 	else
 	{ $listeclients='';
 	
 	}
+	$DateD = $_POST['DateD'];
+	$DateF = $_POST['DateF'];
+	header("Content-type: application/msexcel; charset=Windows-1252");
+	header ("Content-Disposition: attachment; filename=Excel_$DateD \ $DateF.xls");
+
+
 	
 			
 		//Conditions des executions des réquetes SQL
 			
-		if (!empty ($listeclients) && empty ($listeemployes))
+		if (!empty ($listeclients) )
 		{
 			$result = $this->les_interventions_date_clients1();
 		}
-		if (empty ($listeclients) && empty ($listeemployes))
+		if (empty ($listeclients) )
 		{
 			$result = $this->les_interventions_date();		
 		}
 			
-		if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		if (!empty ($listeclients) && !empty ($_POST['DateD']) && !empty ($_POST['DateF']))
 		{
 			$result = $this->les_interventions_clients();
 		}
 			
-		if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
+		if (empty ($listeclients) && !empty ($_POST['DateD']) && !empty ($_POST['DateF']))
 		{
 			$result = $this->les_interventions();
 		}

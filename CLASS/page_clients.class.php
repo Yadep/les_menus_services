@@ -433,7 +433,7 @@ class page_clients extends page_base {
 				
 			$vretour= $vretour."<center><li><label>Liste par ordre alphabétique :</label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
 				while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {					
-					$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
+					$vretour= $vretour.'<option value='.$donnees->CODESAGE.'>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 					$tabCodeSage[] = $donnees->CODESAGE;
 				}
 				$result->closeCursor ();
@@ -482,7 +482,7 @@ class page_clients extends page_base {
 			$CodeC = "";
 		
 		
-		$vretour= $vretour."<input type='hidden' name='CodeC' value=".$CodeC.">";
+		$vretour= $vretour."<input type='hidden' name='CodeC' id='CodeC' value=".$CodeC.">";
 		
 		
 		$vretour= $vretour."
