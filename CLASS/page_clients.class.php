@@ -606,6 +606,18 @@ class page_clients extends page_base {
 						<tr>
 						<td> Détails </td>
 						<td> ".$infoclients->DETAILS."</td>
+						</tr>
+						<tr>
+						<td> NumMobile </td>
+						<td> ".$infoclients->NumMobile."</td>
+						</tr>
+						<tr>
+						<td> Mail </td>
+						<td> ".$infoclients->Mail."</td>
+						</tr>
+						<tr>
+						<td> Commentaire </td>
+						<td> ".$infoclients->Commentaire."</td>
 						</tr>";
 			
 					if($infoclients->AGE==0)
@@ -1501,6 +1513,9 @@ class page_clients extends page_base {
 									<th id='thage'>Age </th>
 									<th id='thregularite'>Regularite</th>
 									<th id='thinactif'>Inactif</th>
+									<th id='thNumMobile'>NumMobile </th>
+									<th id='thMail'>Mail</th>
+									<th id='thCommentaire'>Commentaire</th>
 								</tr>";
 		$reqcpt = 'SELECT COUNT(*) AS nb FROM clients;';
 		$result = $this->connexion->query($reqcpt);
@@ -1587,6 +1602,7 @@ class page_clients extends page_base {
 									<td>".utf8_encode ($clients->COMMUNE)."</td>
 									<td>".utf8_encode ($this->Affichetelephone($clients->TELEPHONE))."</td>
 									<td>".utf8_encode ($clients->DETAILS)."</td>";
+				
 				if($clients->AGE==0)
 				{
 					$vretour=$vretour."<td> - 70 ans </td>";
@@ -1615,6 +1631,11 @@ class page_clients extends page_base {
 				{
 					$vretour=$vretour."<td> Non </td>";
 				}
+				
+				$vretour=$vretour."<td>".utf8_encode ($clients->NumMobile)."</td>
+				<td>".utf8_encode ($clients->Mail)."</td>
+				<td>".utf8_encode ($clients->Commentaire)."</td>";
+				
 				$vretour=$vretour."</tr>";
 				$nbenr = $nbenr + 1;
 			}
@@ -1666,6 +1687,9 @@ class page_clients extends page_base {
 									<th>Age </th>
 									<th>Regularite</th>
 									<th>Inactif</th>
+									<th>NumMobile </th>
+									<th>Mail</th>
+									<th>Commentaire</th>
 								</tr>";
 		while($clientsExcel = $resultatExcel->fetch(PDO::FETCH_OBJ))
 		{
@@ -1679,6 +1703,7 @@ class page_clients extends page_base {
 											<td>".utf8_encode ($clientsExcel->COMMUNE)."</td>
 											<td>".utf8_encode ($this->Affichetelephone($clientsExcel->TELEPHONE))."</td>
 											<td>".utf8_encode ($clientsExcel->DETAILS)."</td>";
+											
 			if($clientsExcel->AGE==0)
 			{
 				$vretourExcel=$vretourExcel."<td> - 70 ans </td>";
@@ -1707,6 +1732,12 @@ class page_clients extends page_base {
 			{
 				$vretourExcel=$vretourExcel."<td> Non </td>";
 			}
+			
+			$vretourExcel = $vretourExcel."
+			<td>".utf8_encode ($clientsExcel->NumMobile)."</td>
+			<td>".utf8_encode ($clientsExcel->Mail)."</td>
+			<td>".utf8_encode ($clientsExcel->Commentaire)."</td>";
+			
 			$vretourExcel = $vretourExcel."</tr>";
 		}
 		$resultatExcel->closeCursor ();

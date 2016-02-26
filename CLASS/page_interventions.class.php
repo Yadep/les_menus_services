@@ -747,7 +747,8 @@ public function les_clients($parametre,$id)
 					$result = $this->les_interventions();
 				}
 				
-				
+				$libcl = "";
+				$libemp ="";
 				while ($donneees = $result->fetch(PDO::FETCH_OBJ))
 				{
 				
@@ -772,16 +773,16 @@ public function les_clients($parametre,$id)
 			$a=$a. "<h2>Liste concernant : $libcl <br> l'employé : $libemp <br> du : ".$_POST['DateD']."<br> au : ".$_POST['DateF']." </h2>";
 		}
 		if (!empty($_POST['listeclients2']) && !empty($_POST['listeemployes2']) && empty($_POST['DateD']) && empty($_POST['DateF'])){
-			$a=$a. "<h2>Liste conernant : $libcl <br> et : $libemp <br> </h2>";
+			$a=$a. "<h2>Liste concernant : $libcl <br> et : $libemp <br> </h2>";
 		}
 		if (empty($_POST['listeclients2']) && empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
 			$a=$a. "<h2>Liste du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." <br> </h2>";
 		}
 		if (!empty($_POST['listeclients2']) && empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
-			$a=$a. "<h2>Liste conernant : $libcl <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
+			$a=$a. "<h2>Liste concernant : $libcl <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
 		}
 		if (empty($_POST['listeclients2']) && !empty($_POST['listeemployes2']) && !empty($_POST['DateD']) && !empty($_POST['DateF'])){
-			$a=$a. "<h2>Liste conernant : $libemp <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
+			$a=$a. "<h2>Liste concernant : $libemp <br> du : ".$_POST['DateD']." <br> au : ".$_POST['DateF']." </h2>";
 		}
 		
 		
@@ -1139,32 +1140,14 @@ public function affiche_interventions1() {
 		{
 			$result = $this->les_interventions_date_clients1();
 		}
-		if (!empty ($listeemployes) && empty ($listeclients))
-		{
-			$result = $this->les_interventions_date_employes();
-		}
-		if (!empty ($listeclients) && !empty ($listeemployes))
-		{
-			$result = $this->les_interventions_date_employes_clients();
-		}
 		if (empty ($listeclients) && empty ($listeemployes))
 		{
-			$result = $this->les_interventions_date();
-				
-		}
-		if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
-		{
-			$result = $this->les_interventions_employes_clients();
+			$result = $this->les_interventions_date();		
 		}
 			
 		if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
 		{
 			$result = $this->les_interventions_clients();
-		}
-			
-		if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
-		{
-			$result = $this->les_interventions_employes();
 		}
 			
 		if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
@@ -2644,7 +2627,10 @@ public function Afficher_EM_Interventions()  {
 				$COURSES = $R->COURSES;
 				$PULVERISATEUR = $R->PULVERISATEUR;
 				$TOTAL = $R->TOTAL;
-					
+				$REFDEV = $R->RefDev;
+				$TRAVPREV = $R->TravPrev;
+				$PROINTERV = $R->ProInterv;
+				$INFOFACTU = $R->InfoFactu;
 			}
 			$resultrap->closeCursor();
 		}
@@ -2785,7 +2771,7 @@ public function Afficher_EM_Interventions()  {
 									</li>
 									<li>
 									<label>Prochaine date d’intervention :</label>
-									<input type='date' name=\"ProInterv\" value='$PROINTERV'/>
+									<input type=\"text\"  name=\"ProInterv\"  class=\" text-input datepicker\" value='$PROINTERV' />
 									</li>
 									<li>
 									<label>Travaux à prévoir :</label>
@@ -2927,7 +2913,7 @@ public function enregistrer_interventions() {
 					";
 	$b=$b. $this->Afficher_EM_Interventions();
 	$b = $b. "			
-			<input type='hidden' value='listeclients'
+			<input type='hidden' value='listeclients'>
 	         		<center><br>
 			
 	         					<input type='submit' name='ValidFormI' value='Enregistrer'>
@@ -3195,13 +3181,13 @@ public function affiche_Excel1()
 
 	//Si la deuxieme liste client a été selectionner
 	if (isset ($_POST['CodeC'])){
-		$listeclients =  $_POST['CodeC'];
-	
+		$listeclients =  $_POST['CodeC'];	
 	}
 	else
 	{ $listeclients='';
 	
 	}
+	
 			
 		//Conditions des executions des réquetes SQL
 			
@@ -3209,32 +3195,14 @@ public function affiche_Excel1()
 		{
 			$result = $this->les_interventions_date_clients1();
 		}
-		if (!empty ($listeemployes) && empty ($listeclients))
-		{
-			$result = $this->les_interventions_date_employes();
-		}
-		if (!empty ($listeclients) && !empty ($listeemployes))
-		{
-			$result = $this->les_interventions_date_employes_clients();
-		}
 		if (empty ($listeclients) && empty ($listeemployes))
 		{
-			$result = $this->les_interventions_date();
-				
-		}
-		if (!empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
-		{
-			$result = $this->les_interventions_employes_clients();
+			$result = $this->les_interventions_date();		
 		}
 			
 		if (!empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
 		{
 			$result = $this->les_interventions_clients();
-		}
-			
-		if (empty ($listeclients) && !empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
-		{
-			$result = $this->les_interventions_employes();
 		}
 			
 		if (empty ($listeclients) && empty ($listeemployes) && empty ($_POST['DateD']) && empty ($_POST['DateF']))
