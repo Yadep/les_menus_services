@@ -114,7 +114,6 @@ class page_clients extends page_base {
 					
 			$retour = 'echec insertion mais connexion OK ';
 			$requete = 'insert into clients values ("'.$CodeSage.'",UPPER("'.$NomClient.'"),"'.$Abrege.'",UPPER("'.$Adresse.'"),UPPER("'.$Complement.'"),"'.$CodePostal.'",UPPER("'.$Commune.'"),"' .$Telephone .'","'.$Details.'",'.$Age.','.$Regularite.','.$inactif.',"'.$Mobile.'","'.$Mail.'","'.$Commentaire.'");';
-			echo $requete;
 			$resultat = $this->connexion->query ( $requete );
 			$retour = '<h4>CLIENT INSERER</h4>';	
 			echo "<script> alert(' Insertion du client réussie '); </script>";	

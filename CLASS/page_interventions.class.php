@@ -1640,7 +1640,7 @@ public function affiche_interventions2() {
 		}
 			
 	
-	
+		$libemp ="";
 		while ($donneees = $result->fetch(PDO::FETCH_OBJ))
 		{
 	
