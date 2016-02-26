@@ -1514,8 +1514,8 @@ class page_clients extends page_base {
 		$vretour = $vretour."
 		<form method='post' action='#'>
 				<fieldset align='right'>
-				<label> Recherche dans commune, nom de rue et nom de client : </label>
-				<input type='textbox' id'rechercher' name='recherche' value=''><br><br>
+				<label> Recherche dans commune nom de rue et nom de client : </label>
+				<input type='textbox' id='rechercher' name='rechercher' value=''><br><br>
 				<input type='submit' id='go' name='go' value='Valider'><br><br>
 				</fieldset>
 		</form>";

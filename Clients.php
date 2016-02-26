@@ -35,7 +35,7 @@
 			<br>	
 			<li>
 					<a href="InterventionPrevu.php">
-					Intervention prévu</a>
+					Intervention prévue</a>
 				</li>
 			<br>
 			</nav>';
