@@ -1006,7 +1006,7 @@ class page_clients extends page_base {
 					<br><input type='radio' name='datedet' id='datedet' value='intercom' required>
 					Afficher les clients qui ont commandé la dernière fois entre le  :<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
 					 et le <input type='text' class=' text-input datepicker' name='DateEnvoiRappel3' id='DateEnvoiRappel3' value='$daterecu2'>
-					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes' style='width:300px;'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
 			{
@@ -1018,7 +1018,7 @@ class page_clients extends page_base {
 		$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
 		$result = $this->connexion->query($req);
 		$vretour .= "</select>";
-		$vretour= $vretour."<center><li><label>Sélectionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+		$vretour= $vretour."<center><li><label>Sélectionner un client : </label><select name='listeclients1' id='listeclients1' style='width:300px;'><option value='VIDE'> </option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 			//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
@@ -1087,14 +1087,14 @@ class page_clients extends page_base {
 		$vretour="
 			<ul id='navigation' class='nav-main'><br>
 					<form method='POST' id='Formrappelclient' action='RappelClients.php' >
-					<input type='radio' name='datedet' id='datedet' value='avantcom' required> 
-					<label>Afficher les clients qui n'ont pas commandé depuis le : 
-					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'>
+					<input type='radio' name='datedet' id='datedet' value='avantcom' required/> 
+					<label>Afficher les clients qui n'ont pas commandé depuis le : </label>
+					<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel1' id='DateEnvoiRappel1' value='$daterecu'/>
 					
 					<br><input type='radio' name='datedet' id='datedet' value='intercom' required>
 					Afficher les clients qui ont commandé la dernière fois entre le  :<input type='text' class='validate[required] text-input datepicker' name='DateEnvoiRappel2' id='DateEnvoiRappel2' value='$daterecu2'>
 					 et le <input type='text' class=' text-input datepicker' name='DateEnvoiRappel3' id='DateEnvoiRappel3' value='$daterecu2'>
-					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes'><option value='VIDE'></option>";
+					<br> <center> Sélectionner un employé : <select name='listeemployes' id='listeemployes' style='width:300px;'><option value='VIDE'></option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			if($donnees->ANCIEN_EMPLOYE == 0)
 			{
@@ -1106,7 +1106,7 @@ class page_clients extends page_base {
 		$req = 'SELECT CODESAGE,NOM FROM Clients ORDER BY `NOM` ASC ;';
 		$result = $this->connexion->query($req);
 		$vretour .= "</select>";
-		$vretour= $vretour."<center><li><label>Sélectionner un client : </label><select name='listeclients1' id='listeclients1' ><option value='VIDE'> </option>";
+		$vretour= $vretour."<center><li><label>Sélectionner un client : </label><select name='listeclients1' id='listeclients1' style='width:300px;' ><option value='VIDE'> </option>";
 		while ($donnees = $result->fetch(PDO::FETCH_OBJ)) {
 			$vretour= $vretour.'<option value=' . $donnees->CODESAGE . '>'. $donnees->CODESAGE .' - ' . $donnees->NOM . '</option>';
 			//array_push($tabCodeSage,$donnees->CODESAGE); // pour empiler les codesages a la fin du tableau.
